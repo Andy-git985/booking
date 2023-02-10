@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {
   Box,
+  Button,
   Container,
   FormControl,
   InputLabel,
@@ -18,16 +19,18 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
 import TimeSlots from './components/TimeSlots';
 import scheduleServices from './services/schedule';
+import ReserveDialog from './components/ReserveDialog';
 
 export default function App() {
   const [schedule, setSchedule] = useState([]);
-  const [guest, setGuest] = useState(1);
-  const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
-
-  const handleDateChange = (newDate) => {
-    // console.log(newDate.target.name);
-    setDate(newDate.format('MM/DD/YYYY'));
-  };
+  // const [guest, setGuest] = useState(1);
+  // const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
+  const [search, setSearch] = useState({
+    guest: 1,
+    date: dayjs().format('MM/DD/YYYY'),
+  });
+  const [time, setTime] = useState('');
+  const [disabled, setDisabled] = useState(true);
 
   useEffect(() => {
     const getSchedule = async () => {
@@ -37,11 +40,36 @@ export default function App() {
     getSchedule();
   }, []);
 
-  const classesAvailable = date ? schedule.find((d) => d.date === date) : null;
+  const handleGuestChange = (newGuests) => {
+    const newSearch = { ...search, guest: newGuests };
+    setSearch(newSearch);
+  };
 
-  const timeSlotsAvailable = classesAvailable
-    ? classesAvailable.classes.filter((c) => c.slots >= guest)
-    : null;
+  const handleDateChange = (newDate) => {
+    const newSearch = { ...search, date: newDate.format('MM/DD/YYYY') };
+    setSearch(newSearch);
+  };
+
+  const selectTime = (obj) => {
+    console.log(obj);
+    setDisabled(obj.disabled);
+    setTime(obj.time);
+  };
+
+  console.log(disabled);
+  console.log(time);
+
+  const timeSlotsAvailable = schedule
+    .find((d) => d.date === search.date)
+    ?.classes.filter((c) => c.slots >= search.guest);
+
+  // const classesAvailable = search.date
+  //   ? schedule.find((d) => d.date === search.date)
+  //   : null;
+
+  // const timeSlotsAvailable = classesAvailable
+  //   ? classesAvailable.classes.filter((c) => c.slots >= search.guest)
+  //   : null;
 
   return (
     <Container>
@@ -50,13 +78,13 @@ export default function App() {
           <InputLabel>Guests</InputLabel>
           <Select
             label="Guest"
-            value={guest}
-            onChange={(event) => setGuest(event.target.value)}
+            value={search.guest}
+            onChange={(event) => handleGuestChange(event.target.value)}
           >
-            <MenuItem value={1}>One Guest</MenuItem>
-            <MenuItem value={2}>Two Guests</MenuItem>
-            <MenuItem value={3}>Three Guests</MenuItem>
-            <MenuItem value={4}>Four Guests</MenuItem>
+            <MenuItem value={1}>1 Guest</MenuItem>
+            <MenuItem value={2}>2 Guests</MenuItem>
+            <MenuItem value={3}>3 Guests</MenuItem>
+            <MenuItem value={4}>4 Guests</MenuItem>
           </Select>
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -64,7 +92,7 @@ export default function App() {
             <DesktopDatePicker
               label="Date desktop"
               inputFormat="MM/DD/YYYY"
-              value={date}
+              value={search.date}
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
@@ -79,10 +107,16 @@ export default function App() {
         </LocalizationProvider>
       </Box>
       {timeSlotsAvailable ? (
-        <TimeSlots timeSlots={timeSlotsAvailable} />
+        <TimeSlots timeSlots={timeSlotsAvailable} reserveTime={selectTime} />
       ) : (
         <div>No matches</div>
       )}
+      <ReserveDialog
+        disabled={disabled}
+        date={search.date}
+        time={time}
+        guest={search.guest}
+      />
     </Container>
   );
 }

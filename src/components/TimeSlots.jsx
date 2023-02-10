@@ -1,6 +1,5 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { logDOM } from '@testing-library/react';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -8,16 +7,20 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
+  cursor: 'pointer',
 }));
 
-const TimeSlots = ({ timeSlots }) => {
-  console.log(timeSlots);
+const TimeSlots = ({ timeSlots, reserveTime }) => {
+  const handleClick = (time) => {
+    reserveTime({ time, disabled: false });
+  };
+
   return (
     <>
       <Grid container>
-        {timeSlots.map((slot) => (
-          <Grid item>
-            <Item>
+        {timeSlots.map((slot, index) => (
+          <Grid item key={`${slot.time}-${index}`}>
+            <Item onClick={() => handleClick(slot.time)}>
               {slot.time} {slot.slots} slot left
             </Item>
           </Grid>
