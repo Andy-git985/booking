@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import {
   Box,
@@ -17,14 +17,12 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 
-import TimeSlots from './components/TimeSlots';
-import scheduleServices from './services/schedule';
-import ReserveDialog from './components/ReserveDialog';
+import TimeSlots from '../components/TimeSlots';
+import scheduleServices from '../services/schedule';
+import ReserveDialog from '../components/ReserveDialog';
 
-export default function App() {
+const ReserveClass = () => {
   const [schedule, setSchedule] = useState([]);
-  // const [guest, setGuest] = useState(1);
-  // const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
   const [search, setSearch] = useState({
     guest: 1,
     date: dayjs().format('MM/DD/YYYY'),
@@ -51,25 +49,13 @@ export default function App() {
   };
 
   const selectTime = (obj) => {
-    console.log(obj);
     setDisabled(obj.disabled);
     setTime(obj.time);
   };
 
-  console.log(disabled);
-  console.log(time);
-
   const timeSlotsAvailable = schedule
     .find((d) => d.date === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
-
-  // const classesAvailable = search.date
-  //   ? schedule.find((d) => d.date === search.date)
-  //   : null;
-
-  // const timeSlotsAvailable = classesAvailable
-  //   ? classesAvailable.classes.filter((c) => c.slots >= search.guest)
-  //   : null;
 
   return (
     <Container>
@@ -119,4 +105,6 @@ export default function App() {
       />
     </Container>
   );
-}
+};
+
+export default ReserveClass;

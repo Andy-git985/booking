@@ -7,4 +7,9 @@ const getSchedule = async () => {
   return response.data;
 };
 
+const reserveTime = async () => {
+  const response = await axios.put(baseUrl);
+  return response.data;
+};
+
 export default { getSchedule };
