@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import {
   Box,
+  Button,
   Checkbox,
   FormControl,
   FormControlLabel,
@@ -9,49 +10,74 @@ import {
 } from '@mui/material';
 const classTimes = ['9:00', '11:00', '3:00', '5:00'];
 
-const TimeCheckBox = ({ date }) => {
+const TimeCheckBox = ({ date, createClasses }) => {
   const [activeCheck, setActiveCheck] = useState([]);
-  const classObj = classTimes.map((c) => {
-    const obj = { id: `${date}-${c}`, time: c };
+  const classObj = classTimes.map((slot) => {
+    const obj = { id: `${date}-${slot}`, time: slot };
     return obj;
   });
 
-  const handleCheck = (id) => {
-    if (found(id)) {
-      setActiveCheck(activeCheck.filter((c) => c !== id));
+  const addClasses = () => {
+    createClasses(activeCheck);
+  };
+
+  const handleCheck = (obj) => {
+    if (found(obj.id)) {
+      setActiveCheck(activeCheck.filter((slot) => slot.id !== obj.id));
     } else {
-      setActiveCheck([...activeCheck, id]);
+      const checkedBox = { id: obj.id, time: obj.time, slots: 20 };
+      setActiveCheck([...activeCheck, checkedBox]);
     }
   };
 
   const found = (id) => {
-    return activeCheck.includes(id);
+    return activeCheck.find((time) => time.id === id);
+  };
+
+  const handleChange = (event, id) => {
+    const slotToUpdate = activeCheck.find((time) => time.id === id);
+    slotToUpdate.slots = Number(event.target.value);
+    setActiveCheck(
+      activeCheck.map((slot) =>
+        slot.id === slotToUpdate.id ? slotToUpdate : slot
+      )
+    );
   };
 
   return (
     <FormControl>
       <FormLabel>Class Times</FormLabel>
       <Box sx={{ display: 'flex' }}>
-        {classObj.map((c) => {
+        {classObj.map((slot) => {
           return (
-            <Box sx={{ display: 'flex', flexDirection: 'column' }} key={c.id}>
+            <Box
+              sx={{ display: 'flex', flexDirection: 'column' }}
+              key={slot.id}
+            >
               <FormControlLabel
-                value={c.time}
+                value={slot.time}
                 control={<Checkbox />}
-                label={c.time}
+                label={slot.time}
+                name={slot.time}
                 labelPlacement="top"
-                onClick={() => handleCheck(c.id)}
+                onClick={() => handleCheck(slot)}
               />
-              {found(c.id) && (
-                <TextField
-                  label="slots"
-                  value={20}
-                  sx={{ width: 50 }}
-                ></TextField>
+              {found(slot.id) && (
+                <>
+                  <FormLabel>Slots</FormLabel>
+                  <TextField
+                    label="slots"
+                    name="slots"
+                    defaultValue={20}
+                    sx={{ width: 50 }}
+                    onChange={(event) => handleChange(event, slot.id)}
+                  ></TextField>
+                </>
               )}
             </Box>
           );
         })}
+        {activeCheck && <Button onClick={addClasses}>Add Classes</Button>}
       </Box>
     </FormControl>
   );

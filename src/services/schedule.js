@@ -7,9 +7,14 @@ const getSchedule = async () => {
   return response.data;
 };
 
+const createNew = async (obj) => {
+  const response = await axios.post(baseUrl, obj);
+  return response.data;
+};
+
 const reserveTime = async () => {
   const response = await axios.put(baseUrl);
   return response.data;
 };
 
-export default { getSchedule };
+export default { getSchedule, createNew };

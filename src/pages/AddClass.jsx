@@ -20,9 +20,18 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import TimeCheckBox from '../components/TimeCheckBox';
+import scheduleServices from '../services/schedule';
 
 const AddClass = () => {
   const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
+
+  const addClasses = async (obj) => {
+    obj.forEach((o) => {
+      delete o.id;
+    });
+    const newClasses = { date, classes: obj };
+    await scheduleServices.createNew(newClasses);
+  };
   return (
     <>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -43,7 +52,7 @@ const AddClass = () => {
             /> */}
         </Stack>
       </LocalizationProvider>
-      <TimeCheckBox date={date} />
+      <TimeCheckBox date={date} createClasses={addClasses} />
     </>
   );
 };
