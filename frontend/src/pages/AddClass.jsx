@@ -25,6 +25,10 @@ import scheduleServices from '../services/schedule';
 const AddClass = () => {
   const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
 
+  const handleChange = (newDate) => {
+    setDate(newDate.format('MM/DD/YYYY'));
+  };
+
   const addClasses = async (obj) => {
     obj.forEach((o) => {
       delete o.id;
@@ -40,7 +44,7 @@ const AddClass = () => {
             label="Date desktop"
             inputFormat="MM/DD/YYYY"
             value={date}
-            onChange={() => setDate(date.format('MM/DD/YYYY'))}
+            onChange={handleChange}
             renderInput={(params) => <TextField {...params} />}
           />
           {/* <MobileDatePicker
