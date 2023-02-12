@@ -34,7 +34,8 @@ const AddClass = () => {
       delete o.id;
     });
     const newClasses = { date, classes: obj };
-    await scheduleServices.createNew(newClasses);
+    const response = await scheduleServices.createNew(newClasses);
+    console.log(response);
   };
   return (
     <>
