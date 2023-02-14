@@ -18,11 +18,12 @@ scheduleRouter.post('/', async (request, response) => {
 
 scheduleRouter.put('/:id', async (request, response) => {
   const { time } = request.body;
-  const dateToUpdate = await Schedule.findById({ _id: request.params.id });
-  const classToUpdate = dateToUpdate.classes.find((cls) => cls.time === time);
-  classToUpdate.slots--;
-  await dateToUpdate.save();
-  response.status(200).json(dateToUpdate);
+  const dateToUpdate = await Schedule.findById({ id: request.params.id });
+  console.log(dateToUpdate);
+  // const classToUpdate = dateToUpdate.classes.find((cls) => cls.time === time);
+  // classToUpdate.slots--;
+  // await dateToUpdate.save();
+  // response.status(200).json(dateToUpdate);
 });
 
 module.exports = scheduleRouter;

@@ -19,16 +19,22 @@ const ReserveDialog = ({ disabled, search, schedule, time }) => {
   const handleClose = () => {
     setOpen(false);
   };
+
   const handleReserve = async (date, time) => {
     setOpen(false);
     const dateToBook = schedule.find((s) => s.date === date)?.id;
     if (dateToBook) {
-      const response = await scheduleServices.reserveTime(dateToBook, time);
-      console.log(response);
+      try {
+        const response = await scheduleServices.reserveTime(dateToBook, time);
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.error);
+      }
     } else {
       console.log('Error');
     }
   };
+
   return (
     <>
       <Button variant="contained" disabled={disabled} onClick={handleClick}>

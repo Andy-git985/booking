@@ -14,7 +14,7 @@ const createNew = async (obj) => {
 
 const reserveTime = async (id, time) => {
   const response = await axios.put(`${baseUrl}/${id}`, time);
-  return response.data;
+  return response;
 };
 
 export default { getSchedule, createNew, reserveTime };
