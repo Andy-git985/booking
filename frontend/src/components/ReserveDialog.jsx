@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import {
   Button,
   Dialog,
@@ -8,8 +8,15 @@ import {
   DialogTitle,
 } from '@mui/material';
 import scheduleServices from '../services/schedule';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const ReserveDialog = ({ disabled, search, schedule, time }) => {
+  const [alert, setAlert] = useState({ status: '', message: '' });
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -28,7 +35,8 @@ const ReserveDialog = ({ disabled, search, schedule, time }) => {
         const response = await scheduleServices.reserveTime(dateToBook, time);
         console.log(response);
       } catch (error) {
-        console.log(error.response.error);
+        console.log(error.response.data.error);
+        setAlert({ status: 'error', message: error.response.data.error });
       }
     } else {
       console.log('Error');
@@ -58,6 +66,15 @@ const ReserveDialog = ({ disabled, search, schedule, time }) => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert
+          onClose={handleClose}
+          severity={alert.status}
+          sx={{ width: '100%' }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </>
   );
 };
