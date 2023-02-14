@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Dialog,
@@ -6,9 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import { useState } from 'react';
+import scheduleServices from '../services/schedule';
 
-const ReserveDialog = ({ reserveButton, date, time, guest }) => {
+const ReserveDialog = ({ disabled, search, schedule, time }) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -18,25 +19,35 @@ const ReserveDialog = ({ reserveButton, date, time, guest }) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleReserve = async (date, time) => {
+    setOpen(false);
+    const dateToBook = schedule.find((s) => s.date === date)?.id;
+    if (dateToBook) {
+      const response = await scheduleServices.reserveTime(dateToBook, time);
+      console.log(response);
+    } else {
+      console.log('Error');
+    }
+  };
   return (
     <>
-      <Button
-        variant="contained"
-        disabled={reserveButton}
-        onClick={handleClick}
-      >
+      <Button variant="contained" disabled={disabled} onClick={handleClick}>
         Reserve Now
       </Button>
       <Dialog open={open}>
         <DialogTitle>Would you like to reserve this class?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            On {date} at {time} for {guest > 1 ? `${guest} guests` : '1 guest'}?
+            On {search.date} at {time} for{' '}
+            {search.guest > 1 ? `${search.guest} guests` : '1 guest'}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button
+            onClick={() => handleReserve(search.date, { time })}
+            autoFocus
+          >
             Agree
           </Button>
         </DialogActions>

@@ -33,7 +33,11 @@ const ReserveClass = () => {
   useEffect(() => {
     const getSchedule = async () => {
       const response = await scheduleServices.getSchedule();
-      setSchedule(response);
+      const formattedSchedule = response.map((schedule) => ({
+        ...schedule,
+        date: dayjs(schedule.date).format('MM/DD/YYYY'),
+      }));
+      setSchedule(formattedSchedule);
     };
     getSchedule();
   }, []);
@@ -99,9 +103,9 @@ const ReserveClass = () => {
       )}
       <ReserveDialog
         disabled={disabled}
-        date={search.date}
         time={time}
-        guest={search.guest}
+        schedule={schedule}
+        search={search}
       />
     </Container>
   );

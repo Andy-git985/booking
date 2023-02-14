@@ -12,9 +12,9 @@ const createNew = async (obj) => {
   return response.data;
 };
 
-const reserveTime = async () => {
-  const response = await axios.put(baseUrl);
+const reserveTime = async (id, time) => {
+  const response = await axios.put(`${baseUrl}/${id}`, time);
   return response.data;
 };
 
-export default { getSchedule, createNew };
+export default { getSchedule, createNew, reserveTime };

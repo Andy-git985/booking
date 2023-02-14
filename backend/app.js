@@ -25,5 +25,6 @@ app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use('/api/schedule', scheduleRouter);
+app.use(middleware.errorHandler);
 
 module.exports = app;

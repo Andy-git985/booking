@@ -8,6 +8,14 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
+const errorHandler = (error, request, response, next) => {
+  logger.error(error.message);
+  console.log('error message', error.message);
+  console.log(error.name);
+  next(error);
+};
+
 module.exports = {
   requestLogger,
+  errorHandler,
 };
