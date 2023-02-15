@@ -7,15 +7,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
-import scheduleServices from '../services/schedule';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const Alert = forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
-const ReserveDialog = ({ disabled, search, schedule, time }) => {
+const ReserveDialog = ({ disabled, handleReserve, search, time }) => {
   const [alert, setAlert] = useState({ status: '', message: '' });
   const [open, setOpen] = useState(false);
 
@@ -27,20 +20,9 @@ const ReserveDialog = ({ disabled, search, schedule, time }) => {
     setOpen(false);
   };
 
-  const handleReserve = async (date, time) => {
+  const handleAgree = (obj) => {
     setOpen(false);
-    const dateToBook = schedule.find((s) => s.date === date)?.id;
-    if (dateToBook) {
-      try {
-        const response = await scheduleServices.reserveTime(dateToBook, time);
-        console.log(response);
-      } catch (error) {
-        console.log(error.response.data.error);
-        setAlert({ status: 'error', message: error.response.data.error });
-      }
-    } else {
-      console.log('Error');
-    }
+    handleReserve(obj);
   };
 
   return (
@@ -59,22 +41,13 @@ const ReserveDialog = ({ disabled, search, schedule, time }) => {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={() => handleReserve(search.date, { time })}
+            onClick={() => handleAgree({ date: search.date, time })}
             autoFocus
           >
             Agree
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert
-          onClose={handleClose}
-          severity={alert.status}
-          sx={{ width: '100%' }}
-        >
-          {alert.message}
-        </Alert>
-      </Snackbar>
     </>
   );
 };

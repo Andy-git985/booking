@@ -13,8 +13,13 @@ const createNew = async (obj) => {
 };
 
 const reserveTime = async (id, time) => {
-  const response = await axios.put(`${baseUrl}/${id}`, time);
-  return response;
+  const response = await axios.put(`${baseUrl}/${id}`, { time });
+  return response.data;
 };
 
-export default { getSchedule, createNew, reserveTime };
+const sendConfirmation = async () => {
+  const response = await axios.post(`${baseUrl}/confirmation`);
+  return response.data;
+};
+
+export default { getSchedule, createNew, reserveTime, sendConfirmation };

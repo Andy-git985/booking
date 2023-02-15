@@ -11,11 +11,16 @@ const requestLogger = (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message);
   console.log('===================');
-  // console.log('error message', error.message);
+  console.log('===================');
+  console.log('===================');
   console.log('error name', error.name);
-  // error name CastError malformed id
+  console.log('===================');
+  console.log('===================');
+  console.log('===================');
   if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' });
+    return response
+      .status(400)
+      .send({ success: false, message: 'malformatted id' });
   }
   next(error);
 };

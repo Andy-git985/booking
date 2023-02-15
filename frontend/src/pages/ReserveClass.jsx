@@ -33,11 +33,12 @@ const ReserveClass = () => {
   useEffect(() => {
     const getSchedule = async () => {
       const response = await scheduleServices.getSchedule();
-      const formattedSchedule = response.map((schedule) => ({
-        ...schedule,
-        date: dayjs(schedule.date).format('MM/DD/YYYY'),
-      }));
-      setSchedule(formattedSchedule);
+      // const formattedSchedule = response.map((schedule) => ({
+      //   ...schedule,
+      //   date: dayjs(schedule.date).format('MM/DD/YYYY'),
+      // }));
+      // setSchedule(formattedSchedule);
+      setSchedule(response);
     };
     getSchedule();
   }, []);
@@ -52,13 +53,36 @@ const ReserveClass = () => {
     setSearch(newSearch);
   };
 
+  const handleReserve = async (obj) => {
+    const dateToBook = schedule.find(
+      (s) => dayjs(s.date).format('MM/DD/YYYY') === obj.date
+    )?.id;
+    if (!dateToBook) {
+      console.log('error');
+      return;
+    }
+    try {
+      const response = await scheduleServices.reserveTime(dateToBook, obj.time);
+      console.log(response);
+      console.log(response.date);
+      // handleDateChange(dayjs(response.data.date));
+      if (response.success) {
+        const emailResponse = await scheduleServices.sendConfirmation();
+        console.log(emailResponse);
+      }
+    } catch (error) {
+      // console.log(error.response.data.error);
+      console.log(error);
+    }
+  };
+
   const selectTime = (obj) => {
     setDisabled(obj.disabled);
     setTime(obj.time);
   };
 
   const timeSlotsAvailable = schedule
-    .find((d) => d.date === search.date)
+    .find((d) => dayjs(d.date).format('MM/DD/YYYY') === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
 
   return (
@@ -103,9 +127,9 @@ const ReserveClass = () => {
       )}
       <ReserveDialog
         disabled={disabled}
-        time={time}
-        schedule={schedule}
+        handleReserve={handleReserve}
         search={search}
+        time={time}
       />
     </Container>
   );

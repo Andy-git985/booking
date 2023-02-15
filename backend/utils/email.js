@@ -13,7 +13,7 @@ const sendEmail = async () => {
 
   const options = {
     from: process.env.EMAIL_HOST,
-    to: 'To email',
+    to: '',
     subject: 'Hello ✔', // Subject line
     text: 'Hello world?', // plain text body
     html: '<b>Hello world?</b>', // html body
