@@ -24,10 +24,10 @@ mongoose
 app.use(cors());
 app.use(express.static('build'));
 app.use(express.json());
-app.use(cookieParser);
+app.use(cookieParser());
 app.use(middleware.requestLogger);
 
-app.use('/user', middleware.userExtractor, usersRouter);
+app.use('/user', usersRouter);
 app.use('/api/schedule', scheduleRouter);
 app.use(middleware.errorHandler);
 
