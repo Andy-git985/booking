@@ -1,5 +1,5 @@
 const scheduleRouter = require('express').Router();
-const Schedule = require('../models/schedule');
+const Schedule = require('../models/Schedule');
 const sendEmail = require('../utils/email');
 
 scheduleRouter.get('/', async (request, response) => {

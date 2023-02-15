@@ -8,6 +8,17 @@ const requestLogger = (request, response, next) => {
   next();
 };
 
+const userExtractor = (request, response, next) => {
+  const token = request.cookies.jwt;
+  if (token) {
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (decodedToken.id) {
+      request.user = decodedToken.id;
+    }
+  }
+  next();
+};
+
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message);
   console.log('===================');
@@ -27,5 +38,6 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
   requestLogger,
+  userExtractor,
   errorHandler,
 };
