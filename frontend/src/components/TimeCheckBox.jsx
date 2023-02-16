@@ -9,6 +9,7 @@ import {
   TextField,
 } from '@mui/material';
 const classTimes = ['9:00', '11:00', '3:00', '5:00'];
+// '2023-02-11T05:00:00.000Z';
 
 const TimeCheckBox = ({ date, createClasses }) => {
   const [activeCheck, setActiveCheck] = useState([]);

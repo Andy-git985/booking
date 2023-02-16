@@ -11,14 +11,13 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { logInUser } from '../reducers/userReducer';
+// import { logInUser } from '../reducers/userReducer';
 import userServices from '../services/user';
-import Google from '../img/google.png';
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { userInfo } = useSelector(({ user }) => user);
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const { userInfo } = useSelector(({ user }) => user);
   const {
     control,
     register,
@@ -33,22 +32,22 @@ const Login = () => {
     },
   });
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate('/');
-    }
-  }, [userInfo, navigate]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate('/');
+  //   }
+  // }, [userInfo, navigate]);
 
   const onSubmit = async (data) => {
     // const homePage = await userServices.login(data);
-    dispatch(logInUser(data));
+    // dispatch(logInUser(data));
   };
 
-  const googleLogin = async () => {
-    const url = await userServices.getLoginUrl();
-    console.log(url);
-    window.open(url, '_self');
-  };
+  // const googleLogin = async () => {
+  //   const url = await userServices.getLoginUrl();
+  //   console.log(url);
+  //   window.open(url, '_self');
+  // };
 
   return (
     <Container
@@ -89,6 +88,7 @@ const Login = () => {
             ></TextField>
             <TextField
               label="Password"
+              type="password"
               required
               {...register('password')}
             ></TextField>
@@ -97,18 +97,6 @@ const Login = () => {
             </Button>
           </Box>
         </form>
-        <Button onClick={googleLogin}>
-          <img
-            src={Google}
-            alt="google-logo"
-            style={{
-              backgroundColor: 'black',
-              width: '35px',
-              padding: '5px',
-              borderRadius: '50%',
-            }}
-          ></img>
-        </Button>
         <Link to="/user/register">
           <Typography component="h1">
             Don't have an account? Sign up!

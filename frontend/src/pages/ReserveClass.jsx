@@ -6,6 +6,7 @@ import {
   Container,
   FormControl,
   InputLabel,
+  linearProgressClasses,
   MenuItem,
   Select,
   Stack,
@@ -39,6 +40,7 @@ const ReserveClass = () => {
       // }));
       // setSchedule(formattedSchedule);
       setSchedule(response);
+      console.log(response);
     };
     getSchedule();
   }, []);

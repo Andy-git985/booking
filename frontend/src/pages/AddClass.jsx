@@ -38,7 +38,7 @@ const AddClass = () => {
     console.log(response);
   };
   return (
-    <>
+    <Container>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Stack spacing={3}>
           <DesktopDatePicker
@@ -58,7 +58,7 @@ const AddClass = () => {
         </Stack>
       </LocalizationProvider>
       <TimeCheckBox date={date} createClasses={addClasses} />
-    </>
+    </Container>
   );
 };
 

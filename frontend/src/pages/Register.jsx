@@ -58,7 +58,6 @@ const Register = () => {
         justifyContent: 'center',
         height: '100vh',
       }}
-      i
     >
       <Paper elevation={3}>
         <Typography component="h1">Register</Typography>
