@@ -22,7 +22,7 @@ const userExtractor = (request, response, next) => {
 const errorHandler = (error, request, response, next) => {
   logger.error(error.message);
   console.log('===================');
-  console.log('===================');
+  console.log('=====middleware====');
   console.log('===================');
   console.log('error name', error.name);
   console.log('===================');

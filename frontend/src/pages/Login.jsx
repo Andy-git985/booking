@@ -11,13 +11,27 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-// import { logInUser } from '../reducers/userReducer';
-import userServices from '../services/user';
+import { loginUser } from '../features/userSlice';
 
 const Login = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   // const navigate = useNavigate();
-  // const { userInfo } = useSelector(({ user }) => user);
+  const user = useSelector(({ user }) => user);
+  console.log(user);
+  const [alert, setAlert] = useState('');
+
+  useEffect(() => {
+    if (user.status === 'rejected') {
+      setAlert(user.error);
+    }
+  }, [user.status, user.error]);
+
+  useEffect(() => {
+    if (user.status === 'fulfilled') {
+      setAlert(user.alert);
+    }
+  }, [user.status, user.alert]);
+
   const {
     control,
     register,
@@ -39,71 +53,67 @@ const Login = () => {
   // }, [userInfo, navigate]);
 
   const onSubmit = async (data) => {
-    // const homePage = await userServices.login(data);
-    // dispatch(logInUser(data));
+    dispatch(loginUser(data));
   };
 
-  // const googleLogin = async () => {
-  //   const url = await userServices.getLoginUrl();
-  //   console.log(url);
-  //   window.open(url, '_self');
-  // };
-
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-      }}
-    >
-      <Paper
-        elevation={3}
+    <>
+      <div>{alert}</div>
+      <Container
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexDirection: 'column',
-          gap: '10px',
-          padding: '5px',
+          height: '100vh',
         }}
       >
-        <Typography component="h1">Log In</Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              gap: '10px',
-              padding: '5px',
-            }}
-          >
-            <TextField
-              label="Email"
-              required
-              {...register('email')}
-            ></TextField>
-            <TextField
-              label="Password"
-              type="password"
-              required
-              {...register('password')}
-            ></TextField>
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
-          </Box>
-        </form>
-        <Link to="/user/register">
-          <Typography component="h1">
-            Don't have an account? Sign up!
-          </Typography>
-        </Link>
-      </Paper>
-    </Container>
+        <Paper
+          elevation={3}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            gap: '10px',
+            padding: '5px',
+          }}
+        >
+          <Typography component="h1">Log In</Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                gap: '10px',
+                padding: '5px',
+              }}
+            >
+              <TextField
+                label="Email"
+                required
+                {...register('email')}
+              ></TextField>
+              <TextField
+                label="Password"
+                type="password"
+                required
+                {...register('password')}
+              ></TextField>
+              <Button type="submit" variant="contained">
+                Submit
+              </Button>
+            </Box>
+          </form>
+          <Link to="/user/register">
+            <Typography component="h1">
+              Don't have an account? Sign up!
+            </Typography>
+          </Link>
+        </Paper>
+      </Container>
+    </>
   );
 };
 

@@ -1,4 +1,6 @@
 import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const links = [
@@ -13,6 +15,8 @@ const activeStyle = {
 };
 
 const NavBar = () => {
+  const { userDetails } = useSelector(({ user }) => user);
+
   return (
     <Box
       sx={{
@@ -32,6 +36,10 @@ const NavBar = () => {
           <Typography variant="body">{link.name}</Typography>
         </NavLink>
       ))}
+      <Box sx={{ flexGrow: 1 }}></Box>
+      {userDetails && (
+        <Typography variant="body">{userDetails.email}</Typography>
+      )}
     </Box>
   );
 };

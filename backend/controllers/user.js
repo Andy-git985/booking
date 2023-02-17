@@ -8,9 +8,7 @@ usersRouter.post('/register', async (request, response) => {
   const { email, password } = request.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    return response
-      .status(400)
-      .json({ success: false, message: 'username must be unique' });
+    return response.status(400).json({ error: 'username must be unique' });
   }
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
@@ -34,15 +32,13 @@ usersRouter.post('/login', async (request, response) => {
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
   if (!(user && passwordCorrect)) {
-    return response
-      .status(401)
-      .json({ success: false, message: 'invalid username or password' });
+    return response.status(401).json({ error: 'invalid username or password' });
   }
 
   const token = jwtToken.create(user);
 
   response.cookie('jwt', token, { httpOnly: true, sameSite: 'lax' });
-  response.status(201).send({ token, user });
+  response.status(201).send({ message: 'Successfully logged in', user });
 });
 
 usersRouter.get('/logout', async (request, response) => {
