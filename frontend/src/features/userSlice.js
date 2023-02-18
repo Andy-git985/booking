@@ -12,7 +12,8 @@ export const registerUser = createAsyncThunk(
   'users/registerUser',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
+      console.log('data thunk', data);
       const newUser = await userServices.register(data);
       return newUser;
     } catch (error) {
@@ -25,6 +26,7 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (data, thunkAPI) => {
     try {
+      console.log(data);
       const user = await userServices.login(data);
       return user;
     } catch (error) {
@@ -62,7 +64,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.payload;
+        state.error = action.payload.error;
       })
       .addCase(loginUser.pending, (state, action) => {
         state.status = 'pending';
@@ -99,5 +101,4 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
 export default userSlice.reducer;

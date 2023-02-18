@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema({
   passwordHash: {
     type: String,
   },
+  role: {
+    type: String,
+  },
 });
 
 userSchema.set('toJSON', {

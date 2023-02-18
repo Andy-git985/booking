@@ -4,3 +4,8 @@ export const links = [
   { name: 'Register', path: '/user/register' },
   { name: 'Login', path: '/user/login' },
 ];
+
+export const roles = [
+  { id: 1, title: 'Client', data: 'client' },
+  { id: 2, title: 'Admin', data: 'admin' },
+];

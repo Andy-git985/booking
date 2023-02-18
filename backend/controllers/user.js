@@ -5,7 +5,8 @@ const User = require('../models/User');
 const jwtToken = require('../utils/jwtToken');
 
 usersRouter.post('/register', async (request, response) => {
-  const { email, password } = request.body;
+  console.log(request.body);
+  const { email, password, role } = request.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return response.status(400).json({ error: 'username must be unique' });
@@ -15,6 +16,7 @@ usersRouter.post('/register', async (request, response) => {
   const newUser = new User({
     email,
     passwordHash,
+    role,
   });
   await newUser.save();
 
