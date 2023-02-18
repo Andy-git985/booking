@@ -10,6 +10,7 @@ export default function App() {
     <BrowserRouter>
       <NavBar />
       <Routes>
+        <Route path="/*" element={<div>Home</div>} />
         <Route path="/reserve" element={<ReserveClass />} />
         <Route path="/add" element={<AddClass />} />
         <Route path="/user/register" element={<Register />} />

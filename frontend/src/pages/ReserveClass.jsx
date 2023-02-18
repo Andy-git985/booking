@@ -40,7 +40,6 @@ const ReserveClass = () => {
       // }));
       // setSchedule(formattedSchedule);
       setSchedule(response);
-      console.log(response);
     };
     getSchedule();
   }, []);
@@ -65,8 +64,6 @@ const ReserveClass = () => {
     }
     try {
       const response = await scheduleServices.reserveTime(dateToBook, obj.time);
-      console.log(response);
-      console.log(response.date);
       // handleDateChange(dayjs(response.data.date));
       if (response.success) {
         const emailResponse = await scheduleServices.sendConfirmation();

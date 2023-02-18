@@ -28,6 +28,12 @@ const register = async (credentials) => {
   return response.data;
 };
 
+const logout = async () => {
+  console.log('testing');
+  const response = await axios.post(`${baseUrl}/logout`);
+  return response.data;
+};
+
 // const remove = async () => {
 //   const token = jwtService.getToken();
 //   const config = {
@@ -63,6 +69,7 @@ export default {
   // getLoginUrl,
   login,
   register,
+  logout,
   // remove,
   // updateEmail,
   // updatePassword,

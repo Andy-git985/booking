@@ -1,7 +1,8 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { logoutUser } from '../features/userSlice';
 
 const links = [
   { name: 'Reserve Class', path: '/reserve' },
@@ -15,7 +16,12 @@ const activeStyle = {
 };
 
 const NavBar = () => {
-  const { userDetails } = useSelector(({ user }) => user);
+  const { userDetails } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
 
   return (
     <Box
@@ -38,7 +44,12 @@ const NavBar = () => {
       ))}
       <Box sx={{ flexGrow: 1 }}></Box>
       {userDetails && (
-        <Typography variant="body">{userDetails.email}</Typography>
+        <>
+          <Typography variant="body">{userDetails.email}</Typography>
+          <Button variant="contained" onClick={handleLogout}>
+            Logout
+          </Button>
+        </>
       )}
     </Box>
   );

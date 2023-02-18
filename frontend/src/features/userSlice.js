@@ -33,6 +33,18 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const logoutUser = createAsyncThunk(
+  'users/logoutUser',
+  async (data, thunkAPI) => {
+    try {
+      const response = await userServices.logout();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -59,7 +71,6 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        console.log('action payload', action.payload);
         state.alert = action.payload.message;
         state.userDetails = action.payload.user;
         state.error = null;
@@ -68,8 +79,25 @@ const userSlice = createSlice({
         state.status = 'rejected';
         state.alert = null;
         state.error = action.payload.error;
+      })
+      .addCase(logoutUser.pending, (state, action) => {
+        state.status = 'pending';
+        state.alert = null;
+        state.error = null;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.status = 'fulfilled';
+        state.alert = action.payload;
+        state.userDetails = null;
+        state.error = null;
+      })
+      .addCase(logoutUser.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.alert = null;
+        state.error = action.payload.error;
       });
   },
 });
 
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;

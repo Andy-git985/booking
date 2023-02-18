@@ -41,11 +41,11 @@ usersRouter.post('/login', async (request, response) => {
   response.status(201).send({ message: 'Successfully logged in', user });
 });
 
-usersRouter.get('/logout', async (request, response) => {
-  return response
+usersRouter.post('/logout', async (request, response) => {
+  response
     .clearCookie('jwt')
     .status(200)
-    .json({ success: true, message: 'Successfully logged out' });
+    .json({ message: 'Successfully logged out' });
 });
 
 usersRouter.get('/account', async (request, response) => {

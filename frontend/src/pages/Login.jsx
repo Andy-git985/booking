@@ -16,21 +16,20 @@ import { loginUser } from '../features/userSlice';
 const Login = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  const user = useSelector(({ user }) => user);
-  console.log(user);
+  // const user = useSelector(({ user }) => user);
   const [alert, setAlert] = useState('');
 
-  useEffect(() => {
-    if (user.status === 'rejected') {
-      setAlert(user.error);
-    }
-  }, [user.status, user.error]);
+  // useEffect(() => {
+  //   if (user.status === 'rejected') {
+  //     setAlert(user.error);
+  //   }
+  // }, [user.status, user.error]);
 
-  useEffect(() => {
-    if (user.status === 'fulfilled') {
-      setAlert(user.alert);
-    }
-  }, [user.status, user.alert]);
+  // useEffect(() => {
+  //   if (user.status === 'fulfilled') {
+  //     setAlert(user.alert);
+  //   }
+  // }, [user.status, user.alert]);
 
   const {
     control,
@@ -106,11 +105,11 @@ const Login = () => {
               </Button>
             </Box>
           </form>
-          <Link to="/user/register">
+          {/* <Link to="/user/register">
             <Typography component="h1">
               Don't have an account? Sign up!
             </Typography>
-          </Link>
+          </Link> */}
         </Paper>
       </Container>
     </>
