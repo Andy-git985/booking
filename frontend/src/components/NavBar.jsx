@@ -3,13 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../features/userSlice';
-
-const links = [
-  { name: 'Reserve Class', path: '/reserve' },
-  { name: 'Add Class', path: '/add' },
-  { name: 'Register', path: '/user/register' },
-  { name: 'Login', path: '/user/login' },
-];
+import { links } from '../data';
 
 const activeStyle = {
   color: 'red',
