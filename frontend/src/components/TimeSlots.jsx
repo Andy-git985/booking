@@ -1,5 +1,6 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useSelector } from 'react-redux';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -11,16 +12,16 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const TimeSlots = ({ timeSlots, reserveTime }) => {
-  const handleClick = (time) => {
-    reserveTime({ time, disabled: false });
+  const handleClick = (id) => {
+    reserveTime({ id, disabled: false });
   };
 
   return (
     <>
       <Grid container>
         {timeSlots.map((slot, index) => (
-          <Grid item key={`${slot.time}-${index}`}>
-            <Item onClick={() => handleClick(slot.time)}>
+          <Grid item key={slot.id}>
+            <Item onClick={() => handleClick(slot.id)}>
               {slot.time} {slot.slots} slot left
             </Item>
           </Grid>

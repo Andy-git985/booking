@@ -10,7 +10,7 @@ const activeStyle = {
 };
 
 const NavBar = () => {
-  const { userDetails } = useSelector((state) => state);
+  const { userDetails } = useSelector(({ user }) => user);
   const dispatch = useDispatch();
 
   const handleLogout = () => {

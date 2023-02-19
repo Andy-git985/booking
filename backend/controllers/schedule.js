@@ -18,12 +18,17 @@ scheduleRouter.post('/', async (request, response) => {
 });
 
 scheduleRouter.put('/:id', async (request, response) => {
-  const { time } = request.body;
-  const dateToUpdate = await Schedule.findById({ _id: request.params.id });
-  const classToUpdate = dateToUpdate.classes.find((cls) => cls.time === time);
+  // const { time } = request.body;
+  // const dateToUpdate = await Schedule.findById({ _id: request.params.id });
+
+  const dateToUpdate = await Schedule.findById('63f01332e347aee094aed908');
+  console.log('single date', dateToUpdate);
+  const classToUpdate = dateToUpdate.classes.id('63f01332e347aee094aed909');
+  console.log('single class', classToUpdate);
+  // const classToUpdate = dateToUpdate.classes.find((cls) => cls.time === time);
   classToUpdate.slots--;
   await dateToUpdate.save();
-  response.status(200).json({ success: true, message: 'Class reserved' });
+  // response.status(200).json({ success: true, message: 'Class reserved' });
   // const emailSent = await sendEmail();
   // console.log(emailSent);
 });

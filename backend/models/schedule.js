@@ -11,6 +11,10 @@ const scheduleSchema = new mongoose.Schema({
 scheduleSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
+    returnedObject.classes.forEach((c) => {
+      c.id = c._id.toString();
+      delete c._id;
+    });
     delete returnedObject._id;
     delete returnedObject.__v;
   },

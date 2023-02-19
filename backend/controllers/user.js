@@ -5,7 +5,6 @@ const User = require('../models/User');
 const jwtToken = require('../utils/jwtToken');
 
 usersRouter.post('/register', async (request, response) => {
-  console.log(request.body);
   const { email, password, role } = request.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {

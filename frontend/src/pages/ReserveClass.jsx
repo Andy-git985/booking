@@ -6,7 +6,6 @@ import {
   Container,
   FormControl,
   InputLabel,
-  linearProgressClasses,
   MenuItem,
   Select,
   Stack,
@@ -17,7 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-
+import { useDispatch, useSelector } from 'react-redux';
 import TimeSlots from '../components/TimeSlots';
 import scheduleServices from '../services/schedule';
 import ReserveDialog from '../components/ReserveDialog';
@@ -31,19 +30,6 @@ const ReserveClass = () => {
   const [time, setTime] = useState('');
   const [disabled, setDisabled] = useState(true);
 
-  useEffect(() => {
-    const getSchedule = async () => {
-      const response = await scheduleServices.getSchedule();
-      // const formattedSchedule = response.map((schedule) => ({
-      //   ...schedule,
-      //   date: dayjs(schedule.date).format('MM/DD/YYYY'),
-      // }));
-      // setSchedule(formattedSchedule);
-      setSchedule(response);
-    };
-    getSchedule();
-  }, []);
-
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
     setSearch(newSearch);
@@ -55,20 +41,22 @@ const ReserveClass = () => {
   };
 
   const handleReserve = async (obj) => {
-    const dateToBook = schedule.find(
-      (s) => dayjs(s.date).format('MM/DD/YYYY') === obj.date
-    )?.id;
-    if (!dateToBook) {
-      console.log('error');
-      return;
-    }
+    // const dateToBook = schedule.find(
+    //   (s) => dayjs(s.date).format('MM/DD/YYYY') === obj.date
+    // )?.id;
+    // if (!dateToBook) {
+    //   console.log('error');
+    //   return;
+    // }
+    console.log(obj.time);
     try {
-      const response = await scheduleServices.reserveTime(dateToBook, obj.time);
+      const response = await scheduleServices.reserveTime(obj.time);
       // handleDateChange(dayjs(response.data.date));
-      if (response.success) {
-        const emailResponse = await scheduleServices.sendConfirmation();
-        console.log(emailResponse);
-      }
+
+      // if (response.success) {
+      //   const emailResponse = await scheduleServices.sendConfirmation();
+      //   console.log(emailResponse);
+      // }
     } catch (error) {
       // console.log(error.response.data.error);
       console.log(error);
@@ -76,11 +64,14 @@ const ReserveClass = () => {
   };
 
   const selectTime = (obj) => {
+    console.log(obj);
     setDisabled(obj.disabled);
-    setTime(obj.time);
+    setTime(obj.id);
   };
 
-  const timeSlotsAvailable = schedule
+  const { appointments } = useSelector(({ schedule }) => schedule);
+
+  const timeSlotsAvailable = appointments
     .find((d) => dayjs(d.date).format('MM/DD/YYYY') === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
 

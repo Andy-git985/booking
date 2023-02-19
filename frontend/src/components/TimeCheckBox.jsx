@@ -8,15 +8,17 @@ import {
   FormLabel,
   TextField,
 } from '@mui/material';
+import { times } from '../data';
+import dayjs from 'dayjs';
 const classTimes = ['9:00', '11:00', '3:00', '5:00'];
 // '2023-02-11T05:00:00.000Z';
 
 const TimeCheckBox = ({ date, createClasses }) => {
   const [activeCheck, setActiveCheck] = useState([]);
-  const classObj = classTimes.map((slot) => {
-    const obj = { id: `${date}-${slot}`, time: slot };
-    return obj;
-  });
+  // const classObj = classTimes.map((slot) => {
+  //   const obj = { id: `${date}-${slot}`, time: slot };
+  //   return obj;
+  // });
 
   const addClasses = () => {
     createClasses(activeCheck);
@@ -49,16 +51,16 @@ const TimeCheckBox = ({ date, createClasses }) => {
     <FormControl>
       <FormLabel>Class Times</FormLabel>
       <Box sx={{ display: 'flex' }}>
-        {classObj.map((slot) => {
+        {times.map((slot) => {
           return (
             <Box
               sx={{ display: 'flex', flexDirection: 'column' }}
               key={slot.id}
             >
               <FormControlLabel
-                value={slot.time}
+                value={dayjs(slot.time).format('h:mma')}
                 control={<Checkbox />}
-                label={slot.time}
+                label={dayjs(slot.time).format('h:mma')}
                 name={slot.time}
                 labelPlacement="top"
                 onClick={() => handleCheck(slot)}
