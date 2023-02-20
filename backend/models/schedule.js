@@ -5,7 +5,7 @@ const scheduleSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  classes: [{ time: String, slots: Number }],
+  classes: [{ time: Date, slots: Number }],
 });
 
 scheduleSchema.set('toJSON', {

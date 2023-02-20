@@ -10,34 +10,37 @@ import {
 } from '@mui/material';
 import { times } from '../data';
 import dayjs from 'dayjs';
-const classTimes = ['9:00', '11:00', '3:00', '5:00'];
 // '2023-02-11T05:00:00.000Z';
 
 const TimeCheckBox = ({ date, createClasses }) => {
   const [activeCheck, setActiveCheck] = useState([]);
-  // const classObj = classTimes.map((slot) => {
-  //   const obj = { id: `${date}-${slot}`, time: slot };
-  //   return obj;
-  // });
+  const defaultNumberOfSlots = 3;
 
   const addClasses = () => {
+    activeCheck.forEach((a) => {
+      delete a.id;
+    });
     createClasses(activeCheck);
-  };
-
-  const handleCheck = (obj) => {
-    if (found(obj.id)) {
-      setActiveCheck(activeCheck.filter((slot) => slot.id !== obj.id));
-    } else {
-      const checkedBox = { id: obj.id, time: obj.time, slots: 20 };
-      setActiveCheck([...activeCheck, checkedBox]);
-    }
   };
 
   const found = (id) => {
     return activeCheck.find((time) => time.id === id);
   };
 
-  const handleChange = (event, id) => {
+  const handleCheck = (obj) => {
+    if (found(obj.id)) {
+      setActiveCheck(activeCheck.filter((slot) => slot.id !== obj.id));
+    } else {
+      const checkedBox = {
+        id: obj.id,
+        time: obj.time,
+        slots: defaultNumberOfSlots,
+      };
+      setActiveCheck([...activeCheck, checkedBox]);
+    }
+  };
+
+  const handleSlotChange = (event, id) => {
     const slotToUpdate = activeCheck.find((time) => time.id === id);
     slotToUpdate.slots = Number(event.target.value);
     setActiveCheck(
@@ -47,21 +50,25 @@ const TimeCheckBox = ({ date, createClasses }) => {
     );
   };
 
+  const fullTimes = times.map((slot) => {
+    return { ...slot, time: `${date}T${slot.time}` };
+  });
+
   return (
     <FormControl>
       <FormLabel>Class Times</FormLabel>
       <Box sx={{ display: 'flex' }}>
-        {times.map((slot) => {
+        {fullTimes.map((slot) => {
           return (
             <Box
               sx={{ display: 'flex', flexDirection: 'column' }}
               key={slot.id}
             >
               <FormControlLabel
-                value={dayjs(slot.time).format('h:mma')}
+                value={slot.time}
                 control={<Checkbox />}
                 label={dayjs(slot.time).format('h:mma')}
-                name={slot.time}
+                name={dayjs(slot.time).format('h:mma')}
                 labelPlacement="top"
                 onClick={() => handleCheck(slot)}
               />
@@ -71,9 +78,9 @@ const TimeCheckBox = ({ date, createClasses }) => {
                   <TextField
                     label="slots"
                     name="slots"
-                    defaultValue={20}
+                    defaultValue={defaultNumberOfSlots}
                     sx={{ width: 50 }}
-                    onChange={(event) => handleChange(event, slot.id)}
+                    onChange={(event) => handleSlotChange(event, slot.id)}
                   ></TextField>
                 </>
               )}

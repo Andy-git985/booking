@@ -23,17 +23,17 @@ import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
 
 const AddClass = () => {
-  const [date, setDate] = useState(dayjs().format('MM/DD/YYYY'));
+  const [date, setDate] = useState(dayjs());
 
   const handleChange = (newDate) => {
-    setDate(newDate.format('MM/DD/YYYY'));
+    setDate(newDate);
   };
 
   const addClasses = async (obj) => {
-    obj.forEach((o) => {
-      delete o.id;
-    });
-    const newClasses = { date, classes: obj };
+    const newClasses = {
+      date: dayjs(date).format('YYYY-MM-DD'),
+      classes: obj,
+    };
     const response = await scheduleServices.createNew(newClasses);
     console.log(response);
   };
@@ -57,7 +57,10 @@ const AddClass = () => {
             /> */}
         </Stack>
       </LocalizationProvider>
-      <TimeCheckBox date={date} createClasses={addClasses} />
+      <TimeCheckBox
+        date={date.format('YYYY-MM-DD')}
+        createClasses={addClasses}
+      />
     </Container>
   );
 };

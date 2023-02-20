@@ -16,6 +16,8 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
     reserveTime({ id, disabled: false });
   };
 
+  // reserving classes page
+
   return (
     <>
       <Grid container>

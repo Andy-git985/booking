@@ -50,7 +50,7 @@ const ReserveClass = () => {
     // }
     console.log(obj.time);
     try {
-      const response = await scheduleServices.reserveTime(obj.time);
+      const response = await scheduleServices.reserveTime(obj.time, obj.date);
       // handleDateChange(dayjs(response.data.date));
 
       // if (response.success) {
@@ -74,6 +74,8 @@ const ReserveClass = () => {
   const timeSlotsAvailable = appointments
     .find((d) => dayjs(d.date).format('MM/DD/YYYY') === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
+
+  console.log(search);
 
   return (
     <Container>

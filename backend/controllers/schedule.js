@@ -21,6 +21,8 @@ scheduleRouter.put('/:id', async (request, response) => {
   // const { time } = request.body;
   // const dateToUpdate = await Schedule.findById({ _id: request.params.id });
 
+  // date id in the body
+
   const dateToUpdate = await Schedule.findById('63f01332e347aee094aed908');
   console.log('single date', dateToUpdate);
   const classToUpdate = dateToUpdate.classes.id('63f01332e347aee094aed909');
