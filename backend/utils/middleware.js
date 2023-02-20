@@ -32,7 +32,12 @@ const errorHandler = (error, request, response, next) => {
     return response
       .status(400)
       .send({ success: false, message: 'malformatted id' });
+  } else if (error.name === 'TypeError') {
+    return response
+      .status(400)
+      .send({ success: false, message: error.message });
   }
+
   next(error);
 };
 

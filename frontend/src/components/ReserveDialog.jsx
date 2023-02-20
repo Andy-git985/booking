@@ -7,8 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material';
+import dayjs from 'dayjs';
 
-const ReserveDialog = ({ disabled, handleReserve, search, time }) => {
+const ReserveDialog = ({ disabled, handleReserve, search, selectedSlot }) => {
   const [alert, setAlert] = useState({ status: '', message: '' });
   const [open, setOpen] = useState(false);
 
@@ -34,14 +35,16 @@ const ReserveDialog = ({ disabled, handleReserve, search, time }) => {
         <DialogTitle>Would you like to reserve this class?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            On {search.date} at {time} for{' '}
+            On {search.date} at {dayjs(selectedSlot.time).format('h:mma')} for{' '}
             {search.guest > 1 ? `${search.guest} guests` : '1 guest'}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={() => handleAgree({ date: search.date, time })}
+            onClick={() =>
+              handleAgree({ id: selectedSlot.id, date: search.date })
+            }
             autoFocus
           >
             Agree

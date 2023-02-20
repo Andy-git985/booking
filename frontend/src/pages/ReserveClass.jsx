@@ -22,12 +22,12 @@ import scheduleServices from '../services/schedule';
 import ReserveDialog from '../components/ReserveDialog';
 
 const ReserveClass = () => {
-  const [schedule, setSchedule] = useState([]);
+  // const [schedule, setSchedule] = useState([]);
   const [search, setSearch] = useState({
     guest: 1,
-    date: dayjs().format('MM/DD/YYYY'),
+    date: dayjs().format('YYYY-MM-DD'),
   });
-  const [time, setTime] = useState('');
+  const [selectedSlot, setSelectedSlot] = useState({});
   const [disabled, setDisabled] = useState(true);
 
   const handleGuestChange = (newGuests) => {
@@ -36,7 +36,10 @@ const ReserveClass = () => {
   };
 
   const handleDateChange = (newDate) => {
-    const newSearch = { ...search, date: newDate.format('MM/DD/YYYY') };
+    const newSearch = {
+      ...search,
+      date: newDate.format('YYYY-MM-DD'),
+    };
     setSearch(newSearch);
   };
 
@@ -48,11 +51,15 @@ const ReserveClass = () => {
     //   console.log('error');
     //   return;
     // }
-    console.log(obj.time);
-    try {
-      const response = await scheduleServices.reserveTime(obj.time, obj.date);
-      // handleDateChange(dayjs(response.data.date));
+    console.log(obj);
 
+    try {
+      const response = await scheduleServices.reserveTime(
+        obj.id,
+        `${obj.date}T05:00:00Z`
+      );
+      console.log(response);
+      // handleDateChange(dayjs(response.data.date));
       // if (response.success) {
       //   const emailResponse = await scheduleServices.sendConfirmation();
       //   console.log(emailResponse);
@@ -64,18 +71,17 @@ const ReserveClass = () => {
   };
 
   const selectTime = (obj) => {
-    console.log(obj);
     setDisabled(obj.disabled);
-    setTime(obj.id);
+    setSelectedSlot({ id: obj.id, time: obj.time });
   };
 
   const { appointments } = useSelector(({ schedule }) => schedule);
-
+  appointments.forEach((a) => {
+    console.log(dayjs(a.date).format('YYYY-MM-DD'));
+  });
   const timeSlotsAvailable = appointments
-    .find((d) => dayjs(d.date).format('MM/DD/YYYY') === search.date)
+    .find((a) => dayjs(a.date).format('YYYY-MM-DD') === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
-
-  console.log(search);
 
   return (
     <Container>
@@ -121,7 +127,7 @@ const ReserveClass = () => {
         disabled={disabled}
         handleReserve={handleReserve}
         search={search}
-        time={time}
+        selectedSlot={selectedSlot}
       />
     </Container>
   );

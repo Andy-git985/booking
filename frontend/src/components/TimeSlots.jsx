@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -12,8 +13,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const TimeSlots = ({ timeSlots, reserveTime }) => {
-  const handleClick = (id) => {
-    reserveTime({ id, disabled: false });
+  const handleClick = (id, time) => {
+    reserveTime({ id, time, disabled: false });
   };
 
   // reserving classes page
@@ -21,10 +22,10 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
   return (
     <>
       <Grid container>
-        {timeSlots.map((slot, index) => (
+        {timeSlots.map((slot) => (
           <Grid item key={slot.id}>
-            <Item onClick={() => handleClick(slot.id)}>
-              {slot.time} {slot.slots} slot left
+            <Item onClick={() => handleClick(slot.id, slot.time)}>
+              {dayjs(slot.time).format('h:mma')} {slot.slots} slot left
             </Item>
           </Grid>
         ))}

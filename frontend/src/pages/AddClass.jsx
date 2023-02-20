@@ -31,11 +31,10 @@ const AddClass = () => {
 
   const addClasses = async (obj) => {
     const newClasses = {
-      date: dayjs(date).format('YYYY-MM-DD'),
+      date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
       classes: obj,
     };
     const response = await scheduleServices.createNew(newClasses);
-    console.log(response);
   };
   return (
     <Container>
