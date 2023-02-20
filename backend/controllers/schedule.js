@@ -23,7 +23,9 @@ scheduleRouter.put('/:id', async (request, response) => {
   const slotToReserve = dateToUpdate.classes.id(request.params.id);
   slotToReserve.slots--;
   await dateToUpdate.save();
-  response.status(200).json({ success: true, message: 'Class reserved' });
+  response
+    .status(200)
+    .json({ success: true, message: 'Class reserved', data: dateToUpdate });
 });
 
 scheduleRouter.post('/confirmation', async (request, response) => {

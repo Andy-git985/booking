@@ -21,7 +21,7 @@ usersRouter.post('/register', async (request, response) => {
 
   const token = jwtToken.create(newUser);
 
-  response.cookie('jwt', token, { httpOnly: true, sameSite: 'lax' });
+  response.cookie('jwt', token, { httpOnly: true, SameSite: 'Lax' });
   response.status(201).send({ token, newUser });
 });
 
@@ -38,7 +38,7 @@ usersRouter.post('/login', async (request, response) => {
 
   const token = jwtToken.create(user);
 
-  response.cookie('jwt', token, { httpOnly: true, sameSite: 'lax' });
+  response.cookie('jwt', token, { httpOnly: true, SameSite: 'Lax' });
   response.status(201).send({ message: 'Successfully logged in', user });
 });
 

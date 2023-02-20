@@ -17,7 +17,7 @@ export const registerUser = createAsyncThunk(
       const newUser = await userServices.register(data);
       return newUser;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      throw thunkAPI.rejectWithValue('username must be unique');
     }
   }
 );
@@ -26,11 +26,10 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (data, thunkAPI) => {
     try {
-      console.log(data);
       const user = await userServices.login(data);
       return user;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      throw thunkAPI.rejectWithValue('invalid username or password');
     }
   }
 );
@@ -64,7 +63,8 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.payload.error;
+        console.log(action.payload);
+        state.error = action.payload;
       })
       .addCase(loginUser.pending, (state, action) => {
         state.status = 'pending';
@@ -80,7 +80,7 @@ const userSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'rejected';
         state.alert = null;
-        state.error = action.payload.error;
+        state.error = action.payload;
       })
       .addCase(logoutUser.pending, (state, action) => {
         state.status = 'pending';
@@ -96,7 +96,7 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.status = 'rejected';
         state.alert = null;
-        state.error = action.payload.error;
+        state.error = action.error;
       });
   },
 });

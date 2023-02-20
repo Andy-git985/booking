@@ -39,20 +39,16 @@ const Register = () => {
   // //   password: '',
   // // },
   const dispatch = useDispatch();
+  const { error } = useSelector(({ user }) => user);
   const { control, register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     if (data.password !== data.confirmPassword) {
       // set a error message
       return;
     }
     data.email = data.email.toLowerCase();
-    // dispatchEvent(data);
     dispatch(registerUser(data));
-    // console.log('submitting', data);
-    // const response = await userServices.register(data);
-    // console.log(response);
   };
 
   return (
@@ -65,6 +61,7 @@ const Register = () => {
       }}
     >
       <Paper elevation={3}>
+        {error && <div>{error}</div>}
         <Typography component="h1">Register</Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box

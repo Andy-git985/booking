@@ -21,9 +21,12 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
+import { useDispatch } from 'react-redux';
+import { addNewAppointments } from '../features/scheduleSlice';
 
 const AddClass = () => {
   const [date, setDate] = useState(dayjs());
+  const dispatch = useDispatch();
 
   const handleChange = (newDate) => {
     setDate(newDate);
@@ -34,7 +37,7 @@ const AddClass = () => {
       date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
       classes: obj,
     };
-    const response = await scheduleServices.createNew(newClasses);
+    dispatch(addNewAppointments(newClasses));
   };
   return (
     <Container>

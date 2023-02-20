@@ -20,9 +20,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import TimeSlots from '../components/TimeSlots';
 import scheduleServices from '../services/schedule';
 import ReserveDialog from '../components/ReserveDialog';
+import { reserveAppointment } from '../features/scheduleSlice';
 
 const ReserveClass = () => {
   // const [schedule, setSchedule] = useState([]);
+  const [alert, setAlert] = useState('');
+  const { error } = useSelector(({ schedule }) => schedule);
+  const dispatch = useDispatch();
   const [search, setSearch] = useState({
     guest: 1,
     date: dayjs().format('YYYY-MM-DD'),
@@ -44,30 +48,9 @@ const ReserveClass = () => {
   };
 
   const handleReserve = async (obj) => {
-    // const dateToBook = schedule.find(
-    //   (s) => dayjs(s.date).format('MM/DD/YYYY') === obj.date
-    // )?.id;
-    // if (!dateToBook) {
-    //   console.log('error');
-    //   return;
-    // }
-    console.log(obj);
-
-    try {
-      const response = await scheduleServices.reserveTime(
-        obj.id,
-        `${obj.date}T05:00:00Z`
-      );
-      console.log(response);
-      // handleDateChange(dayjs(response.data.date));
-      // if (response.success) {
-      //   const emailResponse = await scheduleServices.sendConfirmation();
-      //   console.log(emailResponse);
-      // }
-    } catch (error) {
-      // console.log(error.response.data.error);
-      console.log(error);
-    }
+    const id = `${obj.id}`;
+    const date = `${obj.date}T05:00:00Z`;
+    dispatch(reserveAppointment({ id, date }));
   };
 
   const selectTime = (obj) => {
@@ -76,15 +59,13 @@ const ReserveClass = () => {
   };
 
   const { appointments } = useSelector(({ schedule }) => schedule);
-  appointments.forEach((a) => {
-    console.log(dayjs(a.date).format('YYYY-MM-DD'));
-  });
   const timeSlotsAvailable = appointments
     .find((a) => dayjs(a.date).format('YYYY-MM-DD') === search.date)
     ?.classes.filter((c) => c.slots >= search.guest);
 
   return (
     <Container>
+      {error && <div>{error}</div>}
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ width: 150 }}>
           <InputLabel>Guests</InputLabel>

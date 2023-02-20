@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,12 +15,10 @@ import { loginUser } from '../features/userSlice';
 const Login = () => {
   const dispatch = useDispatch();
   // const navigate = useNavigate();
-  // const user = useSelector(({ user }) => user);
-  const [alert, setAlert] = useState('');
 
   // useEffect(() => {
   //   if (user.status === 'rejected') {
-  //     setAlert(user.error);
+  //     setkAlert(user.error);
   //   }
   // }, [user.status, user.error]);
 
@@ -52,12 +49,12 @@ const Login = () => {
   // }, [userInfo, navigate]);
 
   const onSubmit = async (data) => {
+    data.email = data.email.toLowerCase();
     dispatch(loginUser(data));
   };
 
   return (
     <>
-      <div>{alert}</div>
       <Container
         sx={{
           display: 'flex',
