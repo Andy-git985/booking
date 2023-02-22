@@ -47,7 +47,14 @@ export const reserveAppointment = createAsyncThunk(
 const scheduleSlice = createSlice({
   name: 'schedule',
   initialState,
-  reducers: {},
+  reducers: {
+    clearScheduleAlert(state, action) {
+      state.alert = '';
+    },
+    clearScheduleError(state, action) {
+      state.error = '';
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(retrieveAppointments.pending, (state, action) => {
@@ -68,9 +75,9 @@ const scheduleSlice = createSlice({
         state.error = null;
       })
       .addCase(addNewAppointments.fulfilled, (state, action) => {
-        const newSchedule = action.payload;
         state.status = 'fulfilled';
-        state.appointments.concat(newSchedule);
+        state.alert = action.payload.message;
+        state.appointments.concat(action.payload.data);
         state.error = null;
       })
       .addCase(addNewAppointments.rejected, (state, action) => {
@@ -96,4 +103,5 @@ const scheduleSlice = createSlice({
   },
 });
 
+export const { clearScheduleAlert, clearScheduleError } = scheduleSlice.actions;
 export default scheduleSlice.reducer;

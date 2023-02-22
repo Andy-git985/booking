@@ -31,7 +31,9 @@ scheduleRouter.post('/', async (request, response) => {
   );
   const apptToSave = apptToAdd.map((appt) => appt.save());
   const savedAppts = await Promise.all(apptToSave);
-  response.status(201).json(savedAppts);
+  response
+    .status(201)
+    .json({ message: 'New schedule added', data: savedAppts });
 
   // const employees = await User.find({ role: 'admin' });
   // const classesWithEmployeesAdded = classes.map((c) => {

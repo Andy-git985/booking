@@ -10,6 +10,7 @@ const Alert = forwardRef(function Alert(props, ref) {
 const Notification = () => {
   const dispatch = useDispatch();
   const user = useSelector(({ user }) => user);
+  const schedule = useSelector(({ schedule }) => schedule);
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState('');
   const [severity, setSeverity] = useState('');
@@ -31,6 +32,15 @@ const Notification = () => {
       dispatch(clearAlertMessage());
     }
   }, [dispatch, user.alert]);
+
+  useEffect(() => {
+    if (schedule.alert) {
+      setOpen(true);
+      setSeverity('success');
+      setAlert(schedule.alert);
+      dispatch(clearAlertMessage());
+    }
+  }, [dispatch, schedule.alert]);
 
   useEffect(() => {
     if (user.error) {
