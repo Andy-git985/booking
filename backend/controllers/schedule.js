@@ -29,9 +29,7 @@ scheduleRouter.post('/', async (request, response) => {
         available: employees,
       })
   );
-  console.log('apptToAdd', apptToAdd);
   const apptToSave = apptToAdd.map((appt) => appt.save());
-  i;
   const savedAppts = await Promise.all(apptToSave);
   response.status(201).json(savedAppts);
 
@@ -60,10 +58,14 @@ scheduleRouter.post('/', async (request, response) => {
 });
 
 scheduleRouter.put('/:id', async (request, response) => {
-  const { date } = request.body;
-  const dateToUpdate = await Schedule.findOne({ date });
-  const slotToReserve = dateToUpdate.classes.id(request.params.id);
-  slotToReserve.slots--;
+  const { person } = request.body;
+  const dateToUpdate = await Schedule.findOne({ _id: request.params.id });
+  const index = dateToUpdate.available.findIndex(
+    (a) => a._id.toString() === person
+  );
+  const personToBook = dateToUpdate.available.splice(index, 1);
+  dateToUpdate.taken.push(personToBook);
+
   await dateToUpdate.save();
   response
     .status(200)
@@ -75,4 +77,5 @@ scheduleRouter.post('/confirmation', async (request, response) => {
   console.log(emailSent);
   response.status(200).json({ success: true, message: 'Email sent' });
 });
+
 module.exports = scheduleRouter;

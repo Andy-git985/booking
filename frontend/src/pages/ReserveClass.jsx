@@ -17,22 +17,26 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { useDispatch, useSelector } from 'react-redux';
-import TimeSlots from '../components/TimeSlots';
-import scheduleServices from '../services/schedule';
-import ReserveDialog from '../components/ReserveDialog';
 import { reserveAppointment } from '../features/scheduleSlice';
+import ReserveDialog from '../components/ReserveDialog';
+import TimeSlots from '../components/TimeSlots';
+import TimeSlotDetail from '../components/TimeSlotDetail';
 
 const ReserveClass = () => {
-  // const [schedule, setSchedule] = useState([]);
-  const [alert, setAlert] = useState('');
-  const { error } = useSelector(({ schedule }) => schedule);
   const dispatch = useDispatch();
   const [search, setSearch] = useState({
     guest: 1,
     date: dayjs().format('YYYY-MM-DD'),
   });
-  const [selectedSlot, setSelectedSlot] = useState({});
   const [disabled, setDisabled] = useState(true);
+  const [selectedSlot, setSelectedSlot] = useState('');
+  const [selectedPerson, setSelectedPerson] = useState('');
+  const { appointments } = useSelector(({ schedule }) => schedule);
+  const timeSlotsAvailable = appointments.filter(
+    (a) =>
+      dayjs(a.date).format('YYYY-MM-DD') === search.date &&
+      a.available.length >= search.guest
+  );
 
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
@@ -47,27 +51,25 @@ const ReserveClass = () => {
     setSearch(newSearch);
   };
 
-  const handleReserve = async (obj) => {
-    const id = `${obj.id}`;
-    const date = `${obj.date}T05:00:00Z`;
-    dispatch(reserveAppointment({ id, date }));
-  };
-
   const selectTime = (obj) => {
-    setDisabled(obj.disabled);
-    setSelectedSlot({ id: obj.id, time: obj.time });
+    setSelectedSlot(timeSlotsAvailable.find((slot) => slot.id === obj.id));
   };
 
-  const { appointments } = useSelector(({ schedule }) => schedule);
-  const timeSlotsAvailable = appointments.filter(
-    (a) =>
-      dayjs(a.date).format('YYYY-MM-DD') === search.date &&
-      a.available.length >= search.guest
-  );
+  const selectPerson = (obj) => {
+    setDisabled(obj.disabled);
+    setSelectedPerson({ id: obj.id, email: obj.email });
+  };
+
+  const handleReserve = async (obj) => {
+    console.log(obj);
+    // const id = `${obj.id}`;
+    // const date = `${obj.date}T05:00:00Z`;
+    dispatch(reserveAppointment({ id: obj.id, person: obj.person }));
+    setSelectedSlot(selectedSlot);
+  };
 
   return (
     <Container>
-      {error && <div>{error}</div>}
       <Box sx={{ display: 'flex' }}>
         <FormControl sx={{ width: 150 }}>
           <InputLabel>Guests</InputLabel>
@@ -102,14 +104,23 @@ const ReserveClass = () => {
         </LocalizationProvider>
       </Box>
       {timeSlotsAvailable ? (
-        <TimeSlots timeSlots={timeSlotsAvailable} reserveTime={selectTime} />
+        <>
+          <TimeSlots timeSlots={timeSlotsAvailable} reserveTime={selectTime} />
+        </>
       ) : (
         <div>No matches</div>
+      )}
+      {selectedSlot && (
+        <TimeSlotDetail
+          available={selectedSlot.available}
+          selectPerson={selectPerson}
+        />
       )}
       <ReserveDialog
         disabled={disabled}
         handleReserve={handleReserve}
         search={search}
+        selectedPerson={selectedPerson}
         selectedSlot={selectedSlot}
       />
     </Container>

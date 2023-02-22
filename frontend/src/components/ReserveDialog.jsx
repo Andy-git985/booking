@@ -9,7 +9,13 @@ import {
 } from '@mui/material';
 import dayjs from 'dayjs';
 
-const ReserveDialog = ({ disabled, handleReserve, search, selectedSlot }) => {
+const ReserveDialog = ({
+  disabled,
+  handleReserve,
+  search,
+  selectedPerson,
+  selectedSlot,
+}) => {
   const [alert, setAlert] = useState({ status: '', message: '' });
   const [open, setOpen] = useState(false);
 
@@ -32,10 +38,11 @@ const ReserveDialog = ({ disabled, handleReserve, search, selectedSlot }) => {
         Reserve Now
       </Button>
       <Dialog open={open}>
-        <DialogTitle>Would you like to reserve this class?</DialogTitle>
+        <DialogTitle>Would you like to reserve this appointment?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            On {search.date} at {dayjs(selectedSlot.time).format('h:mma')} for{' '}
+            With {selectedPerson.email} on {search.date} at{' '}
+            {dayjs(selectedSlot.time).format('h:mma')} for{' '}
             {search.guest > 1 ? `${search.guest} guests` : '1 guest'}?
           </DialogContentText>
         </DialogContent>
@@ -43,7 +50,7 @@ const ReserveDialog = ({ disabled, handleReserve, search, selectedSlot }) => {
           <Button onClick={handleClose}>Cancel</Button>
           <Button
             onClick={() =>
-              handleAgree({ id: selectedSlot.id, date: search.date })
+              handleAgree({ id: selectedSlot.id, person: selectedPerson.id })
             }
             autoFocus
           >
