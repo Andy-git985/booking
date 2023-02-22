@@ -49,11 +49,19 @@ export const logoutUser = createAsyncThunk(
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    clearAlertMessage(state) {
+      state.alert = null;
+    },
+    clearErrorMessage(state) {
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state, action) => {
         state.status = 'pending';
+        state.alert = null;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -63,7 +71,6 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'rejected';
-        console.log(action.payload);
         state.error = action.payload;
       })
       .addCase(loginUser.pending, (state, action) => {
@@ -89,7 +96,7 @@ const userSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.alert = action.payload;
+        state.alert = action.payload.message;
         state.userDetails = null;
         state.error = null;
       })
@@ -101,4 +108,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { clearAlertMessage, clearErrorMessage } = userSlice.actions;
 export default userSlice.reducer;

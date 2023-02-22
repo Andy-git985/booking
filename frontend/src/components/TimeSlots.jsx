@@ -25,7 +25,8 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
         {timeSlots.map((slot) => (
           <Grid item key={slot.id}>
             <Item onClick={() => handleClick(slot.id, slot.time)}>
-              {dayjs(slot.time).format('h:mma')} {slot.slots} slot left
+              {dayjs(slot.time).format('h:mma')} {slot.available.length} slot
+              left
             </Item>
           </Grid>
         ))}

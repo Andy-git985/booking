@@ -36,7 +36,7 @@ export const reserveAppointment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const { id, date } = data;
-      const updatedAppointment = scheduleServices.reserveTime(id, date);
+      const updatedAppointment = await scheduleServices.reserveTime(id, date);
       return updatedAppointment;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -69,9 +69,8 @@ const scheduleSlice = createSlice({
       })
       .addCase(addNewAppointments.fulfilled, (state, action) => {
         const newSchedule = action.payload;
-        console.log(newSchedule);
         state.status = 'fulfilled';
-        state.appointments = state.appointments.push(newSchedule);
+        state.appointments = state.appointments.concat(newSchedule);
         state.error = null;
       })
       .addCase(addNewAppointments.rejected, (state, action) => {

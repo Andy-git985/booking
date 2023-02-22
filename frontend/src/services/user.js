@@ -29,7 +29,6 @@ const register = async (credentials) => {
 };
 
 const logout = async () => {
-  console.log('testing');
   const response = await axios.post(`${baseUrl}/logout`);
   return response.data;
 };

@@ -32,13 +32,32 @@ const AddClass = () => {
     setDate(newDate);
   };
 
+  // obj is an array of times key value
   const addClasses = async (obj) => {
-    const newClasses = {
-      date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
-      classes: obj,
-    };
-    dispatch(addNewAppointments(newClasses));
+    // delete slots, clean up obj later
+    // obj.forEach((o) => {
+    //   delete o.slots;
+    // });
+    const apptsForDate = obj.map((o) => {
+      // add date field to each appointment
+      return {
+        ...o,
+        date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
+      };
+    });
+
+    // const response = await scheduleServices.createNew(apptsForDate);
+    // console.log(response);
+
+    dispatch(addNewAppointments(apptsForDate));
+
+    // old code
+    // const newClasses = {
+    //   date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
+    //   classes: obj,
+    // };
   };
+
   return (
     <Container>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

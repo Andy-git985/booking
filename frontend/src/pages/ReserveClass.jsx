@@ -59,9 +59,11 @@ const ReserveClass = () => {
   };
 
   const { appointments } = useSelector(({ schedule }) => schedule);
-  const timeSlotsAvailable = appointments
-    .find((a) => dayjs(a.date).format('YYYY-MM-DD') === search.date)
-    ?.classes.filter((c) => c.slots >= search.guest);
+  const timeSlotsAvailable = appointments.filter(
+    (a) =>
+      dayjs(a.date).format('YYYY-MM-DD') === search.date &&
+      a.available.length >= search.guest
+  );
 
   return (
     <Container>

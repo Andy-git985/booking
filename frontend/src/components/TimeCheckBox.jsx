@@ -17,10 +17,12 @@ const TimeCheckBox = ({ date, createClasses }) => {
   const defaultNumberOfSlots = 3;
 
   const addClasses = () => {
-    activeCheck.forEach((a) => {
-      delete a.id;
+    const timesToCreate = activeCheck.map((a) => {
+      return {
+        time: a.time,
+      };
     });
-    createClasses(activeCheck);
+    createClasses(timesToCreate);
   };
 
   const found = (id) => {

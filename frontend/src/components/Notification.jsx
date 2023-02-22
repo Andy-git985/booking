@@ -1,13 +1,15 @@
 import { Snackbar } from '@mui/material';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { forwardRef, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearAlertMessage, clearErrorMessage } from '../features/userSlice';
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const Notification = () => {
-  const { error } = useSelector(({ user }) => user);
+  const dispatch = useDispatch();
+  const user = useSelector(({ user }) => user);
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState('');
   const [severity, setSeverity] = useState('');
@@ -18,17 +20,26 @@ const Notification = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
   useEffect(() => {
-    if (error) {
+    if (user.alert) {
+      setOpen(true);
+      setSeverity('success');
+      setAlert(user.alert);
+      dispatch(clearAlertMessage());
+    }
+  }, [dispatch, user.alert]);
+
+  useEffect(() => {
+    if (user.error) {
       setOpen(true);
       setSeverity('error');
-      setAlert(error);
+      setAlert(user.error);
+      dispatch(clearErrorMessage());
     }
-  }, [error]);
+  }, [dispatch, user.error]);
 
   return (
     <>
