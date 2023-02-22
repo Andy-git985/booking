@@ -3,6 +3,7 @@ export const links = [
   { name: 'Add Class', path: '/add' },
   { name: 'Register', path: '/user/register' },
   { name: 'Login', path: '/user/login' },
+  { name: 'Profile', path: '/user/profile' },
 ];
 
 export const roles = [

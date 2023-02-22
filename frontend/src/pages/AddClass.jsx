@@ -34,10 +34,6 @@ const AddClass = () => {
 
   // obj is an array of times key value
   const addClasses = async (obj) => {
-    // delete slots, clean up obj later
-    // obj.forEach((o) => {
-    //   delete o.slots;
-    // });
     const apptsForDate = obj.map((o) => {
       // add date field to each appointment
       return {

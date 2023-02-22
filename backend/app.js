@@ -27,8 +27,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(middleware.requestLogger);
 
-app.use('/user', usersRouter);
-app.use('/api/schedule', scheduleRouter);
+app.use('/user', middleware.userExtractor, usersRouter);
+app.use('/api/schedule', middleware.userExtractor, scheduleRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import AddClass from './pages/AddClass';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ReserveClass from './pages/ReserveClass';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/add" element={<AddClass />} />
           <Route path="/user/register" element={<Register />} />
           <Route path="/user/login" element={<Login />} />
+          <Route path="/user/profile" element={<Profile />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

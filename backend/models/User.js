@@ -11,6 +11,12 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
   },
+  appointments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 userSchema.set('toJSON', {

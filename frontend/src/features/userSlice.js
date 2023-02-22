@@ -13,7 +13,6 @@ export const registerUser = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       // console.log(thunkAPI.getState());
-      console.log('data thunk', data);
       const newUser = await userServices.register(data);
       return newUser;
     } catch (error) {
@@ -66,7 +65,8 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.userDetails = action.payload;
+        state.alert = action.payload.message;
+        state.userDetails = action.payload.user;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {

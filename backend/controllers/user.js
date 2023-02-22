@@ -22,7 +22,9 @@ usersRouter.post('/register', async (request, response) => {
   const token = jwtToken.create(newUser);
 
   response.cookie('jwt', token, { httpOnly: true, sameSite: 'lax' });
-  response.status(201).send({ token, newUser });
+  response
+    .status(201)
+    .send({ message: 'Successfully registered account', user: newUser });
 });
 
 usersRouter.post('/login', async (request, response) => {
