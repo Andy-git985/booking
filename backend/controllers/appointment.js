@@ -3,8 +3,8 @@ const Appointment = require('../models/Appointment');
 const User = require('../models/User');
 
 appointmentRouter.post('/', async (request, response) => {
-  const { date, time, client, employee } = request.body;
-  const clientToBook = await User.findOne({ _id: client });
+  const { date, time, employee } = request.body;
+  const clientToBook = await User.findOne({ _id: request.user });
   const employeeToBook = await User.findOne({ _id: employee });
   const newAppt = new Appointment({
     date,
@@ -13,7 +13,12 @@ appointmentRouter.post('/', async (request, response) => {
     employee: employeeToBook,
   });
   await newAppt.save();
+  clientToBook.appointments.push(newAppt._id);
+  employeeToBook.appointments.push(newAppt._id);
+  await clientToBook.save();
+  await employeeToBook.save();
   response.status(201).json({
+    success: true,
     message: 'Appointment successfully reserved',
     data: newAppt,
   });

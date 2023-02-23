@@ -3,7 +3,11 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { forwardRef, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { clearAlertMessage, clearErrorMessage } from '../features/userSlice';
+import { clearUserAlert, clearUserError } from '../features/userSlice';
+import {
+  clearScheduleAlert,
+  clearScheduleError,
+} from '../features/scheduleSlice';
 
 const Alert = forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -32,7 +36,7 @@ const Notification = () => {
       setOpen(true);
       setSeverity('success');
       setAlert(user.alert);
-      dispatch(clearAlertMessage());
+      dispatch(clearUserAlert());
     }
   }, [dispatch, user.alert]);
 
@@ -41,7 +45,7 @@ const Notification = () => {
       setOpen(true);
       setSeverity('success');
       setAlert(schedule.alert);
-      dispatch(clearAlertMessage());
+      dispatch(clearScheduleAlert());
     }
   }, [dispatch, schedule.alert]);
 
@@ -50,7 +54,7 @@ const Notification = () => {
       setOpen(true);
       setSeverity('error');
       setAlert(user.error);
-      dispatch(clearErrorMessage());
+      dispatch(clearUserError());
     }
   }, [dispatch, user.error]);
 
@@ -59,11 +63,12 @@ const Notification = () => {
       setOpen(true);
       setSeverity('error');
       setAlert(schedule.error);
-      dispatch(clearErrorMessage());
+      dispatch(clearScheduleError());
     }
-    if (schedule.error === 'token expired') {
-      navigate('/user/login');
-    }
+    // if (schedule.error === 'token expired') {
+    //   navigate('/user/login');
+    //   dispatch(clearErrorMessage());
+    // }
   }, [dispatch, schedule.error]);
 
   return (
@@ -71,7 +76,7 @@ const Notification = () => {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleClose}
         sx={{ width: '100%' }}
       >

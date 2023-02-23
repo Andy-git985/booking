@@ -10,8 +10,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import userReducer from './features/userSlice';
-import scheduleReducer from './features/scheduleSlice';
+import appointmentSlice from './features/appointmentSlice';
 import scheduleSlice from './features/scheduleSlice';
 import userSlice from './features/userSlice';
 
@@ -20,7 +19,11 @@ const persistConfig = {
   storage,
 };
 
-const reducers = combineReducers({ schedule: scheduleSlice, user: userSlice });
+const reducers = combineReducers({
+  appointment: appointmentSlice,
+  schedule: scheduleSlice,
+  user: userSlice,
+});
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

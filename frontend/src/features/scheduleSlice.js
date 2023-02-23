@@ -4,6 +4,7 @@ import scheduleServices from '../services/schedule';
 const initialState = {
   appointments: [],
   status: 'pending',
+  alert: null,
   error: null,
 };
 
@@ -11,6 +12,7 @@ export const retrieveAppointments = createAsyncThunk(
   'schedule/retrieveAppointments',
   async (_, thunkAPI) => {
     try {
+      console.log(thunkAPI.getState());
       const schedule = await scheduleServices.getSchedule();
       return schedule;
     } catch (error) {
@@ -23,6 +25,8 @@ export const addNewAppointments = createAsyncThunk(
   'schedule/addNewAppointments',
   async (data, thunkAPI) => {
     try {
+      console.log(thunkAPI.getState());
+
       const newSchedule = await scheduleServices.createNew(data);
       return newSchedule;
     } catch (error) {
@@ -35,6 +39,7 @@ export const reserveAppointment = createAsyncThunk(
   'schedule/reserveAppointment',
   async (data, thunkAPI) => {
     try {
+      console.log(thunkAPI.getState());
       const { id, person } = data;
       const updatedAppointment = await scheduleServices.reserveTime(id, person);
       return updatedAppointment;
@@ -52,10 +57,10 @@ const scheduleSlice = createSlice({
   initialState,
   reducers: {
     clearScheduleAlert(state, action) {
-      state.alert = '';
+      state.alert = null;
     },
     clearScheduleError(state, action) {
-      state.error = '';
+      state.error = null;
     },
   },
   extraReducers: (builder) => {

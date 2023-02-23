@@ -34,39 +34,15 @@ scheduleRouter.post('/', async (request, response) => {
   response
     .status(201)
     .json({ message: 'New schedule added', data: savedAppts });
-
-  // const employees = await User.find({ role: 'admin' });
-  // const classesWithEmployeesAdded = classes.map((c) => {
-  //   return { ...c, available: employees };
-  // });
-  // const schedule = new Schedule({
-  //   date,
-  //   classes: classesWithEmployeesAdded,
-  // });
-  // await schedule.save();
-  // response.status(201).json(schedule);
-
-  // const { date, classes } = request.body;
-  // const employees = await User.find({ role: 'admin' });
-  // const classesWithEmployeesAdded = classes.map((c) => {
-  //   return { ...c, slots: employees };
-  // });
-  // const schedule = new Schedule({
-  //   date,
-  //   classes: classesWithEmployeesAdded,
-  // });
-  // await schedule.save();
-  // response.status(201).json(schedule);
 });
 
 scheduleRouter.put('/:id', async (request, response) => {
-  const { person } = request.body;
+  const { employee } = request.body;
   const dateToUpdate = await Schedule.findOne({ _id: request.params.id });
   const index = dateToUpdate.available.findIndex(
-    (a) => a._id.toString() === person
+    (a) => a._id.toString() === employee
   );
-  const personToBook = dateToUpdate.available.splice(index, 1);
-  dateToUpdate.taken.push(personToBook);
+  dateToUpdate.available.splice(index, 1);
   await dateToUpdate.save();
   response
     .status(200)

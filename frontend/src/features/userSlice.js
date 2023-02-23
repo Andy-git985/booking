@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
   'users/registerUser',
   async (data, thunkAPI) => {
     try {
-      // console.log(thunkAPI.getState());
+      console.log(thunkAPI.getState());
       const newUser = await userServices.register(data);
       return newUser;
     } catch (error) {
@@ -25,6 +25,7 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (data, thunkAPI) => {
     try {
+      console.log(thunkAPI.getState());
       const user = await userServices.login(data);
       return user;
     } catch (error) {
@@ -37,6 +38,7 @@ export const logoutUser = createAsyncThunk(
   'users/logoutUser',
   async (data, thunkAPI) => {
     try {
+      console.log(thunkAPI.getState());
       const response = await userServices.logout();
       return response;
     } catch (error) {
@@ -49,10 +51,10 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    clearAlertMessage(state) {
+    clearUserAlert(state) {
       state.alert = null;
     },
-    clearErrorMessage(state) {
+    clearUserError(state) {
       state.error = null;
     },
   },
@@ -108,5 +110,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { clearAlertMessage, clearErrorMessage } = userSlice.actions;
+export const { clearUserAlert, clearUserError } = userSlice.actions;
 export default userSlice.reducer;

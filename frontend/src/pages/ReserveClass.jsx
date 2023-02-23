@@ -18,6 +18,7 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
+import appointmentServices from '../services/appointment';
 import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
@@ -61,11 +62,48 @@ const ReserveClass = () => {
   };
 
   const handleReserve = async (obj) => {
-    console.log(obj);
-    // const id = `${obj.id}`;
-    // const date = `${obj.date}T05:00:00Z`;
-    dispatch(reserveAppointment({ id: obj.id, person: obj.person }));
-    setSelectedSlot(selectedSlot);
+    // console.log(obj);
+    // // const id = `${obj.id}`;
+    // // const date = `${obj.date}T05:00:00Z`;
+    // dispatch(reserveAppointment({ id: obj.id, person: obj.person }));
+    // setSelectedSlot(selectedSlot);
+
+    // id is the schedule id date
+    // person is the employee
+    console.log(search, selectedSlot, obj);
+    const { date, time } = selectedSlot;
+    console.log(date, time);
+    const employee = obj.person;
+    const newAppt = await appointmentServices.createNew({
+      date,
+      time,
+      employee,
+    });
+    console.log(newAppt);
+
+    // client and employee users both
+    // userservice add appt
+    // user controllers add appt,
+    // find user by id: request.user
+    // user.appointments push newAppt.id
+
+    // schedule remove employee
+    // add appt
+
+    // notification reducer show successful message
+
+    // try {k
+    //   const modifiedSchedule = await dispatch(
+    //     reserveAppointment({ id: obj.id, person: obj.person })
+    //   ).unwrap();
+    //   console.log('modifiedSchedule', modifiedSchedule);
+    //   // if (modifiedSchedule.success) {
+    //   //   // do something else
+    //   // }
+    //   setSelectedSlot(selectedSlot);
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   return (

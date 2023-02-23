@@ -34,6 +34,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'TypeError') {
     return response.status(400).send({ message: error.message });
   } else if (error.name === 'TokenExpiredError') {
+    //  delete token
     return response.status(401).json({
       error: 'token expired',
     });
