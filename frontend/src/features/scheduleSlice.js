@@ -40,8 +40,12 @@ export const reserveAppointment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       console.log(thunkAPI.getState());
-      const { id, person } = data;
-      const updatedAppointment = await scheduleServices.reserveTime(id, person);
+      const { id, appointment, employee } = data;
+      const updatedAppointment = await scheduleServices.reserveTime(
+        id,
+        appointment,
+        employee
+      );
       return updatedAppointment;
     } catch (error) {
       // console.log('error', error); //default message: {message: "Request failed with status code 401"}

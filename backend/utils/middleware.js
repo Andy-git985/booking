@@ -33,6 +33,10 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).send({ error: 'malformatted id' });
   } else if (error.name === 'TypeError') {
     return response.status(400).send({ message: error.message });
+  } else if (error.name === 'JsonWebTokenError') {
+    return response.statuse(401).json({
+      error: 'invalid token',
+    });
   } else if (error.name === 'TokenExpiredError') {
     //  delete token
     return response.status(401).json({

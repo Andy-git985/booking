@@ -12,8 +12,12 @@ const createNew = async (obj) => {
   return response.data;
 };
 
-const reserveTime = async (id, person) => {
-  const response = await axios.put(`${baseUrl}/${id}`, { person });
+const reserveTime = async (id, appointment, employee) => {
+  console.log('reserve time', id, appointment, employee);
+  const response = await axios.put(`${baseUrl}/${id}`, {
+    appointment,
+    employee,
+  });
   return response.data;
 };
 

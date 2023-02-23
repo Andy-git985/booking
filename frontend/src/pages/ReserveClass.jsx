@@ -22,6 +22,7 @@ import appointmentServices from '../services/appointment';
 import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
+import scheduleServices from '../services/schedule';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
@@ -62,48 +63,42 @@ const ReserveClass = () => {
   };
 
   const handleReserve = async (obj) => {
-    // console.log(obj);
-    // // const id = `${obj.id}`;
-    // // const date = `${obj.date}T05:00:00Z`;
-    // dispatch(reserveAppointment({ id: obj.id, person: obj.person }));
-    // setSelectedSlot(selectedSlot);
-
-    // id is the schedule id date
-    // person is the employee
-    console.log(search, selectedSlot, obj);
-    const { date, time } = selectedSlot;
-    console.log(date, time);
-    const employee = obj.person;
-    const newAppt = await appointmentServices.createNew({
-      date,
-      time,
-      employee,
-    });
-    console.log(newAppt);
-
-    // client and employee users both
-    // userservice add appt
-    // user controllers add appt,
-    // find user by id: request.user
-    // user.appointments push newAppt.id
-
-    // schedule remove employee
-    // add appt
-
+    try {
+      let modifiedSchedule;
+      console.log(search, selectedSlot, obj);
+      const { date, time } = selectedSlot;
+      console.log(date, time);
+      const employee = selectedPerson.id;
+      const newAppt = await appointmentServices.createNew({
+        date,
+        time,
+        employee,
+      });
+      console.log('newAppt', newAppt);
+      if (newAppt.success) {
+        // 1. schedule remove employee
+        // 2. add appt to schedule.appointments(appt.id)
+        // id is date in params.id
+        // appointment is appt.id
+        // employee is user.id to remove
+        modifiedSchedule = await dispatch(
+          reserveAppointment({
+            id: obj.id,
+            appointment: newAppt.data.id,
+            employee,
+          })
+        ).unwrap();
+        console.log('modifiedSchedule', modifiedSchedule);
+      }
+      if (modifiedSchedule.success) {
+        // send email
+        const response = await scheduleServices.sendConfirmation();
+        console.log(response);
+      }
+    } catch (error) {
+      console.error(error);
+    }
     // notification reducer show successful message
-
-    // try {k
-    //   const modifiedSchedule = await dispatch(
-    //     reserveAppointment({ id: obj.id, person: obj.person })
-    //   ).unwrap();
-    //   console.log('modifiedSchedule', modifiedSchedule);
-    //   // if (modifiedSchedule.success) {
-    //   //   // do something else
-    //   // }
-    //   setSelectedSlot(selectedSlot);
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (

@@ -1,4 +1,5 @@
 const scheduleRouter = require('express').Router();
+const Appointment = require('../models/Appointment');
 const Schedule = require('../models/Schedule');
 const User = require('../models/User');
 const sendEmail = require('../utils/email');
@@ -10,7 +11,7 @@ scheduleRouter.get('/', async (request, response) => {
   // const schedule = await Schedule.find({}).populate({
   //   path: 'classes',
   //   populate: {
-  //     path: 'slots',
+  //     path: 'slots',k
   //     model: 'User',
   //   },
   // });
@@ -37,12 +38,17 @@ scheduleRouter.post('/', async (request, response) => {
 });
 
 scheduleRouter.put('/:id', async (request, response) => {
-  const { employee } = request.body;
+  const { appointment, employee } = request.body;
+  console.log(appointment);
+  const bookedAppt = await Appointment.findOne({ _id: appointment });
+  console.log(bookedAppt);
   const dateToUpdate = await Schedule.findOne({ _id: request.params.id });
   const index = dateToUpdate.available.findIndex(
     (a) => a._id.toString() === employee
   );
   dateToUpdate.available.splice(index, 1);
+  dateToUpdate.appointments.push(bookedAppt);
+  console.log(dateToUpdate);
   await dateToUpdate.save();
   response
     .status(200)
