@@ -15,10 +15,10 @@ const scheduleSchema = new mongoose.Schema({
       ref: 'User',
     },
   ],
-  taken: [
+  appointments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Appointment',
     },
   ],
 });

@@ -68,12 +68,6 @@ scheduleRouter.put('/:id', async (request, response) => {
   const personToBook = dateToUpdate.available.splice(index, 1);
   dateToUpdate.taken.push(personToBook);
   await dateToUpdate.save();
-  const client = await User.findOne({ _id: request.user });
-  const employee = await User.findOne({ _id: personToBook });
-  client.appointments.push(dateToUpdate);
-  employee.appointments.push(dateToUpdate);
-  await client.save();
-  await employee.save();
   response
     .status(200)
     .json({ success: true, message: 'Class reserved', data: dateToUpdate });

@@ -39,7 +39,10 @@ export const reserveAppointment = createAsyncThunk(
       const updatedAppointment = await scheduleServices.reserveTime(id, person);
       return updatedAppointment;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      // console.log('error', error); //default message: {message: "Request failed with status code 401"}
+      // console.log('error response data error', error.response.data.error); // "token expired" => from middleware
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -89,6 +92,7 @@ const scheduleSlice = createSlice({
         state.error = null;
       })
       .addCase(reserveAppointment.fulfilled, (state, action) => {
+        console.log('fullfilled', action.payload);
         const updatedAppt = action.payload.data;
         state.status = 'fulfilled';
         state.appointments = state.appointments.map((appt) =>
@@ -97,8 +101,12 @@ const scheduleSlice = createSlice({
         state.error = null;
       })
       .addCase(reserveAppointment.rejected, (state, action) => {
+        // console.log('rejected', action.payload); // token expired => middleware
+        // console.log('action error', action.error); // message: rejected
+        // console.log('message present?', action.error.message); // yes see above
         state.status = 'rejected';
-        state.error = action.error.message;
+        state.error = action.payload;
+        // return action payload to get middleware message
       });
   },
 });
