@@ -7,6 +7,7 @@ const cors = require('cors');
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
 const mongoose = require('mongoose');
+const appointmentRouter = require('./controllers/appointment');
 const scheduleRouter = require('./controllers/schedule');
 const usersRouter = require('./controllers/user');
 
@@ -29,6 +30,7 @@ app.use(middleware.requestLogger);
 
 app.use('/user', middleware.userExtractor, usersRouter);
 app.use('/api/schedule', middleware.userExtractor, scheduleRouter);
+app.use('/api/appointment', middleware.userExtractor, appointmentRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;

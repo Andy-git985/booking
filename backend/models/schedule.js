@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { userSchema } = require('./User');
 
 const scheduleSchema = new mongoose.Schema({
   date: {
