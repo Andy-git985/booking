@@ -8,8 +8,8 @@ const initialState = {
   error: null,
 };
 
-export const retrieveAppointments = createAsyncThunk(
-  'schedule/retrieveAppointments',
+export const retrieveSchedule = createAsyncThunk(
+  'schedule/retrieveSchedule',
   async (_, thunkAPI) => {
     try {
       console.log(thunkAPI.getState());
@@ -21,8 +21,8 @@ export const retrieveAppointments = createAsyncThunk(
   }
 );
 
-export const addNewAppointments = createAsyncThunk(
-  'schedule/addNewAppointments',
+export const addNewSchedule = createAsyncThunk(
+  'schedule/addNewSchedule',
   async (data, thunkAPI) => {
     try {
       console.log(thunkAPI.getState());
@@ -69,30 +69,30 @@ const scheduleSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(retrieveAppointments.pending, (state, action) => {
+      .addCase(retrieveSchedule.pending, (state, action) => {
         state.status = 'pending';
         state.error = null;
       })
-      .addCase(retrieveAppointments.fulfilled, (state, action) => {
+      .addCase(retrieveSchedule.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.appointments = action.payload;
         state.error = null;
       })
-      .addCase(retrieveAppointments.rejected, (state, action) => {
+      .addCase(retrieveSchedule.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload.error;
       })
-      .addCase(addNewAppointments.pending, (state, action) => {
+      .addCase(addNewSchedule.pending, (state, action) => {
         state.status = 'pending';
         state.error = null;
       })
-      .addCase(addNewAppointments.fulfilled, (state, action) => {
+      .addCase(addNewSchedule.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.alert = action.payload.message;
         state.appointments.concat(action.payload.data);
         state.error = null;
       })
-      .addCase(addNewAppointments.rejected, (state, action) => {
+      .addCase(addNewSchedule.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.error.message;
       })
@@ -101,7 +101,6 @@ const scheduleSlice = createSlice({
         state.error = null;
       })
       .addCase(reserveAppointment.fulfilled, (state, action) => {
-        console.log('fullfilled', action.payload);
         const updatedAppt = action.payload.data;
         state.status = 'fulfilled';
         state.appointments = state.appointments.map((appt) =>

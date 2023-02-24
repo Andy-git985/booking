@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
+import date from '../services/date';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -26,7 +27,7 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
         {timeSlots.map((slot) => (
           <Grid item key={slot.id}>
             <Item onClick={() => handleClick(slot.id)}>
-              {dayjs(slot.time).format('h:mma')} {slot.available.length}
+              {date.formatToTime(slot.time)} {slot.available.length}
               {slot.available.length > 1 ? ' slots ' : ' slot '}
               left
             </Item>

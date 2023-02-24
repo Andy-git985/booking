@@ -1,7 +1,7 @@
 'use strict';
 const nodemailer = require('nodemailer');
 
-const sendEmail = async () => {
+const sendEmail = async ({ receiver }) => {
   const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: 587,
@@ -13,7 +13,7 @@ const sendEmail = async () => {
 
   const options = {
     from: process.env.EMAIL_HOST,
-    to: '',
+    to: `${receiver}`,
     subject: 'Hello ✔', // Subject line
     text: 'Hello world?', // plain text body
     html: '<b>Hello world?</b>', // html body
@@ -22,9 +22,9 @@ const sendEmail = async () => {
   // Send Email
   transporter.sendMail(options, function (err, info) {
     if (err) {
-      console.log(err);
+      console.log({ err });
     } else {
-      console.log(info);
+      console.log({ info });
     }
   });
 };

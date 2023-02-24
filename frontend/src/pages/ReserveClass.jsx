@@ -23,22 +23,33 @@ import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
 import scheduleServices from '../services/schedule';
+import date from '../services/date';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
   const [search, setSearch] = useState({
     guest: 1,
-    date: dayjs().format('YYYY-MM-DD'),
+    date: date.currentDate(),
   });
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
   const { appointments } = useSelector(({ schedule }) => schedule);
-  const timeSlotsAvailable = appointments.filter(
-    (a) =>
-      dayjs(a.date).format('YYYY-MM-DD') === search.date &&
-      a.available.length >= search.guest
-  );
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  useEffect(() => {
+    setTimeSlots(
+      appointments.filter(
+        (a) =>
+          date.formatToDate(a.date) === search.date &&
+          a.available.length >= search.guest
+      )
+    );
+    setSelectedSlot('');
+    setSelectedPerson('');
+  }, [appointments, search.date, search.guest]);
+
+  console.log('timeSlots', timeSlots);
 
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
@@ -48,13 +59,13 @@ const ReserveClass = () => {
   const handleDateChange = (newDate) => {
     const newSearch = {
       ...search,
-      date: newDate.format('YYYY-MM-DD'),
+      date: date.formatToDate(newDate),
     };
     setSearch(newSearch);
   };
 
   const selectTime = (obj) => {
-    setSelectedSlot(timeSlotsAvailable.find((slot) => slot.id === obj.id));
+    setSelectedSlot(timeSlots.find((slot) => slot.id === obj.id));
   };
 
   const selectPerson = (obj) => {
@@ -65,16 +76,13 @@ const ReserveClass = () => {
   const handleReserve = async (obj) => {
     try {
       let modifiedSchedule;
-      console.log(search, selectedSlot, obj);
       const { date, time } = selectedSlot;
-      console.log(date, time);
       const employee = selectedPerson.id;
       const newAppt = await appointmentServices.createNew({
         date,
         time,
         employee,
       });
-      console.log('newAppt', newAppt);
       if (newAppt.success) {
         // 1. schedule remove employee
         // 2. add appt to schedule.appointments(appt.id)
@@ -88,11 +96,11 @@ const ReserveClass = () => {
             employee,
           })
         ).unwrap();
-        console.log('modifiedSchedule', modifiedSchedule);
       }
       if (modifiedSchedule.success) {
-        // send email
-        const response = await scheduleServices.sendConfirmation();
+        const response = await scheduleServices.sendConfirmation({
+          receiver: '',
+        });
         console.log(response);
       }
     } catch (error) {
@@ -136,9 +144,9 @@ const ReserveClass = () => {
           </Stack>
         </LocalizationProvider>
       </Box>
-      {timeSlotsAvailable ? (
+      {timeSlots ? (
         <>
-          <TimeSlots timeSlots={timeSlotsAvailable} reserveTime={selectTime} />
+          <TimeSlots timeSlots={timeSlots} reserveTime={selectTime} />
         </>
       ) : (
         <div>No matches</div>

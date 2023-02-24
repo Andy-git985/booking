@@ -10,14 +10,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './styles/styles';
 
-import { retrieveAppointments } from './features/scheduleSlice';
+import { retrieveSchedule } from './features/scheduleSlice';
 import Notification from './components/Notification';
 
 export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(retrieveAppointments());
+    dispatch(retrieveSchedule());
   }, [dispatch]);
 
   return (

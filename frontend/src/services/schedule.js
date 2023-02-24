@@ -13,7 +13,6 @@ const createNew = async (obj) => {
 };
 
 const reserveTime = async (id, appointment, employee) => {
-  console.log('reserve time', id, appointment, employee);
   const response = await axios.put(`${baseUrl}/${id}`, {
     appointment,
     employee,
@@ -21,8 +20,8 @@ const reserveTime = async (id, appointment, employee) => {
   return response.data;
 };
 
-const sendConfirmation = async () => {
-  const response = await axios.post(`${baseUrl}/confirmation`);
+const sendConfirmation = async (obj) => {
+  const response = await axios.post(`${baseUrl}/confirmation`, obj);
   return response.data;
 };
 

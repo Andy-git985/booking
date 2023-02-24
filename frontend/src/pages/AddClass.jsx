@@ -22,7 +22,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
 import { useDispatch } from 'react-redux';
-import { addNewAppointments } from '../features/scheduleSlice';
+import { addNewSchedule } from '../features/scheduleSlice';
 
 const AddClass = () => {
   const [date, setDate] = useState(dayjs());
@@ -45,7 +45,7 @@ const AddClass = () => {
     // const response = await scheduleServices.createNew(apptsForDate);
     // console.log(response);
 
-    dispatch(addNewAppointments(apptsForDate));
+    dispatch(addNewSchedule(apptsForDate));
 
     // old code
     // const newClasses = {

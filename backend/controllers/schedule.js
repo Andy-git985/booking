@@ -11,7 +11,7 @@ scheduleRouter.get('/', async (request, response) => {
   // const schedule = await Schedule.find({}).populate({
   //   path: 'classes',
   //   populate: {
-  //     path: 'slots',k
+  //     path: 'slots',
   //     model: 'User',
   //   },
   // });
@@ -39,16 +39,13 @@ scheduleRouter.post('/', async (request, response) => {
 
 scheduleRouter.put('/:id', async (request, response) => {
   const { appointment, employee } = request.body;
-  console.log(appointment);
   const bookedAppt = await Appointment.findOne({ _id: appointment });
-  console.log(bookedAppt);
   const dateToUpdate = await Schedule.findOne({ _id: request.params.id });
   const index = dateToUpdate.available.findIndex(
     (a) => a._id.toString() === employee
   );
   dateToUpdate.available.splice(index, 1);
   dateToUpdate.appointments.push(bookedAppt);
-  console.log(dateToUpdate);
   await dateToUpdate.save();
   response
     .status(200)
@@ -56,7 +53,8 @@ scheduleRouter.put('/:id', async (request, response) => {
 });
 
 scheduleRouter.post('/confirmation', async (request, response) => {
-  const emailSent = await sendEmail();
+  const { receiver } = request.body;
+  const emailSent = await sendEmail(receiver);
   console.log(emailSent);
   response.status(200).json({ success: true, message: 'Email sent' });
 });
