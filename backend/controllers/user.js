@@ -30,7 +30,10 @@ usersRouter.post('/register', async (request, response) => {
 usersRouter.post('/login', async (request, response) => {
   const { email, password } = request.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate(
+    'appointments',
+    'date time client employee'
+  );
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
@@ -52,7 +55,10 @@ usersRouter.post('/logout', async (request, response) => {
 });
 
 usersRouter.get('/account', async (request, response) => {
-  const user = await User.findById(request.user);
+  const user = await User.findById(request.user).populate(
+    'appointments',
+    'date time client employee'
+  );
   response.status(200).json(user);
 });
 

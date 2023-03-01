@@ -49,8 +49,6 @@ const ReserveClass = () => {
     setSelectedPerson('');
   }, [appointments, search.date, search.guest]);
 
-  console.log('timeSlots', timeSlots);
-
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
     setSearch(newSearch);
@@ -83,6 +81,7 @@ const ReserveClass = () => {
         time,
         employee,
       });
+      // dispatch in individual users in features
       if (newAppt.success) {
         // 1. schedule remove employee
         // 2. add appt to schedule.appointments(appt.id)

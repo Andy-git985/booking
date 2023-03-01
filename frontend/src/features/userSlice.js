@@ -27,6 +27,7 @@ export const loginUser = createAsyncThunk(
     try {
       console.log(thunkAPI.getState());
       const user = await userServices.login(data);
+      console.log('user from features', user);
       return user;
     } catch (error) {
       throw thunkAPI.rejectWithValue('invalid username or password');
