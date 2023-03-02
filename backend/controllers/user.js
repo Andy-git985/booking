@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 // const config = require('../utils/config');
 const usersRouter = require('express').Router();
+const Appointment = require('../models/Appointment');
 const User = require('../models/User');
 const jwtToken = require('../utils/jwtToken');
 
@@ -30,10 +31,7 @@ usersRouter.post('/register', async (request, response) => {
 usersRouter.post('/login', async (request, response) => {
   const { email, password } = request.body;
 
-  const user = await User.findOne({ email }).populate(
-    'appointments',
-    'date time client employee'
-  );
+  const user = await User.findOne({ email });
   const passwordCorrect =
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
@@ -55,10 +53,7 @@ usersRouter.post('/logout', async (request, response) => {
 });
 
 usersRouter.get('/account', async (request, response) => {
-  const user = await User.findById(request.user).populate(
-    'appointments',
-    'date time client employee'
-  );
+  const user = await User.findById(request.user);
   response.status(200).json(user);
 });
 

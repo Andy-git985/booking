@@ -12,11 +12,12 @@ export const retrieveSchedule = createAsyncThunk(
   'schedule/retrieveSchedule',
   async (_, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
       const schedule = await scheduleServices.getSchedule();
       return schedule;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -25,12 +26,13 @@ export const addNewSchedule = createAsyncThunk(
   'schedule/addNewSchedule',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
 
       const newSchedule = await scheduleServices.createNew(data);
       return newSchedule;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -39,7 +41,7 @@ export const reserveAppointment = createAsyncThunk(
   'schedule/reserveAppointment',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
       const { id, appointment, employee } = data;
       const updatedAppointment = await scheduleServices.reserveTime(
         id,
@@ -80,7 +82,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(retrieveSchedule.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.payload.error;
+        state.error = action.payload;
       })
       .addCase(addNewSchedule.pending, (state, action) => {
         state.status = 'pending';
@@ -94,7 +96,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(addNewSchedule.rejected, (state, action) => {
         state.status = 'rejected';
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       .addCase(reserveAppointment.pending, (state, action) => {
         state.status = 'pending';
@@ -110,7 +112,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(reserveAppointment.rejected, (state, action) => {
         // console.log('rejected', action.payload); // token expired => middleware
-        // console.log('action error', action.error); // message: rejected
+        // console.log('action error', action.error); // { message: rejected }
         // console.log('message present?', action.error.message); // yes see above
         state.status = 'rejected';
         state.error = action.payload;

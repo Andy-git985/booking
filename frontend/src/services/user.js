@@ -3,16 +3,6 @@ import axios from 'axios';
 
 const baseUrl = '/user';
 
-// const getAccountInfo = async () => {
-//   const token = jwtService.getToken();
-//   const config = {
-//     headers: { Authorization: token },
-//   };
-
-//   const response = await axios.get(`${baseUrl}/account`, config);
-//   return response.data;
-// };
-
 // const getLoginUrl = async () => {
 //   const response = await axios.get('/auth/google/');
 //   return response.data.url;
@@ -30,6 +20,11 @@ const register = async (credentials) => {
 
 const logout = async () => {
   const response = await axios.post(`${baseUrl}/logout`);
+  return response.data;
+};
+
+const getAccountInfo = async () => {
+  const response = await axios.get(`${baseUrl}/account`);
   return response.data;
 };
 
@@ -64,7 +59,7 @@ const logout = async () => {
 // };
 
 export default {
-  // getAccountInfo,
+  getAccountInfo,
   // getLoginUrl,
   login,
   register,

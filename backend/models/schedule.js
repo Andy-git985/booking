@@ -30,6 +30,7 @@ scheduleSchema.set('toJSON', {
     //   c.id = c._id.toString();
     //   delete c._id;
     // });
+
     delete returnedObject._id;
     delete returnedObject.__v;
   },

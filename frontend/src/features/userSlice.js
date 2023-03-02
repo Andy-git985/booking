@@ -12,11 +12,12 @@ export const registerUser = createAsyncThunk(
   'users/registerUser',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
       const newUser = await userServices.register(data);
       return newUser;
     } catch (error) {
-      throw thunkAPI.rejectWithValue('username must be unique');
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -25,12 +26,12 @@ export const loginUser = createAsyncThunk(
   'users/loginUser',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
       const user = await userServices.login(data);
-      console.log('user from features', user);
       return user;
     } catch (error) {
-      throw thunkAPI.rejectWithValue('invalid username or password');
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -39,11 +40,26 @@ export const logoutUser = createAsyncThunk(
   'users/logoutUser',
   async (data, thunkAPI) => {
     try {
-      console.log(thunkAPI.getState());
+      // console.log(thunkAPI.getState());
       const response = await userServices.logout();
       return response;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const getUserDetails = createAsyncThunk(
+  'user/getUserDetails',
+  async (data, thunkAPI) => {
+    try {
+      // console.log(thunkAPI.getState());
+      const response = await userServices.getAccountInfo();
+      return response;
+    } catch (error) {
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
     }
   }
 );
@@ -106,7 +122,23 @@ const userSlice = createSlice({
       .addCase(logoutUser.rejected, (state, action) => {
         state.status = 'rejected';
         state.alert = null;
-        state.error = action.error;
+        state.error = action.payload;
+      })
+      .addCase(getUserDetails.pending, (state, action) => {
+        state.status = 'pending';
+        state.alert = null;
+        state.error = null;
+      })
+      .addCase(getUserDetails.fulfilled, (state, action) => {
+        state.status = 'fulfilled';
+        state.alert = null;
+        state.userDetails = action.payload;
+        state.error = null;
+      })
+      .addCase(getUserDetails.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.alert = null;
+        state.error = action.payload;
       });
   },
 });
