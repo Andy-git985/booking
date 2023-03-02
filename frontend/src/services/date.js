@@ -2,8 +2,10 @@ import dayjs, { Dayjs } from 'dayjs';
 
 const currentDate = () => dayjs().format('YYYY-MM-DD');
 
-const formatToDate = (date) => dayjs(date).format('YYYY-MM-DD');
+const dateDash = (date) => dayjs(date).format('YYYY-MM-DD');
 
-const formatToTime = (date) => dayjs(date).format('h:mma');
+const dateHyphen = (date) => dayjs(date).format('MM/DD/YYYY');
 
-export default { currentDate, formatToDate, formatToTime };
+const time = (date) => dayjs(date).format('h:mma');
+
+export default { currentDate, dateDash, dateHyphen, time };
