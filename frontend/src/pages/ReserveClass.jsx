@@ -41,7 +41,7 @@ const ReserveClass = () => {
     setTimeSlots(
       appointments.filter(
         (a) =>
-          date.formatToDate(a.date) === search.date &&
+          date.dateDash(a.date) === search.date &&
           a.available.length >= search.guest
       )
     );
@@ -57,7 +57,7 @@ const ReserveClass = () => {
   const handleDateChange = (newDate) => {
     const newSearch = {
       ...search,
-      date: date.formatToDate(newDate),
+      date: date.dateDash(newDate),
     };
     setSearch(newSearch);
   };

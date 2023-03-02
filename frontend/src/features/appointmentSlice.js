@@ -36,6 +36,22 @@ export const getUserAppts = createAsyncThunk(
   }
 );
 
+export const cancelAppt = createAsyncThunk(
+  'appointments/cancel',
+  async (data, thunkAPI) => {
+    try {
+      // console.log(thunkAPI.getState());
+      const { id, time } = data;
+
+      const userAppts = await appointmentServices.cancel(id, time);
+      return userAppts;
+    } catch (error) {
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: 'appointment',
   initialState,
@@ -69,6 +85,20 @@ const appointmentSlice = createSlice({
         state.error = null;
       })
       .addCase(getUserAppts.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload;
+      })
+      .addCase(cancelAppt.pending, (state, action) => {
+        state.status = 'pending';
+        state.alert = null;
+        state.error = null;
+      })
+      .addCase(cancelAppt.fulfilled, (state, action) => {
+        state.status = 'fulfilled';
+        state.alert = action.payload.message;
+        state.error = null;
+      })
+      .addCase(cancelAppt.rejected, (state, action) => {
         state.status = 'rejected';
         state.error = action.payload;
       });

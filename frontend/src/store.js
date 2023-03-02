@@ -14,16 +14,17 @@ import appointmentSlice from './features/appointmentSlice';
 import scheduleSlice from './features/scheduleSlice';
 import userSlice from './features/userSlice';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-};
-
 const reducers = combineReducers({
   appointment: appointmentSlice,
   schedule: scheduleSlice,
   user: userSlice,
 });
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['user'],
+};
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 

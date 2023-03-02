@@ -12,4 +12,9 @@ const getUser = async () => {
   return response.data;
 };
 
-export default { createNew, getUser };
+const cancel = async (id, time) => {
+  const response = await axios.delete(`${baseUrl}/${id}`, { data: { time } });
+  return response.data;
+};
+
+export default { createNew, getUser, cancel };
