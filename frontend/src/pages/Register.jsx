@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { registerUser } from '../features/userSlice';
 import { roles } from '../data';
 
@@ -39,7 +38,6 @@ const Register = () => {
   // //   password: '',
   // // },
   const dispatch = useDispatch();
-  const { error } = useSelector(({ user }) => user);
   const { control, register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
@@ -52,73 +50,84 @@ const Register = () => {
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-      }}
-    >
-      <Paper elevation={3}>
-        {error && <div>{error}</div>}
-        <Typography component="h1">Register</Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              gap: '10px',
-              padding: '5px',
-            }}
-          >
-            <TextField
-              label="Email"
-              required
-              {...register('email')}
-            ></TextField>
-            <TextField
-              label="Password"
-              type="password"
-              required
-              {...register('password')}
-            ></TextField>
-            <TextField
-              label="Confirm password"
-              type="password"
-              required
-              {...register('confirmPassword')}
-            ></TextField>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          gap: '10px',
+          mt: '8px',
+          padding: 2,
+        }}
+      >
+        <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+          Register
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Email"
+            required
+            fullWidth
+            margin="normal"
+            {...register('email')}
+          ></TextField>
+          <TextField
+            label="Password"
+            type="password"
+            required
+            fullWidth
+            margin="normal"
+            {...register('password')}
+          ></TextField>
+          <TextField
+            label="Confirm password"
+            type="password"
+            required
+            fullWidth
+            margin="normal"
+            {...register('confirmPassword')}
+          ></TextField>
 
-            <Controller
-              name="role"
-              render={({ field }) => (
-                <>
-                  <FormControl fullWidth>
-                    <InputLabel>Role</InputLabel>
-                    <Select {...field} label="role">
-                      {roles.map((role) => (
-                        <MenuItem key={role.id} value={role.data}>
-                          {role.title}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </>
-              )}
-              control={control}
-              defaultValue=""
-            />
-            <Button type="submit" variant="contained">
-              Submit
-            </Button>
-          </Box>
-        </form>
-      </Paper>
+          <Controller
+            name="role"
+            render={({ field }) => (
+              <>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel>Role</InputLabel>
+                  <Select {...field} label="role">
+                    {roles.map((role) => (
+                      <MenuItem key={role.id} value={role.data}>
+                        {role.title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
+            control={control}
+            defaultValue=""
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2, mb: 3 }}
+          >
+            Register
+          </Button>
+          <Grid container>
+            <Box sx={{ flexGrow: 1 }} />
+            <Grid item>
+              <Link href="#" variant="body2">
+                {'Already have an account? Login'}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
     </Container>
   );
 };
-
 export default Register;

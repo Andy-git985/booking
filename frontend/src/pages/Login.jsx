@@ -2,14 +2,13 @@ import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  TextField,
-  Typography,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { loginUser } from '../features/userSlice';
 
 const Login = () => {
@@ -18,7 +17,7 @@ const Login = () => {
 
   // useEffect(() => {
   //   if (user.status === 'rejected') {
-  //     setkAlert(user.error);
+  //     setAlert(user.error);
   //   }
   // }, [user.status, user.error]);
 
@@ -54,62 +53,60 @@ const Login = () => {
   };
 
   return (
-    <>
-      <Container
+    <Container component="main" maxWidth="xs">
+      <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          height: '100vh',
+          flexDirection: 'column',
+          gap: '10px',
+          mt: '8px',
+          padding: 2,
         }}
       >
-        <Paper
-          elevation={3}
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: '10px',
-            padding: '5px',
-          }}
-        >
-          <Typography component="h1">Log In</Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'column',
-                gap: '10px',
-                padding: '5px',
-              }}
-            >
-              <TextField
-                label="Email"
-                required
-                {...register('email')}
-              ></TextField>
-              <TextField
-                label="Password"
-                type="password"
-                required
-                {...register('password')}
-              ></TextField>
-              <Button type="submit" variant="contained">
-                Submit
-              </Button>
-            </Box>
-          </form>
-          {/* <Link to="/user/register">
-            <Typography component="h1">
-              Don't have an account? Sign up!
-            </Typography>
-          </Link> */}
-        </Paper>
-      </Container>
-    </>
+        <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
+          Log In
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Email"
+            required
+            fullWidth
+            margin="normal"
+            {...register('email')}
+          ></TextField>
+          <TextField
+            label="Password"
+            type="password"
+            required
+            fullWidth
+            margin="normal"
+            {...register('password')}
+          ></TextField>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2, mb: 3 }}
+          >
+            Submit
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                Already have an account? Sign Up
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
   );
 };
 

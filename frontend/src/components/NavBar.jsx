@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../features/userSlice';
 import { links } from '../data';
+import { useEffect } from 'react';
 
 const activeStyle = {
   color: 'red',
 };
 
 const NavBar = () => {
-  const { userDetails } = useSelector(({ user }) => user);
   const dispatch = useDispatch();
+  const { userDetails } = useSelector(({ user }) => user);
 
   const handleLogout = () => {
     dispatch(logoutUser());
