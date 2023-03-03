@@ -12,6 +12,7 @@ import { theme } from './styles/styles';
 
 import Notification from './components/Notification';
 import { retrieveSchedule } from './features/scheduleSlice';
+import Home from './pages/Home';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function App() {
         <Notification />
         <NavBar />
         <Routes>
-          <Route path="/*" element={<div>Home</div>} />
+          <Route path="/*" element={<Home />} />
           <Route path="/reserve" element={<ReserveClass />} />
           <Route path="/add" element={<AddClass />} />
           <Route path="/user/register" element={<Register />} />

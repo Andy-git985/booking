@@ -39,7 +39,7 @@ const errorHandler = (error, request, response, next) => {
     });
   } else if (error.name === 'TokenExpiredError') {
     //  delete token
-    return response.status(401).json({
+    return response.clearCookie('jwt').status(401).json({
       error: 'token expired',
     });
   }

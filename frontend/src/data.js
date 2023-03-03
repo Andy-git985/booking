@@ -1,4 +1,5 @@
 export const links = [
+  { name: 'Home', path: '/' },
   { name: 'Reserve Class', path: '/reserve' },
   { name: 'Add Class', path: '/add' },
   { name: 'Register', path: '/user/register' },
