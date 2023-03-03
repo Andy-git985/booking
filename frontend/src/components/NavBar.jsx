@@ -5,10 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logoutUser } from '../features/userSlice';
 import { links } from '../data';
-import { useEffect } from 'react';
+import AppBar from '@mui/material/AppBar';
+import { Toolbar } from '@mui/material';
 
 const activeStyle = {
   color: 'red',
+  textDecoration: 'none',
+};
+
+const inactiveStyle = {
+  textDecoration: 'none',
 };
 
 const NavBar = () => {
@@ -20,33 +26,34 @@ const NavBar = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        outline: '1px solid black',
-        gap: '1rem',
-        padding: '2rem',
-        mb: '1rem',
-      }}
-    >
-      {links.map((link, index) => (
-        <NavLink
-          to={link.path}
-          style={({ isActive }) => (isActive ? activeStyle : null)}
-          key={`${link.name}-${index}`}
-        >
-          <Typography variant="body">{link.name}</Typography>
-        </NavLink>
-      ))}
-      <Box sx={{ flexGrow: 1 }}></Box>
-      {userDetails && (
-        <>
-          <Typography variant="body">{userDetails.email}</Typography>
-          <Button variant="contained" onClick={handleLogout}>
-            Logout
-          </Button>
-        </>
-      )}
+    <Box sx={{ mb: 2 }}>
+      <AppBar position="relative">
+        <Toolbar>
+          {links.map((link, index) => (
+            <NavLink
+              to={link.path}
+              style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
+              key={`${link.name}-${index}`}
+            >
+              <Typography variant="body" sx={{ mr: 2 }}>
+                {link.name}
+              </Typography>
+            </NavLink>
+          ))}
+          <Box sx={{ flexGrow: 1 }} />
+          {userDetails && (
+            <>
+              <Typography variant="body" sx={{ mr: 2 }}>
+                {userDetails.email}
+              </Typography>
+
+              <Button variant="contained" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          )}
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 };
