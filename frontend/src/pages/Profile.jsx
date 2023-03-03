@@ -35,7 +35,6 @@ const Person = ({ role, appt }) => {
 const Profile = () => {
   const dispatch = useDispatch();
   const { data } = useSelector(({ appointment }) => appointment);
-  console.log(data);
   const { userDetails } = useSelector(({ user }) => user);
   const role = userDetails?.role;
 
@@ -59,7 +58,7 @@ const Profile = () => {
           {data ? (
             data.map((appt) => {
               return (
-                <div key={appt.id}>
+                <Box key={appt.id}>
                   <Item>
                     {dateServices.dateHyphen(appt.date)}{' '}
                     {dateServices.time(appt.time)}{' '}
@@ -73,7 +72,7 @@ const Profile = () => {
                       Cancel
                     </Button>
                   </Item>
-                </div>
+                </Box>
               );
             })
           ) : (
