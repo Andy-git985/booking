@@ -1,16 +1,13 @@
 import { useState } from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  TextField,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import TextField from '@mui/material/TextField';
 import { times } from '../data';
-import dayjs from 'dayjs';
-// '2023-02-11T05:00:00.000Z';
+import dateServices from '../services/date';
 
 const TimeCheckBox = ({ date, createClasses }) => {
   const [activeCheck, setActiveCheck] = useState([]);
@@ -69,8 +66,8 @@ const TimeCheckBox = ({ date, createClasses }) => {
               <FormControlLabel
                 value={slot.time}
                 control={<Checkbox />}
-                label={dayjs(slot.time).format('h:mma')}
-                name={dayjs(slot.time).format('h:mma')}
+                label={dateServices.time(slot.time)}
+                name={dateServices.time(slot.time)}
                 labelPlacement="top"
                 onClick={() => handleCheck(slot)}
               />

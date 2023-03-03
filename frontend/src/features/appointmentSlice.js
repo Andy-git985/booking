@@ -96,6 +96,7 @@ const appointmentSlice = createSlice({
       .addCase(cancelAppt.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.alert = action.payload.message;
+        // state.data = action.payload.data.filter(d => d)
         state.error = null;
       })
       .addCase(cancelAppt.rejected, (state, action) => {

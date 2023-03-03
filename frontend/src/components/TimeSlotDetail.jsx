@@ -19,12 +19,11 @@ const TimeSlotDetail = ({ available, selectPerson }) => {
       <Stack spacing={2}>
         {available.map((person) => {
           return (
-            <Item
-              key={person.id}
-              onClick={() => handleClick(person.id, person.email)}
-            >
-              {person.email}
-            </Item>
+            <div key={person.id}>
+              <Item onClick={() => handleClick(person.id, person.email)}>
+                {person.email}
+              </Item>
+            </div>
           );
         })}
       </Stack>

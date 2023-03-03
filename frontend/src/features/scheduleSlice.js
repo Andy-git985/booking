@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import scheduleServices from '../services/schedule';
 
 const initialState = {
-  appointments: [],
+  data: [],
   status: 'pending',
   alert: null,
   error: null,
@@ -42,12 +42,7 @@ export const reserveAppointment = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       // console.log(thunkAPI.getState());
-      const { id, appointment, employee } = data;
-      const updatedAppointment = await scheduleServices.reserveTime(
-        id,
-        appointment,
-        employee
-      );
+      const updatedAppointment = await scheduleServices.reserveTime(data);
       return updatedAppointment;
     } catch (error) {
       // console.log('error', error); //default message: {message: "Request failed with status code 401"}
@@ -77,7 +72,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(retrieveSchedule.fulfilled, (state, action) => {
         state.status = 'fulfilled';
-        state.appointments = action.payload;
+        state.data = action.payload;
         state.error = null;
       })
       .addCase(retrieveSchedule.rejected, (state, action) => {
@@ -91,7 +86,7 @@ const scheduleSlice = createSlice({
       .addCase(addNewSchedule.fulfilled, (state, action) => {
         state.status = 'fulfilled';
         state.alert = action.payload.message;
-        state.appointments.concat(action.payload.data);
+        state.data.concat(action.payload.data);
         state.error = null;
       })
       .addCase(addNewSchedule.rejected, (state, action) => {
@@ -105,7 +100,7 @@ const scheduleSlice = createSlice({
       .addCase(reserveAppointment.fulfilled, (state, action) => {
         const updatedAppt = action.payload.data;
         state.status = 'fulfilled';
-        state.appointments = state.appointments.map((appt) =>
+        state.data = state.data.map((appt) =>
           appt.id === updatedAppt.id ? updatedAppt : appt
         );
         state.error = null;

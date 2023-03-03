@@ -34,12 +34,12 @@ const ReserveClass = () => {
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
-  const { appointments } = useSelector(({ schedule }) => schedule);
+  const { data } = useSelector(({ schedule }) => schedule);
   const [timeSlots, setTimeSlots] = useState([]);
 
   useEffect(() => {
     setTimeSlots(
-      appointments.filter(
+      data.filter(
         (a) =>
           date.dateDash(a.date) === search.date &&
           a.available.length >= search.guest
@@ -47,7 +47,7 @@ const ReserveClass = () => {
     );
     setSelectedSlot('');
     setSelectedPerson('');
-  }, [appointments, search.date, search.guest]);
+  }, [data, search.date, search.guest]);
 
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
@@ -62,8 +62,8 @@ const ReserveClass = () => {
     setSearch(newSearch);
   };
 
-  const selectTime = (obj) => {
-    setSelectedSlot(timeSlots.find((slot) => slot.id === obj.id));
+  const selectTime = (id) => {
+    setSelectedSlot(timeSlots.find((slot) => slot.id === id));
   };
 
   const selectPerson = (obj) => {

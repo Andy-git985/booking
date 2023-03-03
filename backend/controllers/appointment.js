@@ -6,9 +6,11 @@ const Schedule = require('../models/Schedule');
 const User = require('../models/User');
 
 appointmentRouter.get('/', async (request, response) => {
+  console.log('user', request.user);
   const appointments = await Appointment.find({
     $or: [{ client: request.user }, { employee: request.user }],
   }).populate('client employee');
+  console.log({ appointments });
   response.status(200).json(appointments);
 });
 
@@ -34,6 +36,7 @@ appointmentRouter.post('/', async (request, response) => {
   });
 });
 
+// TODO: handle individual role deletion
 appointmentRouter.delete('/:id', async (request, response) => {
   const { time } = request.body;
   const { employee } = await Appointment.findById(request.params.id);
@@ -43,12 +46,15 @@ appointmentRouter.delete('/:id', async (request, response) => {
   );
   scheduleToUpdate.appointments.splice(index, 1);
   scheduleToUpdate.available.push(employee);
-  console.log(scheduleToUpdate);
   await scheduleToUpdate.save();
   await Appointment.findByIdAndDelete(request.params.id);
   response
     .status(200)
-    .json({ success: true, message: 'Appointment successfully cancelled' });
+    .json({
+      success: true,
+      message: 'Appointment successfully cancelled',
+      data: { id: request.params.id },
+    });
 });
 
 module.exports = appointmentRouter;

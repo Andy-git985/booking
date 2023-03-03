@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const TimeSlots = ({ timeSlots, reserveTime }) => {
   const handleClick = (id) => {
-    reserveTime({ id, disabled: false });
+    reserveTime(id);
   };
 
   // reserving classes page
