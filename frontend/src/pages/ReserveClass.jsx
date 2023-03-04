@@ -42,13 +42,20 @@ const ReserveClass = () => {
     setTimeSlots(
       data.filter(
         (a) =>
-          date.dateDash(a.date) === search.date &&
+          date.dateDash(a.date) === date.dateDash(search.date) &&
           a.available.length >= search.guest
       )
     );
     setSelectedSlot('');
     setSelectedPerson('');
   }, [data, search.date, search.guest]);
+
+  // if (data.length) {
+  //   console.log('data before convert', data[0].date);
+  // }
+  // console.log('search before convert', search.date);
+  // console.log('data after convert', date.dateDash(data[0].date));
+  // console.log('search after convert', date.dateDash(search.date));
 
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
@@ -58,8 +65,9 @@ const ReserveClass = () => {
   const handleDateChange = (newDate) => {
     const newSearch = {
       ...search,
-      date: date.dateDash(newDate),
+      date: newDate,
     };
+    // console.log('search', date.dateDash(search.date));
     setSearch(newSearch);
   };
 
@@ -82,13 +90,7 @@ const ReserveClass = () => {
         time,
         employee,
       });
-      // dispatch in individual users in features
       if (newAppt.success) {
-        // 1. schedule remove employee
-        // 2. add appt to schedule.appointments(appt.id)
-        // id is date in params.id
-        // appointment is appt.id
-        // employee is user.id to remove
         modifiedSchedule = await dispatch(
           reserveAppointment({
             id: obj.id,
@@ -134,7 +136,8 @@ const ReserveClass = () => {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
-            <DateCalendar />
+
+            {/* <DateCalendar /> */}
 
             {/* <MobileDatePicker
               label="Date mobile"

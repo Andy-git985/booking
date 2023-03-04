@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 import dayjs from 'dayjs';
+import date from '../services/date';
 
 const ReserveDialog = ({
   disabled,
@@ -41,9 +42,9 @@ const ReserveDialog = ({
         <DialogTitle>Would you like to reserve this appointment?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            With {selectedPerson.email} on {search.date} at{' '}
-            {dayjs(selectedSlot.time).format('h:mma')} for{' '}
-            {search.guest > 1 ? `${search.guest} guests` : '1 guest'}?
+            With {selectedPerson.email} on {date.dateHyphen(search.date)} at{' '}
+            {date.time(selectedSlot.time)} for{' '}
+            {/* {search.guest > 1 ? `${search.guest} guests` : '1 guest'}? */}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

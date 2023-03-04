@@ -23,9 +23,10 @@ import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
 import { useDispatch } from 'react-redux';
 import { addNewSchedule } from '../features/scheduleSlice';
+import dateServices from '../services/date';
 
 const AddClass = () => {
-  const [date, setDate] = useState(dayjs());
+  const [date, setDate] = useState(dateServices.currentDate());
   const dispatch = useDispatch();
 
   const handleChange = (newDate) => {
@@ -35,23 +36,12 @@ const AddClass = () => {
   // obj is an array of times key value
   const addClasses = async (obj) => {
     const apptsForDate = obj.map((o) => {
-      // add date field to each appointment
       return {
         ...o,
-        date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
+        date: dateServices.convertEST(date),
       };
     });
-
-    // const response = await scheduleServices.createNew(apptsForDate);
-    // console.log(response);
-
     dispatch(addNewSchedule(apptsForDate));
-
-    // old code
-    // const newClasses = {
-    //   date: `${dayjs(date).format('YYYY-MM-DD')}T00:00:00-05:00`,
-    //   classes: obj,
-    // };
   };
 
   return (
@@ -75,7 +65,7 @@ const AddClass = () => {
         </Stack>
       </LocalizationProvider>
       <TimeCheckBox
-        date={date.format('YYYY-MM-DD')}
+        date={dateServices.dateDash(date)}
         createClasses={addClasses}
       />
     </Container>
