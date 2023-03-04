@@ -16,6 +16,7 @@ scheduleRouter.get('/', async (request, response) => {
   //   },
   // });
   const schedule = await Schedule.find({}).populate('available', 'id email');
+  console.log('controllers', schedule);
   response.json(schedule);
 });
 

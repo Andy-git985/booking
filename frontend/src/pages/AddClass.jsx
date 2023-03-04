@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import DatePicker from '../components/TimeCheckBox';
 import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
 import { useDispatch } from 'react-redux';
@@ -29,7 +28,7 @@ const AddClass = () => {
   const [date, setDate] = useState(dateServices.currentDate());
   const dispatch = useDispatch();
 
-  const handleChange = (newDate) => {
+  const handleDateChange = (newDate) => {
     setDate(newDate);
   };
 
@@ -46,22 +45,16 @@ const AddClass = () => {
 
   return (
     <Container>
+      {/* <DatePicker date={date} handleDateChange={handleDateChange} /> */}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Stack spacing={3}>
           <DesktopDatePicker
             label="Date desktop"
             inputFormat="MM/DD/YYYY"
             value={date}
-            onChange={handleChange}
+            onChange={handleDateChange}
             renderInput={(params) => <TextField {...params} />}
           />
-          {/* <MobileDatePicker
-              label="Date mobile"
-              inputFormat="MM/DD/YYYY"
-              value={value}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} />}
-            /> */}
         </Stack>
       </LocalizationProvider>
       <TimeCheckBox

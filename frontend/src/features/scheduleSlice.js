@@ -3,7 +3,7 @@ import scheduleServices from '../services/schedule';
 
 const initialState = {
   data: [],
-  status: 'pending',
+  isLoading: true,
   alert: null,
   error: null,
 };
@@ -67,39 +67,41 @@ const scheduleSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(retrieveSchedule.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(retrieveSchedule.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
+        console.log('retrieval check', action.payload);
         state.data = action.payload;
         state.error = null;
       })
       .addCase(retrieveSchedule.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(addNewSchedule.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(addNewSchedule.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = action.payload.message;
-        state.data.concat(action.payload.data);
+        console.log(action.payload.data);
+        state.data = state.data.concat(action.payload.data);
         state.error = null;
       })
       .addCase(addNewSchedule.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(reserveAppointment.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.error = null;
       })
       .addCase(reserveAppointment.fulfilled, (state, action) => {
         const updatedAppt = action.payload.data;
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.data = state.data.map((appt) =>
           appt.id === updatedAppt.id ? updatedAppt : appt
         );
@@ -109,7 +111,7 @@ const scheduleSlice = createSlice({
         // console.log('rejected', action.payload); // token expired => middleware
         // console.log('action error', action.error); // { message: rejected }
         // console.log('message present?', action.error.message); // yes see above
-        state.status = 'rejected';
+        state.isLoading = false;
         state.error = action.payload;
         // return action payload to get middleware message
       });

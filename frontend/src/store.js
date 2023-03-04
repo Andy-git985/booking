@@ -23,7 +23,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['appointment', 'schedule'],
+  whitelist: ['user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

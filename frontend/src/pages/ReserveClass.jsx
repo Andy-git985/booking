@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import {
-  Box,
-  Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
@@ -20,6 +18,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
 import appointmentServices from '../services/appointment';
+import DatePicker from '../components/DatePicker';
 import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
@@ -28,6 +27,7 @@ import date from '../services/date';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
+  const schedule = useSelector(({ schedule }) => schedule);
   const [search, setSearch] = useState({
     guest: 1,
     date: date.currentDate(),
@@ -35,27 +35,26 @@ const ReserveClass = () => {
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
-  const { data } = useSelector(({ schedule }) => schedule);
   const [timeSlots, setTimeSlots] = useState([]);
 
   useEffect(() => {
-    setTimeSlots(
-      data.filter(
+    console.log('useEffect', schedule.data);
+    // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
+    if (schedule.data.length) {
+      const searchSlots = schedule?.data.filter(
         (a) =>
           date.dateDash(a.date) === date.dateDash(search.date) &&
           a.available.length >= search.guest
-      )
-    );
-    setSelectedSlot('');
-    setSelectedPerson('');
-  }, [data, search.date, search.guest]);
+      );
+      setTimeSlots(searchSlots);
+      setSelectedSlot('');
+      setSelectedPerson('');
+    }
+  }, [schedule.data, search.date, search.guest]);
 
-  // if (data.length) {
-  //   console.log('data before convert', data[0].date);
-  // }
-  // console.log('search before convert', search.date);
-  // console.log('data after convert', date.dateDash(data[0].date));
-  // console.log('search after convert', date.dateDash(search.date));
+  if (schedule.isLoading) {
+    return <div>Loading</div>;
+  }
 
   const handleGuestChange = (newGuests) => {
     const newSearch = { ...search, guest: newGuests };
@@ -67,7 +66,6 @@ const ReserveClass = () => {
       ...search,
       date: newDate,
     };
-    // console.log('search', date.dateDash(search.date));
     setSearch(newSearch);
   };
 
@@ -104,6 +102,8 @@ const ReserveClass = () => {
           receiver: '',
         });
         console.log(response);
+        setSelectedSlot('');
+        setSelectedPerson('');
       }
     } catch (error) {
       console.error(error);
@@ -127,26 +127,28 @@ const ReserveClass = () => {
             <MenuItem value={4}>4 Guests</MenuItem>
           </Select>
         </FormControl>
+        {/* <DatePicker date={search.date} handleDateChange={handleDateChange} /> */}
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Stack spacing={3}>
-            <DesktopDatePicker
-              label="Date desktop"
-              inputFormat="MM/DD/YYYY"
-              value={search.date}
-              onChange={handleDateChange}
-              renderInput={(params) => <TextField {...params} />}
-            />
+          <DesktopDatePicker
+            label="Date desktop"
+            inputFormat="MM/DD/YYYY"
+            value={search.date}
+            onChange={handleDateChange}
+            renderInput={(params) => <TextField {...params} />}
+            sx={{
+              outline: 'solid red',
+              display: { xs: 'block', md: 'none' },
+            }}
+          />
 
-            {/* <DateCalendar /> */}
-
-            {/* <MobileDatePicker
-              label="Date mobile"
-              inputFormat="MM/DD/YYYY"
-              value={value}
-              onChange={handleChange}
-              renderInput={(params) => <TextField {...params} />}
-            /> */}
-          </Stack>
+          <DateCalendar
+            value={search.date}
+            onChange={handleDateChange}
+            sx={{
+              outline: 'solid red',
+              display: { xs: 'none', md: 'block' },
+            }}
+          />
         </LocalizationProvider>
       </Box>
       {timeSlots ? (
@@ -165,8 +167,8 @@ const ReserveClass = () => {
       <ReserveDialog
         disabled={disabled}
         handleReserve={handleReserve}
-        search={search}
-        selectedPerson={selectedPerson}
+        date={search}
+        person={selectedPerson}
         selectedSlot={selectedSlot}
       />
     </Container>
