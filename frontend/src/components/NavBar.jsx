@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
@@ -24,7 +25,8 @@ const NavBar = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <AppBar position="relative">
+      <AppBar>
+        {/* <AppBar position="relative"> */}
         <Toolbar>
           {links.map((link, index) => (
             <NavLink

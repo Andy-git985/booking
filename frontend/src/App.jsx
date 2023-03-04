@@ -7,9 +7,12 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ReserveClass from './pages/ReserveClass';
 import { useDispatch, useSelector } from 'react-redux';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Box';
+import { CssBaseline, ThemeProvider, responsiveFontSizes } from '@mui/material';
 import { theme } from './styles/styles';
 
+import Footer from './components/Footer';
 import Notification from './components/Notification';
 import { retrieveSchedule } from './features/scheduleSlice';
 import Home from './pages/Home';
@@ -23,18 +26,28 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={responsiveFontSizes(theme)}>
         <CssBaseline />
         <Notification />
-        <NavBar />
-        <Routes>
-          <Route path="/*" element={<Home />} />
-          <Route path="/reserve" element={<ReserveClass />} />
-          <Route path="/add" element={<AddClass />} />
-          <Route path="/user/register" element={<Register />} />
-          <Route path="/user/login" element={<Login />} />
-          <Route path="/user/profile" element={<Profile />} />
-        </Routes>
+        <Box
+          sx={{
+            minHeight: '100vh',
+            minHeight: '100dvh',
+            display: 'grid',
+            gridTemplateRows: 'auto 1fr auto',
+          }}
+        >
+          <NavBar />
+          <Routes>
+            <Route path="/*" element={<Home />} />
+            <Route path="/reserve" element={<ReserveClass />} />
+            <Route path="/add" element={<AddClass />} />
+            <Route path="/user/register" element={<Register />} />
+            <Route path="/user/login" element={<Login />} />
+            <Route path="/user/profile" element={<Profile />} />
+          </Routes>
+          <Footer />
+        </Box>
       </ThemeProvider>
     </BrowserRouter>
   );
