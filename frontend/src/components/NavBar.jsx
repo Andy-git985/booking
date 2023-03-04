@@ -10,12 +10,9 @@ import { Toolbar } from '@mui/material';
 
 const activeStyle = {
   color: 'red',
-  textDecoration: 'none',
 };
 
-const inactiveStyle = {
-  textDecoration: 'none',
-};
+const inactiveStyle = {};
 
 const NavBar = () => {
   const dispatch = useDispatch();

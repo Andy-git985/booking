@@ -6,11 +6,9 @@ const Schedule = require('../models/Schedule');
 const User = require('../models/User');
 
 appointmentRouter.get('/', async (request, response) => {
-  console.log('user', request.user);
   const appointments = await Appointment.find({
     $or: [{ client: request.user }, { employee: request.user }],
   }).populate('client employee');
-  console.log({ appointments });
   response.status(200).json(appointments);
 });
 
@@ -48,13 +46,11 @@ appointmentRouter.delete('/:id', async (request, response) => {
   scheduleToUpdate.available.push(employee);
   await scheduleToUpdate.save();
   await Appointment.findByIdAndDelete(request.params.id);
-  response
-    .status(200)
-    .json({
-      success: true,
-      message: 'Appointment successfully cancelled',
-      data: { id: request.params.id },
-    });
+  response.status(200).json({
+    success: true,
+    message: 'Appointment successfully cancelled',
+    data: { id: request.params.id },
+  });
 });
 
 module.exports = appointmentRouter;

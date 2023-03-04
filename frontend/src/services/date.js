@@ -1,6 +1,6 @@
 import dayjs, { Dayjs } from 'dayjs';
 
-const currentDate = () => dayjs().format('YYYY-MM-DD');
+const currentDate = () => dayjs();
 
 const dateDash = (date) => dayjs(date).format('YYYY-MM-DD');
 

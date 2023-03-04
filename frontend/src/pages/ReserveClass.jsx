@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
 import appointmentServices from '../services/appointment';
@@ -133,6 +134,8 @@ const ReserveClass = () => {
               onChange={handleDateChange}
               renderInput={(params) => <TextField {...params} />}
             />
+            <DateCalendar />
+
             {/* <MobileDatePicker
               label="Date mobile"
               inputFormat="MM/DD/YYYY"
