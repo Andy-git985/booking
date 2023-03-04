@@ -72,7 +72,6 @@ const scheduleSlice = createSlice({
       })
       .addCase(retrieveSchedule.fulfilled, (state, action) => {
         state.isLoading = false;
-        console.log('retrieval check', action.payload);
         state.data = action.payload;
         state.error = null;
       })

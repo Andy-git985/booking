@@ -54,41 +54,61 @@ const TimeCheckBox = ({ date, createClasses }) => {
   });
 
   return (
-    <FormControl>
-      <FormLabel>Class Times</FormLabel>
-      <Box sx={{ display: 'flex' }}>
-        {fullTimes.map((slot) => {
-          return (
-            <Box
-              sx={{ display: 'flex', flexDirection: 'column' }}
-              key={slot.id}
-            >
-              <FormControlLabel
-                value={slot.time}
-                control={<Checkbox />}
-                label={dateServices.time(slot.time)}
-                name={dateServices.time(slot.time)}
-                labelPlacement="top"
-                onClick={() => handleCheck(slot)}
-              />
-              {found(slot.id) && (
-                <>
-                  <FormLabel>Slots</FormLabel>
-                  <TextField
-                    label="slots"
-                    name="slots"
-                    defaultValue={defaultNumberOfSlots}
-                    sx={{ width: 50 }}
-                    onChange={(event) => handleSlotChange(event, slot.id)}
-                  ></TextField>
-                </>
-              )}
-            </Box>
-          );
-        })}
-        {activeCheck && <Button onClick={addClasses}>Add Classes</Button>}
-      </Box>
-    </FormControl>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        padding: 2,
+      }}
+    >
+      <FormControl>
+        <FormLabel sx={{ textAlign: 'center', mb: 2 }}>Class Times</FormLabel>
+        <Box sx={{ display: 'flex' }}>
+          {fullTimes.map((slot) => {
+            return (
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                key={slot.id}
+              >
+                <FormControlLabel
+                  value={slot.time}
+                  control={<Checkbox />}
+                  label={dateServices.time(slot.time)}
+                  name={dateServices.time(slot.time)}
+                  labelPlacement="top"
+                  onClick={() => handleCheck(slot)}
+                  sx={{ mb: 2 }}
+                />
+                {found(slot.id) && (
+                  <>
+                    <FormLabel>Slots</FormLabel>
+                    <TextField
+                      label="slots"
+                      name="slots"
+                      defaultValue={defaultNumberOfSlots}
+                      sx={{ width: 50, mt: 2, mb: 2 }}
+                      onChange={(event) => handleSlotChange(event, slot.id)}
+                    ></TextField>
+                  </>
+                )}
+              </Box>
+            );
+          })}
+        </Box>
+        {activeCheck && (
+          <Button onClick={addClasses} variant="contained" fullWidth>
+            Add Classes
+          </Button>
+        )}
+      </FormControl>
+    </Box>
   );
 };
 

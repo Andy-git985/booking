@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import DatePicker from '../components/TimeCheckBox';
+import DatePicker from '../components/DatePicker';
 import TimeCheckBox from '../components/TimeCheckBox';
 import scheduleServices from '../services/schedule';
 import { useDispatch } from 'react-redux';
@@ -44,9 +44,20 @@ const AddClass = () => {
   };
 
   return (
-    <Container>
-      {/* <DatePicker date={date} handleDateChange={handleDateChange} /> */}
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <Container maxWidth="xs">
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          gap: '10px',
+          mt: '8px',
+          padding: 2,
+        }}
+      >
+        <DatePicker date={date} handleDateChange={handleDateChange} />
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Stack spacing={3}>
           <DesktopDatePicker
             label="Date desktop"
@@ -56,11 +67,12 @@ const AddClass = () => {
             renderInput={(params) => <TextField {...params} />}
           />
         </Stack>
-      </LocalizationProvider>
-      <TimeCheckBox
-        date={dateServices.dateDash(date)}
-        createClasses={addClasses}
-      />
+      </LocalizationProvider> */}
+        <TimeCheckBox
+          date={dateServices.dateDash(date)}
+          createClasses={addClasses}
+        />
+      </Box>
     </Container>
   );
 };
