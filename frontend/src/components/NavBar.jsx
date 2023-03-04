@@ -25,20 +25,25 @@ const NavBar = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <AppBar>
-        {/* <AppBar position="relative"> */}
+      <AppBar position="relative">
         <Toolbar>
-          {links.map((link, index) => (
-            <NavLink
-              to={link.path}
-              style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
-              key={`${link.name}-${index}`}
-            >
-              <Typography variant="body" sx={{ mr: 2 }}>
-                {link.name}
-              </Typography>
-            </NavLink>
-          ))}
+          {/* Quick fix until I minimize menu options */}
+          <Container>
+            {links.map((link, index) => (
+              <NavLink
+                to={link.path}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : inactiveStyle
+                }
+                key={`${link.name}-${index}`}
+              >
+                <Typography variant="body" sx={{ mr: 2 }}>
+                  {link.name}
+                </Typography>
+              </NavLink>
+            ))}
+          </Container>
+
           <Box sx={{ flexGrow: 1 }} />
           {userDetails && (
             <>
