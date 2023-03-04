@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
 import appointmentServices from '../services/appointment';
 import DatePicker from '../components/DatePicker';
+import Loading from '../components/Loading';
 import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
@@ -53,7 +54,7 @@ const ReserveClass = () => {
   }, [schedule.data, search.date, search.guest]);
 
   if (schedule.isLoading) {
-    return <div>Loading</div>;
+    return <Loading />;
   }
 
   const handleGuestChange = (newGuests) => {
