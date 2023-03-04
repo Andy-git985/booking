@@ -39,7 +39,6 @@ const ReserveClass = () => {
   const [timeSlots, setTimeSlots] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect', schedule.data);
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
     if (schedule.data.length) {
       const searchSlots = schedule?.data.filter(
@@ -168,7 +167,7 @@ const ReserveClass = () => {
       <ReserveDialog
         disabled={disabled}
         handleReserve={handleReserve}
-        date={search}
+        date={search.date}
         person={selectedPerson}
         selectedSlot={selectedSlot}
       />

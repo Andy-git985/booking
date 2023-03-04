@@ -1,12 +1,12 @@
 import { forwardRef, useState } from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import dateServices from '../services/date';
 
@@ -17,7 +17,8 @@ const ReserveDialog = ({
   person,
   selectedSlot,
 }) => {
-  const [alert, setAlert] = useState({ status: '', message: '' });
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -38,13 +39,13 @@ const ReserveDialog = ({
       <Button variant="contained" disabled={disabled} onClick={handleClick}>
         Reserve Now
       </Button>
-      <Dialog open={open}>
+      <Dialog open={open} fullScreen={fullScreen}>
         <DialogTitle>Would you like to reserve this appointment?</DialogTitle>
         <DialogContent>
           <DialogContentText>
             With {person.email} on {dateServices.dateHyphen(date)} at{' '}
-            {dateServices.time(selectedSlot.time)} for{' '}
-            {/* {search.guest > 1 ? `${search.guest} guests` : '1 guest'}? */}
+            {dateServices.time(selectedSlot.time)} ?
+            {/* for{' '} {search.guest > 1 ? `${search.guest} guests` : '1 guest'}? */}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
