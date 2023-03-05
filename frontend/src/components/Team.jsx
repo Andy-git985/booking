@@ -40,11 +40,11 @@ const Team = () => {
             >
               <CardMedia
                 component="img"
+                image={employee.image}
+                alt={employee.name}
                 sx={{
                   aspectRatio: '9 / 16',
                 }}
-                image={employee.image}
-                alt="random"
               />
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography

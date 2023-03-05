@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
 import appointmentServices from '../services/appointment';
@@ -16,6 +20,7 @@ import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
 import scheduleServices from '../services/schedule';
 import date from '../services/date';
+import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
@@ -105,65 +110,67 @@ const ReserveClass = () => {
   };
 
   return (
-    <Container>
-      <Box sx={{ display: 'flex' }}>
-        <FormControl sx={{ width: 150 }}>
-          <InputLabel>Guests</InputLabel>
-          <Select
-            label="Guest"
-            value={search.guest}
-            onChange={(event) => handleGuestChange(event.target.value)}
-          >
-            <MenuItem value={1}>1 Guest</MenuItem>
-            <MenuItem value={2}>2 Guests</MenuItem>
-            <MenuItem value={3}>3 Guests</MenuItem>
-            <MenuItem value={4}>4 Guests</MenuItem>
-          </Select>
-        </FormControl>
-        <DatePicker date={search.date} handleDateChange={handleDateChange} />
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
-            label="Date desktop"
-            inputFormat="MM/DD/YYYY"
-            value={search.date}
-            onChange={handleDateChange}
-            renderInput={(params) => <TextField {...params} />}
-            sx={{
-              outline: 'solid red',
-              display: { xs: 'block', md: 'none' },
-            }}
-          />
-
-          <DateCalendar
-            value={search.date}
-            onChange={handleDateChange}
-            sx={{
-              outline: 'solid red',
-              display: { xs: 'none', md: 'block' },
-            }}
-          />
-        </LocalizationProvider> */}
-      </Box>
-      {timeSlots ? (
-        <>
-          <TimeSlots timeSlots={timeSlots} reserveTime={selectTime} />
-        </>
-      ) : (
-        <div>No matches</div>
-      )}
-      {selectedSlot && (
-        <TimeSlotDetail
-          available={selectedSlot.available}
-          selectPerson={selectPerson}
-        />
-      )}
-      <ReserveDialog
-        disabled={disabled}
-        handleReserve={handleReserve}
-        date={search.date}
-        person={selectedPerson}
-        selectedSlot={selectedSlot}
-      />
+    <Container sx={{ py: 4 }}>
+      <Typography component="h2" variant="h3" gutterBottom align="center">
+        Make an appointment with us
+      </Typography>
+      <Grid container spacing={6}>
+        <Grid item md={6}>
+          <Container>
+            <Box sx={{ display: 'flex' }}>
+              <FormControl sx={{ width: 150 }}>
+                <InputLabel>Guests</InputLabel>
+                <Select
+                  label="Guest"
+                  value={search.guest}
+                  onChange={(event) => handleGuestChange(event.target.value)}
+                >
+                  <MenuItem value={1}>1 Guest</MenuItem>
+                  <MenuItem value={2}>2 Guests</MenuItem>
+                  <MenuItem value={3}>3 Guests</MenuItem>
+                  <MenuItem value={4}>4 Guests</MenuItem>
+                </Select>
+              </FormControl>
+              <DatePicker
+                date={search.date}
+                handleDateChange={handleDateChange}
+              />
+            </Box>
+            {timeSlots ? (
+              <>
+                <TimeSlots timeSlots={timeSlots} reserveTime={selectTime} />
+              </>
+            ) : (
+              <div>No matches</div>
+            )}
+            {selectedSlot && (
+              <TimeSlotDetail
+                available={selectedSlot.available}
+                selectPerson={selectPerson}
+              />
+            )}
+            <ReserveDialog
+              disabled={disabled}
+              handleReserve={handleReserve}
+              date={search.date}
+              person={selectedPerson}
+              selectedSlot={selectedSlot}
+            />
+          </Container>
+        </Grid>
+        <Grid item md={6}>
+          <Card>
+            <CardMedia
+              component="img"
+              image={chair}
+              alt="chair in an barbershop"
+              sx={{
+                aspectRatio: '9 / 16',
+              }}
+            ></CardMedia>
+          </Card>
+        </Grid>
+      </Grid>
     </Container>
   );
 };
