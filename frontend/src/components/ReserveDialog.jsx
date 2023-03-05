@@ -29,9 +29,9 @@ const ReserveDialog = ({
     setOpen(false);
   };
 
-  const handleAgree = (obj) => {
+  const handleAgree = (id) => {
     setOpen(false);
-    handleReserve(obj);
+    handleReserve(id);
   };
 
   return (
@@ -50,12 +50,7 @@ const ReserveDialog = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            onClick={() =>
-              handleAgree({ id: selectedSlot.id, person: person.id })
-            }
-            autoFocus
-          >
+          <Button onClick={() => handleAgree(selectedSlot.id)} autoFocus>
             Agree
           </Button>
         </DialogActions>

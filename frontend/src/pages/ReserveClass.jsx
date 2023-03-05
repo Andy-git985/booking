@@ -1,20 +1,11 @@
 import { useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useDispatch, useSelector } from 'react-redux';
 import { reserveAppointment } from '../features/scheduleSlice';
 import appointmentServices from '../services/appointment';
@@ -78,7 +69,7 @@ const ReserveClass = () => {
     setSelectedPerson({ id: obj.id, email: obj.email });
   };
 
-  const handleReserve = async (obj) => {
+  const handleReserve = async (id) => {
     try {
       let modifiedSchedule;
       const { date, time } = selectedSlot;
@@ -91,11 +82,13 @@ const ReserveClass = () => {
       if (newAppt.success) {
         modifiedSchedule = await dispatch(
           reserveAppointment({
-            id: obj.id,
+            id,
             appointment: newAppt.data.id,
             employee,
           })
         ).unwrap();
+        setSelectedSlot('');
+        setSelectedPerson('');
       }
       if (modifiedSchedule.success) {
         const response = await scheduleServices.sendConfirmation({
@@ -127,8 +120,8 @@ const ReserveClass = () => {
             <MenuItem value={4}>4 Guests</MenuItem>
           </Select>
         </FormControl>
-        {/* <DatePicker date={search.date} handleDateChange={handleDateChange} /> */}
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker date={search.date} handleDateChange={handleDateChange} />
+        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
             label="Date desktop"
             inputFormat="MM/DD/YYYY"
@@ -149,7 +142,7 @@ const ReserveClass = () => {
               display: { xs: 'none', md: 'block' },
             }}
           />
-        </LocalizationProvider>
+        </LocalizationProvider> */}
       </Box>
       {timeSlots ? (
         <>
