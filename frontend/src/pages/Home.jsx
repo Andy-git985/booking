@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import ContactUs from '../components/ContactUs';
 import main from '../assets/images/nathon-oski-EW_rqoSdDes-unsplash.jpg';
 
 const Home = () => {
@@ -17,63 +18,44 @@ const Home = () => {
     <main>
       <Box
         sx={{
-          // bgcolor: 'background.paper',
-          backgroundImage: `url(${main})`,
+          backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${main})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          // pt: 14,
-          // pb: 14,
-          height: '46.875rem',
+          aspectRatio: '16 / 9',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            // pt: 14,
-            // pb: 14,
-            height: '46.875rem',
-          }}
-        >
-          {/* <Container>
-          <img src={main} alt="barber shop" style={{ width: '500px' }} />
-        </Container> */}
-          <Container
-            maxWidth="sm"
-            sx={{
-              pt: 14,
-              pb: 14,
-            }}
+        <Container maxWidth="sm">
+          <Typography
+            component="h1"
+            variant="h2"
+            align="center"
+            color="text.primary"
+            gutterBottom
           >
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="text.primary"
-              gutterBottom
-            >
-              Album layout
-            </Typography>
-            <Typography
-              variant="h5"
-              align="center"
-              color="text.secondary"
-              paragraph
-            >
-              Something short and leading about the collection below—its
-              contents, the creator, etc. Make it short and sweet, but not too
-              short so folks don&apos;t simply skip over it entirely.
-            </Typography>
-            <Stack
-              sx={{ pt: 4 }}
-              direction="row"
-              spacing={2}
-              justifyContent="center"
-            >
-              <Button variant="contained">Main call to action</Button>
-              <Button variant="outlined">Secondary action</Button>
-            </Stack>
-          </Container>
-        </Box>
+            Album layout
+          </Typography>
+          <Typography
+            variant="h5"
+            align="center"
+            color="text.secondary"
+            paragraph
+          >
+            Something short and leading about the collection below—its contents,
+            the creator, etc. Make it short and sweet, but not too short so
+            folks don&apos;t simply skip over it entirely.
+          </Typography>
+          <Stack
+            sx={{ pt: 4 }}
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+          >
+            <Button variant="contained">Main call to action</Button>
+            <Button variant="outlined">Secondary action</Button>
+          </Stack>
+        </Container>
       </Box>
       <Container sx={{ py: 8 }} maxWidth="md">
         {/* End hero unit */}
@@ -190,6 +172,9 @@ const Home = () => {
             </Grid>
           ))}
         </Grid>
+      </Container>
+      <Container sx={{ py: 8 }} maxWidth="md">
+        <ContactUs />
       </Container>
     </main>
   );
