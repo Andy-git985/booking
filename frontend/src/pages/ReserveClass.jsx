@@ -111,13 +111,25 @@ const ReserveClass = () => {
 
   return (
     <Container sx={{ py: 4 }}>
-      <Typography component="h2" variant="h3" gutterBottom align="center">
-        Make an appointment with us
+      <Typography
+        component="h2"
+        variant="h3"
+        gutterBottom
+        align="center"
+        sx={{ mb: 5 }}
+      >
+        Schedule your appointment
       </Typography>
       <Grid container spacing={6}>
         <Grid item md={6}>
           <Container>
-            <Box sx={{ display: 'flex' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
               <FormControl sx={{ width: 150 }}>
                 <InputLabel>Guests</InputLabel>
                 <Select

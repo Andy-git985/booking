@@ -47,9 +47,13 @@ scheduleRouter.put('/:id', async (request, response) => {
   dateToUpdate.available.splice(index, 1);
   dateToUpdate.appointments.push(bookedAppt);
   await dateToUpdate.save();
+  const updatedTime = await Schedule.findOne({
+    _id: request.params.id,
+  }).populate('available', 'id email');
+
   response
     .status(200)
-    .json({ success: true, message: 'Class reserved', data: dateToUpdate });
+    .json({ success: true, message: 'Class reserved', data: updatedTime });
 });
 
 scheduleRouter.post('/confirmation', async (request, response) => {
