@@ -6,12 +6,12 @@ import beard from './assets/images/allef-vinicius-IvQeAVeJULw-unsplash.jpg';
 import shave from './assets/images/christoffer-engstrom-1ouGlRChSbY-unsplash.jpg';
 
 export const links = [
-  { name: 'Home', path: '/' },
-  { name: 'Reserve Class', path: '/reserve' },
-  { name: 'Add Class', path: '/add' },
-  { name: 'Register', path: '/user/register' },
-  { name: 'Login', path: '/user/login' },
-  { name: 'Profile', path: '/user/profile' },
+  { id: 1, name: 'Home', path: '/' },
+  { id: 2, name: 'Reserve Class', path: '/reserve' },
+  { id: 3, name: 'Add Class', path: '/add' },
+  { id: 4, name: 'Register', path: '/user/register' },
+  { id: 5, name: 'Login', path: '/user/login' },
+  { id: 6, name: 'Profile', path: '/user/profile' },
 ];
 
 export const roles = [

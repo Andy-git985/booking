@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -25,7 +26,7 @@ const NavBar = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <AppBar position="relative">
+      <AppBar component="nav" position="relative">
         <Toolbar>
           {/* Quick fix until I minimize menu options */}
           <Container>
@@ -42,20 +43,29 @@ const NavBar = () => {
                 </Typography>
               </NavLink>
             ))}
+
+            <Box sx={{ flexGrow: 1 }} />
+            {userDetails ? (
+              <>
+                <Typography variant="body" sx={{ mr: 2 }}>
+                  {userDetails.email}
+                </Typography>
+
+                <Button variant="contained" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="user/register">
+                  <Button>Signup</Button>
+                </Link>
+                <Link to="user/login">
+                  <Button variant="contained">Login</Button>
+                </Link>
+              </>
+            )}
           </Container>
-
-          <Box sx={{ flexGrow: 1 }} />
-          {userDetails && (
-            <>
-              <Typography variant="body" sx={{ mr: 2 }}>
-                {userDetails.email}
-              </Typography>
-
-              <Button variant="contained" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
-          )}
         </Toolbar>
       </AppBar>
     </Box>

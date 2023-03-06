@@ -49,13 +49,13 @@ const Team = () => {
               <CardContent sx={{ flexGrow: 1 }}>
                 <Typography
                   gutterBottom
+                  component="h4"
                   variant="h5"
-                  component="h2"
                   align="center"
                 >
                   {employee.name}
                 </Typography>
-                <Typography>{employee.profile}</Typography>
+                <Typography variant="body2">{employee.profile}</Typography>
               </CardContent>
               <CardActions>
                 <Button size="small">View</Button>

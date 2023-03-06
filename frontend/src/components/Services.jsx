@@ -34,7 +34,7 @@ const Services = () => {
             sx={{
               height: '100%',
               display: 'flex',
-              flexDirection: { sm: 'column', md: 'row' },
+              flexDirection: { xs: 'column', sm: 'column', md: 'row' },
             }}
           >
             <Grid
@@ -49,13 +49,13 @@ const Services = () => {
               <CardContent sx={{ flexGrow: 1, padding: 4 }}>
                 <Typography
                   gutterBottom
+                  component="h4"
                   variant="h5"
-                  component="h2"
                   align="center"
                 >
                   {service.name}
                 </Typography>
-                <Typography>{service.description}</Typography>
+                <Typography variant="body2">{service.description}</Typography>
               </CardContent>
               {/* <CardActions>
                 <Button size="small">Book</Button>
