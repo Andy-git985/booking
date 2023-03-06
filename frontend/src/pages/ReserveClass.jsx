@@ -32,7 +32,7 @@ const ReserveClass = () => {
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
-  const [timeSlots, setTimeSlots] = useState([]);
+  const [timeSlots, setTimeSlots] = useState('');
 
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
@@ -112,8 +112,8 @@ const ReserveClass = () => {
   return (
     <Container sx={{ py: 4 }}>
       <Typography
-        component="h2"
-        variant="h3"
+        component="h3"
+        variant="h4"
         gutterBottom
         align="center"
         sx={{ mb: 5 }}
@@ -128,13 +128,16 @@ const ReserveClass = () => {
                 display: 'flex',
                 flexDirection: { sm: 'row', md: 'column' },
                 alignItems: 'center',
+                gap: 1,
+                mb: 3,
               }}
             >
-              <FormControl sx={{ width: 150 }}>
+              <FormControl sx={{ width: '100%' }}>
                 <InputLabel>Guests</InputLabel>
                 <Select
                   label="Guest"
                   value={search.guest}
+                  fullWidth
                   onChange={(event) => handleGuestChange(event.target.value)}
                 >
                   <MenuItem value={1}>1 Guest</MenuItem>
@@ -148,12 +151,14 @@ const ReserveClass = () => {
                 handleDateChange={handleDateChange}
               />
             </Box>
-            {timeSlots ? (
+            {timeSlots.length ? (
               <>
                 <TimeSlots timeSlots={timeSlots} reserveTime={selectTime} />
               </>
             ) : (
-              <div>No matches</div>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                No matches
+              </Typography>
             )}
             {selectedSlot && (
               <TimeSlotDetail

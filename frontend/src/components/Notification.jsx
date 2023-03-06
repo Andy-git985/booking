@@ -21,7 +21,7 @@ const Notification = () => {
   const [open, setOpen] = useState(false);
   const [alert, setAlert] = useState('');
   const [severity, setSeverity] = useState('');
-  const vertical = 'top';
+  const vertical = 'bottom';
   const horizontal = 'center';
 
   const handleClose = (event, reason) => {
