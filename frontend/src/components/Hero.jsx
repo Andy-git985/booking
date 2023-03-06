@@ -18,7 +18,7 @@ const Hero = () => {
         alignItems: 'center',
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" sx={{ py: 8 }}>
         <Typography
           component="h1"
           variant="h2"
