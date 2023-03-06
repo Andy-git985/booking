@@ -8,6 +8,11 @@ export const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: (themeParam) => `
         a {
+          color: inherit;
+          text-decoration: none;
+        }
+        a:visited {
+          color: inherit;
           text-decoration: none;
         }
       `,

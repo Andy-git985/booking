@@ -126,7 +126,7 @@ const ReserveClass = () => {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: { sm: 'row', md: 'column' },
                 alignItems: 'center',
               }}
             >
