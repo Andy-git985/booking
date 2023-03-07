@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,13 +17,13 @@ import { registerUser } from '../features/userSlice';
 import { roles } from '../data';
 
 const Register = () => {
-  // const navigate = useNavigate();
-  // const { userInfo } = useSelector(({ user }) => user);
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate('/');
-  //   }
-  // }, [userInfo, navigate]);
+  const navigate = useNavigate();
+  const { userDetails } = useSelector(({ user }) => user);
+  useEffect(() => {
+    if (userDetails) {
+      navigate('/user/profile');
+    }
+  }, [userDetails, navigate]);
 
   // const {
   //   control,
@@ -65,6 +66,25 @@ const Register = () => {
           Register
         </Typography>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+          <Grid container spacing={2} justifyContent="space-between">
+            <Grid item xs={6}>
+              <TextField
+                label="First name"
+                margin="normal"
+                fullWidth
+                {...register('firstName')}
+              ></TextField>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label="Last name"
+                margin="normal"
+                fullWidth
+                {...register('lastName')}
+              ></TextField>
+            </Grid>
+          </Grid>
+
           <TextField
             label="Email"
             required
