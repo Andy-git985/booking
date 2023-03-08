@@ -25,25 +25,36 @@ const activeStyle = {
 const inactiveStyle = {};
 
 const DrawerMenu = () => {
+  const dispatch = useDispatch();
+  const { userDetails } = useSelector(({ user }) => user);
+  const linksToRender = userDetails
+    ? links.filter((link) => link.loggedIn)
+    : links;
+
   const [open, setOpen] = useState(false);
   const getList = () => (
     <Box onClick={() => setOpen(false)}>
       <List>
-        {links.map((link) => (
-          <>
-            <ListItem key={link.id}>
-              <NavLink
-                to={link.path}
-                style={({ isActive }) =>
-                  isActive ? activeStyle : inactiveStyle
-                }
-              >
-                <ListItemText primary={link.name} />
-              </NavLink>
-            </ListItem>
-            <Divider />
-          </>
+        {linksToRender.map((link) => (
+          <ListItem key={link.id}>
+            <NavLink
+              to={link.path}
+              style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
+            >
+              <ListItemText primary={link.name} />
+            </NavLink>
+          </ListItem>
         ))}
+        {userDetails && (
+          <>
+            <ListItem
+              onClick={() => dispatch(logoutUser())}
+              sx={{ cursor: 'pointer' }}
+            >
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   );

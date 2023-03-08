@@ -57,9 +57,11 @@ const Team = () => {
                 </Typography>
                 <Typography variant="body2">{employee.profile}</Typography>
               </CardContent>
-              <CardActions>
-                <Button size="small">View</Button>
-                <Button size="small">Edit</Button>
+              <CardActions sx={{ marginInline: 'auto', mb: 2 }}>
+                <Button
+                  size="small"
+                  variant="outlined"
+                >{`Book with ${employee.name}`}</Button>
               </CardActions>
             </Card>
           </Grid>

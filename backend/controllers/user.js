@@ -6,7 +6,7 @@ const User = require('../models/User');
 const jwtToken = require('../utils/jwtToken');
 
 usersRouter.post('/register', async (request, response) => {
-  const { email, password, role } = request.body;
+  const { firstName, lastName, email, password, role } = request.body;
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return response.status(400).json({ error: 'username must be unique' });
@@ -14,6 +14,8 @@ usersRouter.post('/register', async (request, response) => {
   const saltRounds = 10;
   const passwordHash = await bcrypt.hash(password, saltRounds);
   const newUser = new User({
+    firstName,
+    lastName,
     email,
     passwordHash,
     role,

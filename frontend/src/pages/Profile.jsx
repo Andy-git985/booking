@@ -6,6 +6,7 @@ import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -88,6 +89,16 @@ const Profile = () => {
     <Container>
       <Box sx={{ width: '100%' }}>
         <Typography component="h3" variant="h4" align="center" gutterBottom>
+          {`Welcome ${userDetails.firstName} ${userDetails.lastName}`}
+        </Typography>
+        <Divider />
+        <Typography
+          component="h3"
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ mt: 1 }}
+        >
           Upcoming appointments
         </Typography>
         <Stack spacing={2}>
