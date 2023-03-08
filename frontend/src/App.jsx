@@ -42,10 +42,10 @@ export default function App() {
           <Routes>
             <Route path="/*" element={<Home />} />
             <Route path="/reserve" element={<ReserveClass />} />
-            <Route path="/add" element={<AddClass />} />
             <Route path="/user/register" element={<Register />} />
             <Route path="/user/login" element={<Login />} />
             <Route element={<ProtectedRoute />}>
+              <Route path="/add" element={<AddClass />} />
               <Route path="/user/profile" element={<Profile />} />
             </Route>
           </Routes>
