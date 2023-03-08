@@ -6,6 +6,8 @@ const initialState = {
   status: 'pending',
   alert: null,
   error: null,
+  rescheduling: false,
+  idToBeDeleted: null,
 };
 
 export const reserveAppt = createAsyncThunk(
@@ -53,7 +55,16 @@ export const cancelAppt = createAsyncThunk(
 const appointmentSlice = createSlice({
   name: 'appointment',
   initialState,
-  reducers: {},
+  reducers: {
+    beginRescheduling(state, action) {
+      state.rescheduling = true;
+      state.idToBeDeleted = action.payload;
+    },
+    endRescheduling(state, action) {
+      state.rescheduling = false;
+      state.idToBeDeleted = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(reserveAppt.pending, (state, action) => {
@@ -106,4 +117,5 @@ const appointmentSlice = createSlice({
   },
 });
 
+export const { beginRescheduling, endRescheduling } = appointmentSlice.actions;
 export default appointmentSlice.reducer;

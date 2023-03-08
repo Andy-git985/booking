@@ -10,10 +10,15 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
-import { getUserAppts, cancelAppt } from '../features/appointmentSlice';
+import {
+  getUserAppts,
+  cancelAppt,
+  beginRescheduling,
+} from '../features/appointmentSlice';
 import ReserveDialog from '../components/ReserveDialog';
 import andre from '../assets/images/andre-reis-_XD3D9pH83k-unsplash.jpg';
 import date from '../services/date';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -43,6 +48,7 @@ const Person = ({ role, appt }) => {
 // TODOS: Button Styling
 
 const Profile = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(({ appointment }) => appointment);
   const { userDetails } = useSelector(({ user }) => user);
@@ -56,8 +62,10 @@ const Profile = () => {
     dispatch(getUserAppts());
   }, [dispatch]);
 
-  const handleModify = () => {
-    console.log('modify');
+  const handleModify = (id) => {
+    dispatch(beginRescheduling(id));
+    navigate('/reserve');
+    // console.log('modify');
   };
   const handleCancel = (id) => {
     dispatch(cancelAppt(id));
@@ -87,6 +95,7 @@ const Profile = () => {
             data.map((appt) => {
               return (
                 <Item key={appt.id}>
+                  <Typography variant="body1">{appt.id}</Typography>
                   <Typography variant="body1">
                     {dateServices.dateHyphen(appt.date)}
                   </Typography>

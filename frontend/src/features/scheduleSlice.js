@@ -86,7 +86,6 @@ const scheduleSlice = createSlice({
       .addCase(addNewSchedule.fulfilled, (state, action) => {
         state.isLoading = false;
         state.alert = action.payload.message;
-        console.log(action.payload.data);
         state.data = state.data.concat(action.payload.data);
         state.error = null;
       })
@@ -118,4 +117,5 @@ const scheduleSlice = createSlice({
 });
 
 export const { clearScheduleAlert, clearScheduleError } = scheduleSlice.actions;
+
 export default scheduleSlice.reducer;

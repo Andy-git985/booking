@@ -11,8 +11,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  cancelAppt,
+  endRescheduling,
+  reserveAppt,
+} from '../features/appointmentSlice';
 import { reserveAppointment } from '../features/scheduleSlice';
-import appointmentServices from '../services/appointment';
 import DatePicker from '../components/DatePicker';
 import Loading from '../components/Loading';
 import ReserveDialog from '../components/ReserveDialog';
@@ -25,6 +29,7 @@ import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
 const ReserveClass = () => {
   const dispatch = useDispatch();
   const schedule = useSelector(({ schedule }) => schedule);
+  const appointment = useSelector(({ appointment }) => appointment);
   const [search, setSearch] = useState({
     guest: 1,
     date: date.currentDate(),
@@ -36,7 +41,7 @@ const ReserveClass = () => {
 
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
-    if (schedule.data.length) {
+    if (schedule.data.length > 0) {
       const searchSlots = schedule?.data.filter(
         (a) =>
           date.dateDash(a.date) === date.dateDash(search.date) &&
@@ -84,16 +89,19 @@ const ReserveClass = () => {
 
   const handleReserve = async () => {
     try {
-      let modifiedSchedule;
+      let reserveEmployee;
+      let emailTemplate;
       const { date, time } = selectedSlot;
       const employee = selectedPerson.id;
-      const newAppt = await appointmentServices.createNew({
-        date,
-        time,
-        employee,
-      });
+      const newAppt = await dispatch(
+        reserveAppt({
+          date,
+          time,
+          employee,
+        })
+      ).unwrap();
       if (newAppt.success) {
-        modifiedSchedule = await dispatch(
+        reserveEmployee = await dispatch(
           reserveAppointment({
             id: selectedSlot.id,
             appointment: newAppt.data.id,
@@ -103,11 +111,21 @@ const ReserveClass = () => {
         setSelectedSlot('');
         setSelectedPerson('');
       }
-      if (modifiedSchedule.success) {
+      if (reserveEmployee.success && appointment.rescheduling) {
+        // emailTemplate = cancel and reschedule template
+        const idToBeDeleted = appointment.idToBeDeleted;
+        const cancelledAppt = await dispatch(
+          cancelAppt(idToBeDeleted)
+        ).unwrap();
+        if (cancelledAppt.success) {
+          dispatch(endRescheduling());
+        }
+      }
+      if (reserveEmployee.success) {
         const response = await scheduleServices.sendConfirmation({
-          receiver: '',
+          reiceiver: '',
         });
-        console.log(response);
+        console.log('email response', response);
         setSelectedSlot('');
         setSelectedPerson('');
       }
