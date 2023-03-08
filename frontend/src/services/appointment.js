@@ -12,8 +12,8 @@ const getUser = async () => {
   return response.data;
 };
 
-const cancel = async (id, time) => {
-  const response = await axios.delete(`${baseUrl}/${id}`, { data: { time } });
+const cancel = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`);
   return response.data;
 };
 

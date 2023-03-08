@@ -36,8 +36,8 @@ appointmentRouter.post('/', async (request, response) => {
 
 // TODO: handle individual role deletion
 appointmentRouter.delete('/:id', async (request, response) => {
-  const { time } = request.body;
-  const { employee } = await Appointment.findById(request.params.id);
+  const { employee, time } = await Appointment.findById(request.params.id);
+  console.log({ employee }, { time });
   const scheduleToUpdate = await Schedule.findOne({ time: time });
   const index = scheduleToUpdate.appointments.findIndex(
     (appt) => appt._id.toString() === request.params.id

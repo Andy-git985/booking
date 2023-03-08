@@ -1,3 +1,4 @@
+import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
@@ -6,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -13,8 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import { logoutUser } from '../features/userSlice';
 import { links } from '../data';
-import AppBar from '@mui/material/AppBar';
-import { getListItemAvatarUtilityClass, Toolbar } from '@mui/material';
+import { Divider } from '@mui/material';
 import { useState } from 'react';
 
 const activeStyle = {
@@ -29,14 +30,19 @@ const DrawerMenu = () => {
     <Box onClick={() => setOpen(false)}>
       <List>
         {links.map((link) => (
-          <ListItem key={link.id}>
-            <NavLink
-              to={link.path}
-              style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
-            >
-              <ListItemText primary={link.name} />
-            </NavLink>
-          </ListItem>
+          <>
+            <ListItem key={link.id}>
+              <NavLink
+                to={link.path}
+                style={({ isActive }) =>
+                  isActive ? activeStyle : inactiveStyle
+                }
+              >
+                <ListItemText primary={link.name} />
+              </NavLink>
+            </ListItem>
+            <Divider />
+          </>
         ))}
       </List>
     </Box>
@@ -73,10 +79,14 @@ const NavBar = () => {
       <AppBar component="nav" position="relative">
         <Toolbar>
           <DrawerMenu />
-
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Link to="/reserve">
+              <Button variant="contained">Book now</Button>
+            </Link>
+          </Box>
+          {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             {links.map((link) => {
-              return userDetails && link.loggedIn ? (
+              return (
                 <NavLink
                   to={link.path}
                   style={({ isActive }) =>
@@ -85,25 +95,18 @@ const NavBar = () => {
                   key={link.id}
                 >
                   <Typography variant="body" sx={{ mr: 2 }}>
-                    {link.name}
-                  </Typography>
-                </NavLink>
-              ) : (
-                <NavLink
-                  to={link.path}
-                  style={({ isActive }) =>
-                    isActive ? activeStyle : inactiveStyle
-                  }
-                  key={link.id}
-                >
-                  <Typography variant="body" sx={{ mr: 2 }}>
-                    {link.name}
+                    i {link.name}
                   </Typography>
                 </NavLink>
               );
             })}
+          </Box> */}
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Link to="/*">
+              <Typography variant="h6">Home</Typography>
+            </Link>
           </Box>
-
           <Box sx={{ flexGrow: 1 }} />
           {userDetails ? (
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>

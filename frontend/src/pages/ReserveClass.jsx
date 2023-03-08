@@ -74,7 +74,15 @@ const ReserveClass = () => {
     setSelectedPerson({ id: obj.id, email: obj.email });
   };
 
-  const handleReserve = async (id) => {
+  const reserveDialog = {
+    button: 'Reserve Now',
+    title: 'Would you like to reserve this appointment?',
+    content: `With ${selectedPerson.email} on ${date.dateHyphen(
+      selectedSlot.date
+    )} on ${date.time(selectedSlot.time)}?`,
+  };
+
+  const handleReserve = async () => {
     try {
       let modifiedSchedule;
       const { date, time } = selectedSlot;
@@ -87,7 +95,7 @@ const ReserveClass = () => {
       if (newAppt.success) {
         modifiedSchedule = await dispatch(
           reserveAppointment({
-            id,
+            id: selectedSlot.id,
             appointment: newAppt.data.id,
             employee,
           })
@@ -168,10 +176,12 @@ const ReserveClass = () => {
             )}
             <ReserveDialog
               disabled={disabled}
-              handleReserve={handleReserve}
-              date={search.date}
-              person={selectedPerson}
-              selectedSlot={selectedSlot}
+              // handleReserve={handleReserve}
+              // date={search.date}
+              // person={selectedPerson}
+              // selectedSlot={selectedSlot}
+              dialog={reserveDialog}
+              handler={handleReserve}
             />
           </Container>
         </Grid>
