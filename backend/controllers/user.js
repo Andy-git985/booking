@@ -59,6 +59,11 @@ usersRouter.get('/account', async (request, response) => {
   response.status(200).json(user);
 });
 
+usersRouter.get('/employees', async (request, response) => {
+  const employees = await User.find({ role: 'admin' });
+  response.status(200).json(employees);
+});
+
 // usersRouter.put('/account/email', async (request, response) => {
 //   const user = await User.findById(request.user);
 //   const { email } = request.body;

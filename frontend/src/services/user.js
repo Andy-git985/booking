@@ -28,6 +28,11 @@ const getAccountInfo = async () => {
   return response.data;
 };
 
+const getEmployeeDetails = async () => {
+  const response = await axios.get(`${baseUrl}/employees`);
+  return response.data;
+};
+
 // const remove = async () => {
 //   const token = jwtService.getToken();
 //   const config = {
@@ -64,6 +69,7 @@ export default {
   login,
   register,
   logout,
+  getEmployeeDetails,
   // remove,
   // updateEmail,
   // updatePassword,

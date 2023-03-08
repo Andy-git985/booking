@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ReserveClass from './pages/ReserveClass';
+import LoginRoute from './routing/LoginRoute';
 import ProtectedRoute from './routing/ProtectedRoute';
 import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
@@ -46,6 +47,8 @@ export default function App() {
             <Route path="/user/login" element={<Login />} />
             <Route element={<ProtectedRoute />}>
               <Route path="/add" element={<AddClass />} />
+            </Route>
+            <Route element={<LoginRoute />}>
               <Route path="/user/profile" element={<Profile />} />
             </Route>
           </Routes>

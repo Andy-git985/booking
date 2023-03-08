@@ -9,9 +9,6 @@ import Login from '../pages/Login';
 const ProtectedRoute = () => {
   const navigate = useNavigate();
   const { userDetails } = useSelector(({ user }) => user);
-  if (!userDetails) {
-    return <Login />;
-  }
   if (!userDetails.role !== 'admin') {
     return (
       <Alert severity="error">

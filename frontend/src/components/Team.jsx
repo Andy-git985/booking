@@ -6,9 +6,20 @@ import CardActions from '@mui/material/CardActions';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { employees } from '../data';
+import userServices from '../services/user';
+import { useEffect, useState } from 'react';
 
 const Team = () => {
+  const [employees, setEmployees] = useState([]);
+
+  useEffect(() => {
+    const getEmployeeDetails = async () => {
+      const response = await userServices.getEmployeeDetails();
+      setEmployees(response);
+    };
+    getEmployeeDetails();
+  }, []);
+
   return (
     <Container sx={{ py: 8 }}>
       <Typography
@@ -41,7 +52,7 @@ const Team = () => {
               <CardMedia
                 component="img"
                 image={employee.image}
-                alt={employee.name}
+                alt={employee.firstName}
                 sx={{
                   aspectRatio: '9 / 16',
                 }}
@@ -53,7 +64,7 @@ const Team = () => {
                   variant="h5"
                   align="center"
                 >
-                  {employee.name}
+                  {employee.firstName}
                 </Typography>
                 <Typography variant="body2">{employee.profile}</Typography>
               </CardContent>
@@ -61,7 +72,7 @@ const Team = () => {
                 <Button
                   size="small"
                   variant="outlined"
-                >{`Book with ${employee.name}`}</Button>
+                >{`Book with ${employee.firstName}`}</Button>
               </CardActions>
             </Card>
           </Grid>
