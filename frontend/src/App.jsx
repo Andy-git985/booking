@@ -17,6 +17,7 @@ import { theme } from './styles/styles';
 import Footer from './components/Footer';
 import Notification from './components/Notification';
 import { retrieveSchedule } from './features/scheduleSlice';
+import { getEmployeeDetails } from './features/userSlice';
 import Home from './pages/Home';
 
 export default function App() {
@@ -24,6 +25,10 @@ export default function App() {
 
   useEffect(() => {
     dispatch(retrieveSchedule());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getEmployeeDetails());
   }, [dispatch]);
 
   return (
@@ -45,9 +50,9 @@ export default function App() {
             <Route path="/reserve" element={<ReserveClass />} />
             <Route path="/user/register" element={<Register />} />
             <Route path="/user/login" element={<Login />} />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/add" element={<AddClass />} />
-            </Route>
+            {/* <Route element={<ProtectedRoute />}> */}
+            <Route path="/add" element={<AddClass />} />
+            {/* </Route> */}
             <Route element={<LoginRoute />}>
               <Route path="/user/profile" element={<Profile />} />
             </Route>

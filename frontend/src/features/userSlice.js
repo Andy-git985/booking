@@ -3,6 +3,7 @@ import userServices from '../services/user';
 
 const initialState = {
   userDetails: null,
+  employees: null,
   status: 'pending',
   alert: null,
   error: null,
@@ -56,6 +57,20 @@ export const getUserDetails = createAsyncThunk(
     try {
       // console.log(thunkAPI.getState());
       const response = await userServices.getAccountInfo();
+      return response;
+    } catch (error) {
+      const errorMessage = error.response.data.error;
+      return thunkAPI.rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const getEmployeeDetails = createAsyncThunk(
+  'user/getEmployeeDetails',
+  async (data, thunkAPI) => {
+    try {
+      // console.log(thunkAPI.getState());
+      const response = await userServices.getEmployeeDetails();
       return response;
     } catch (error) {
       const errorMessage = error.response.data.error;
@@ -136,6 +151,22 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(getUserDetails.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.alert = null;
+        state.error = action.payload;
+      })
+      .addCase(getEmployeeDetails.pending, (state, action) => {
+        state.status = 'pending';
+        state.alert = null;
+        state.error = null;
+      })
+      .addCase(getEmployeeDetails.fulfilled, (state, action) => {
+        state.status = 'fulfilled';
+        state.alert = null;
+        state.employees = action.payload;
+        state.error = null;
+      })
+      .addCase(getEmployeeDetails.rejected, (state, action) => {
         state.status = 'rejected';
         state.alert = null;
         state.error = action.payload;

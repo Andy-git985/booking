@@ -30,10 +30,12 @@ const ReserveClass = () => {
   const dispatch = useDispatch();
   const schedule = useSelector(({ schedule }) => schedule);
   const appointment = useSelector(({ appointment }) => appointment);
+  const { employees } = useSelector(({ user }) => user);
   const [search, setSearch] = useState({
-    guest: 1,
+    employee: '',
     date: date.currentDate(),
   });
+  console.log(search);
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
@@ -57,8 +59,8 @@ const ReserveClass = () => {
     return <Loading />;
   }
 
-  const handleGuestChange = (newGuests) => {
-    const newSearch = { ...search, guest: newGuests };
+  const handleGuestChange = (barber) => {
+    const newSearch = { ...search, employee: barber };
     setSearch(newSearch);
   };
 
@@ -159,17 +161,21 @@ const ReserveClass = () => {
               }}
             >
               <FormControl sx={{ width: '100%' }}>
-                <InputLabel>Guests</InputLabel>
+                <InputLabel>Barber</InputLabel>
                 <Select
-                  label="Guest"
-                  value={search.guest}
+                  label="Barber"
+                  value={search.employee}
                   fullWidth
                   onChange={(event) => handleGuestChange(event.target.value)}
                 >
-                  <MenuItem value={1}>1 Guest</MenuItem>
-                  <MenuItem value={2}>2 Guests</MenuItem>
-                  <MenuItem value={3}>3 Guests</MenuItem>
-                  <MenuItem value={4}>4 Guests</MenuItem>
+                  <MenuItem value="">No preference</MenuItem>
+                  {employees.map((employee) => {
+                    return (
+                      <MenuItem value={employee.id} key={employee.id}>
+                        {employee.firstName}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
               <DatePicker
