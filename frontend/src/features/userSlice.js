@@ -3,7 +3,7 @@ import userServices from '../services/user';
 
 const initialState = {
   userDetails: null,
-  employees: null,
+  employees: [],
   isLoading: false,
   alert: null,
   error: null,

@@ -36,12 +36,12 @@ const ReserveClass = () => {
   const appointment = useSelector(({ appointment }) => appointment);
   const { employees } = useSelector(({ user }) => user);
   const location = useLocation();
-  let employee = location.state?.employee;
-  console.log(employee);
+  // console.log(employee);
   const [search, setSearch] = useState({
     employee: 'any',
     date: dateServices.currentDate(),
   });
+  const [testVar, setTestVar] = useState('');
   const [checked, setChecked] = useState(false);
   const [dateDisabled, setDateDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -57,6 +57,11 @@ const ReserveClass = () => {
     },
     [search]
   );
+
+  useEffect(() => {
+    const newSearch = { ...search, employee: location.state?.employee };
+    setSearch(newSearch);
+  }, [search, location.state?.employee]);
 
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {

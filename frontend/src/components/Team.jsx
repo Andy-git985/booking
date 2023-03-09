@@ -12,7 +12,6 @@ import { useSelector } from 'react-redux';
 
 const Team = () => {
   const user = useSelector(({ user }) => user);
-
   return (
     <Container sx={{ py: 8 }}>
       <Typography
@@ -26,7 +25,7 @@ const Team = () => {
       </Typography>
 
       <Grid container spacing={4}>
-        {(user.isLoading ? Array.from(new Array(3)) : user.employees).map(
+        {(user.isLoading ? Array.from(new Array(3)) : user?.employees).map(
           (employee, index) => (
             <Grid
               item
