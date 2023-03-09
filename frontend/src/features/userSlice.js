@@ -4,7 +4,7 @@ import userServices from '../services/user';
 const initialState = {
   userDetails: null,
   employees: null,
-  status: 'pending',
+  isLoading: false,
   alert: null,
   error: null,
 };
@@ -93,81 +93,81 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.alert = null;
         state.error = null;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = action.payload.message;
         state.userDetails = action.payload.user;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.error = action.payload;
       })
       .addCase(loginUser.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.alert = null;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = action.payload.message;
         state.userDetails = action.payload.user;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.alert = null;
         state.error = action.payload;
       })
       .addCase(logoutUser.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.alert = null;
         state.error = null;
       })
       .addCase(logoutUser.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = action.payload.message;
         state.userDetails = null;
         state.error = null;
       })
       .addCase(logoutUser.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.alert = null;
         state.error = action.payload;
       })
       .addCase(getUserDetails.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.alert = null;
         state.error = null;
       })
       .addCase(getUserDetails.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = null;
         state.userDetails = action.payload;
         state.error = null;
       })
       .addCase(getUserDetails.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.alert = null;
         state.error = action.payload;
       })
       .addCase(getEmployeeDetails.pending, (state, action) => {
-        state.status = 'pending';
+        state.isLoading = true;
         state.alert = null;
         state.error = null;
       })
       .addCase(getEmployeeDetails.fulfilled, (state, action) => {
-        state.status = 'fulfilled';
+        state.isLoading = false;
         state.alert = null;
         state.employees = action.payload;
         state.error = null;
       })
       .addCase(getEmployeeDetails.rejected, (state, action) => {
-        state.status = 'rejected';
+        state.isLoading = false;
         state.alert = null;
         state.error = action.payload;
       });
