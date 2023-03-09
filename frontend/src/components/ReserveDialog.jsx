@@ -38,8 +38,13 @@ const ReserveDialog = ({
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
-      <Button variant="contained" disabled={disabled} onClick={handleClick}>
+    <Box>
+      <Button
+        variant="contained"
+        disabled={disabled}
+        onClick={handleClick}
+        fullWidth
+      >
         {dialog.button}
       </Button>
       <Dialog open={open} fullScreen={fullScreen}>

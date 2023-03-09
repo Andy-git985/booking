@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -28,12 +28,16 @@ import scheduleServices from '../services/schedule';
 import dateServices from '../services/date';
 import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
 import { FormControlLabel } from '@mui/material';
+import { useLocation } from 'react-router-dom';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
   const schedule = useSelector(({ schedule }) => schedule);
   const appointment = useSelector(({ appointment }) => appointment);
   const { employees } = useSelector(({ user }) => user);
+  const location = useLocation();
+  let employee = location.state?.employee;
+  console.log(employee);
   const [search, setSearch] = useState({
     employee: 'any',
     date: dateServices.currentDate(),
@@ -44,6 +48,15 @@ const ReserveClass = () => {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
   const [timeSlots, setTimeSlots] = useState('');
+
+  const handleEmployeeChange = useCallback(
+    (employee) => {
+      const newSearch = { ...search, employee };
+      console.log(newSearch);
+      setSearch(newSearch);
+    },
+    [search]
+  );
 
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
@@ -98,11 +111,6 @@ const ReserveClass = () => {
   const handleSwitchChange = () => {
     setChecked(!checked);
     setDateDisabled(!dateDisabled);
-  };
-
-  const handleGuestChange = (barber) => {
-    const newSearch = { ...search, employee: barber };
-    setSearch(newSearch);
   };
 
   const handleDateChange = (newDate) => {
@@ -166,7 +174,7 @@ const ReserveClass = () => {
       }
       if (reserveEmployee.success) {
         const response = await scheduleServices.sendConfirmation({
-          reiceiver: '',
+          receiver: '',
         });
         console.log('email response', response);
         setSelectedSlot('');
@@ -208,7 +216,7 @@ const ReserveClass = () => {
                   label="Barber"
                   value={search.employee}
                   fullWidth
-                  onChange={(event) => handleGuestChange(event.target.value)}
+                  onChange={(event) => handleEmployeeChange(event.target.value)}
                 >
                   <MenuItem value="any">No preference</MenuItem>
                   {employees.map((employee) => {

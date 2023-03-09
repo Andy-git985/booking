@@ -61,7 +61,6 @@ usersRouter.get('/account', async (request, response) => {
 
 usersRouter.get('/employees', async (request, response) => {
   const employees = await User.find({ role: 'admin' });
-  console.log(employees);
   response.status(200).json(employees);
 });
 

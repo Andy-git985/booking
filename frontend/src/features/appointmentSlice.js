@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import appointmentServices from '../services/appointment';
 
 const initialState = {
-  data: null,
+  data: [],
   status: 'pending',
   alert: null,
   error: null,

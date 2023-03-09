@@ -99,6 +99,7 @@ const scheduleSlice = createSlice({
       })
       .addCase(reserveAppointment.fulfilled, (state, action) => {
         const updatedAppt = action.payload.data;
+        console.log('action payload', action.payload);
         state.isLoading = false;
         state.data = state.data.map((appt) =>
           appt.id === updatedAppt.id ? updatedAppt : appt

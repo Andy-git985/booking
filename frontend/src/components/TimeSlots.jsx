@@ -25,7 +25,7 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
   // reserving classes page
 
   return (
-    <Box>
+    <Box sx={{ mt: 2, mb: 2 }}>
       <Typography variant="h6" align="center">
         Times Available
       </Typography>

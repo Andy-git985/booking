@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -63,10 +64,12 @@ const Team = () => {
                     <Typography variant="body2">{employee.profile}</Typography>
                   </CardContent>
                   <CardActions sx={{ marginInline: 'auto', mb: 2 }}>
-                    <Button
-                      size="small"
-                      variant="outlined"
-                    >{`Book with ${employee.firstName}`}</Button>
+                    <Link to="/reserve" state={{ employee: employee.id }}>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                      >{`Book with ${employee.firstName}`}</Button>
+                    </Link>
                   </CardActions>
                 </Card>
               ) : (
