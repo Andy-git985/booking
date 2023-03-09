@@ -49,19 +49,11 @@ const ReserveClass = () => {
   const [selectedPerson, setSelectedPerson] = useState('');
   const [timeSlots, setTimeSlots] = useState('');
 
-  const handleEmployeeChange = useCallback(
-    (employee) => {
-      const newSearch = { ...search, employee };
-      console.log(newSearch);
-      setSearch(newSearch);
-    },
-    [search]
-  );
-
   useEffect(() => {
+    console.log('use effect runs');
     const newSearch = { ...search, employee: location.state?.employee };
     setSearch(newSearch);
-  }, [search, location.state?.employee]);
+  }, [location.state?.employee]);
 
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
@@ -123,6 +115,12 @@ const ReserveClass = () => {
       ...search,
       date: newDate,
     };
+    setSearch(newSearch);
+  };
+
+  const handleEmployeeChange = (employee) => {
+    const newSearch = { ...search, employee };
+    console.log(newSearch);
     setSearch(newSearch);
   };
 
