@@ -35,7 +35,6 @@ const ReserveClass = () => {
     employee: '',
     date: date.currentDate(),
   });
-  console.log(search);
   const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
@@ -44,16 +43,22 @@ const ReserveClass = () => {
   useEffect(() => {
     // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
     if (schedule.data.length > 0) {
-      const searchSlots = schedule?.data.filter(
-        (a) =>
-          date.dateDash(a.date) === date.dateDash(search.date) &&
-          a.available.length >= search.guest
-      );
+      // const searchSlots = schedule?.data.filter(
+      //   (a) =>
+      //     date.dateDash(a.date) === date.dateDash(search.date) &&
+      //     a.available.length >= search.guest
+      // const searchSlots = schedule?.data.filter(
+      //   (d) =>
+      //     d.available.filter(
+      //       (availablePerson) => availablePerson.id === search.employee
+      //     ).length
+      // );
+      const searchSlots = schedule?.data;
       setTimeSlots(searchSlots);
       setSelectedSlot('');
       setSelectedPerson('');
     }
-  }, [schedule.data, search.date, search.guest]);
+  }, [schedule.data, search.date, search.employee]);
 
   if (schedule.isLoading) {
     return <Loading />;

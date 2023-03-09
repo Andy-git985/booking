@@ -23,6 +23,7 @@ const TimeSlotDetail = ({ available, selectPerson }) => {
   const handleClick = (id, email) => {
     selectPerson({ id, email, disabled: false });
   };
+  console.log('available', available);
   return (
     <Container sx={{ mt: 2, mb: 2 }}>
       <Stack spacing={2}>
@@ -31,8 +32,8 @@ const TimeSlotDetail = ({ available, selectPerson }) => {
             <div key={person.id}>
               <Item onClick={(i) => handleClick(person.id, person.email)}>
                 <Avatar
-                  alt="Remy Sharp"
-                  src={andre}
+                  alt={person.firstName}
+                  src={person.image}
                   sx={{ width: 56, height: 56 }}
                 />
                 {person.email}

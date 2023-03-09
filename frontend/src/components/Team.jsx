@@ -7,8 +7,6 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Typography from '@mui/material/Typography';
-import userServices from '../services/user';
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const Team = () => {

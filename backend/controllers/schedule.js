@@ -15,7 +15,10 @@ scheduleRouter.get('/', async (request, response) => {
   //     model: 'User',
   //   },
   // });
-  const schedule = await Schedule.find({}).populate('available', 'id email');
+  const schedule = await Schedule.find({}).populate(
+    'available',
+    'id email firstName image'
+  );
   response.json(schedule);
 });
 
