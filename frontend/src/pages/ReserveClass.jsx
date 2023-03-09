@@ -3,12 +3,14 @@ import dayjs, { Dayjs } from 'dayjs';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
+import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -23,8 +25,9 @@ import ReserveDialog from '../components/ReserveDialog';
 import TimeSlots from '../components/TimeSlots';
 import TimeSlotDetail from '../components/TimeSlotDetail';
 import scheduleServices from '../services/schedule';
-import date from '../services/date';
+import dateServices from '../services/date';
 import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
+import { FormControlLabel } from '@mui/material';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
@@ -32,10 +35,12 @@ const ReserveClass = () => {
   const appointment = useSelector(({ appointment }) => appointment);
   const { employees } = useSelector(({ user }) => user);
   const [search, setSearch] = useState({
-    employee: '',
-    date: date.currentDate(),
+    employee: 'any',
+    date: dateServices.currentDate(),
   });
-  const [disabled, setDisabled] = useState(true);
+  const [checked, setChecked] = useState(false);
+  const [dateDisabled, setDateDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
   const [timeSlots, setTimeSlots] = useState('');
@@ -47,22 +52,53 @@ const ReserveClass = () => {
       //   (a) =>
       //     date.dateDash(a.date) === date.dateDash(search.date) &&
       //     a.available.length >= search.guest
+      let searchSlots = schedule?.data;
+      const { date, employee } = search;
+      if (employee !== 'any' && dateDisabled !== true) {
+        searchSlots = schedule?.data.filter(
+          (d) =>
+            d.available.filter(
+              (availablePerson) => availablePerson.id === employee
+            ).length &&
+            dateServices.dateDash(d.date) === dateServices.dateDash(date)
+        );
+      }
+      if (employee !== 'any' && dateDisabled === true) {
+        searchSlots = schedule?.data.filter(
+          (d) =>
+            d.available.filter(
+              (availablePerson) => availablePerson.id === employee
+            ).length
+        );
+      }
+      if (employee === 'any' && dateDisabled !== true) {
+        searchSlots = schedule?.data.filter(
+          (d) => dateServices.dateDash(d.date) === dateServices.dateDash(date)
+        );
+      }
+      // if (employee !== 'any' && date)
       // const searchSlots = schedule?.data.filter(
       //   (d) =>
       //     d.available.filter(
       //       (availablePerson) => availablePerson.id === search.employee
       //     ).length
       // );
-      const searchSlots = schedule?.data;
+      // const searchSlots = schedule?.data;
+
       setTimeSlots(searchSlots);
       setSelectedSlot('');
       setSelectedPerson('');
     }
-  }, [schedule.data, search.date, search.employee]);
+  }, [schedule.data, dateDisabled, search]);
 
   if (schedule.isLoading) {
     return <Loading />;
   }
+
+  const handleSwitchChange = () => {
+    setChecked(!checked);
+    setDateDisabled(!dateDisabled);
+  };
 
   const handleGuestChange = (barber) => {
     const newSearch = { ...search, employee: barber };
@@ -89,9 +125,9 @@ const ReserveClass = () => {
   const reserveDialog = {
     button: 'Reserve Now',
     title: 'Would you like to reserve this appointment?',
-    content: `With ${selectedPerson.email} on ${date.dateHyphen(
+    content: `With ${selectedPerson.email} on ${dateServices.dateHyphen(
       selectedSlot.date
-    )} on ${date.time(selectedSlot.time)}?`,
+    )} on ${dateServices.time(selectedSlot.time)}?`,
   };
 
   const handleReserve = async () => {
@@ -159,7 +195,8 @@ const ReserveClass = () => {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: { sm: 'row', md: 'column' },
+                flexDirection: 'column',
+                // flexDirection: { sm: 'row', md: 'column' },
                 alignItems: 'center',
                 gap: 1,
                 mb: 3,
@@ -173,7 +210,7 @@ const ReserveClass = () => {
                   fullWidth
                   onChange={(event) => handleGuestChange(event.target.value)}
                 >
-                  <MenuItem value="">No preference</MenuItem>
+                  <MenuItem value="any">No preference</MenuItem>
                   {employees.map((employee) => {
                     return (
                       <MenuItem value={employee.id} key={employee.id}>
@@ -183,9 +220,16 @@ const ReserveClass = () => {
                   })}
                 </Select>
               </FormControl>
+              <FormControlLabel
+                checked={checked}
+                control={<Switch />}
+                label="Any Date"
+                onChange={handleSwitchChange}
+              />
               <DatePicker
                 date={search.date}
                 handleDateChange={handleDateChange}
+                dateDisabled={dateDisabled}
               />
             </Box>
             {timeSlots.length ? (

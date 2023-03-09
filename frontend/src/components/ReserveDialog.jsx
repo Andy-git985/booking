@@ -1,4 +1,5 @@
 import { forwardRef, useState } from 'react';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -37,7 +38,7 @@ const ReserveDialog = ({
   };
 
   return (
-    <>
+    <Box sx={{ mt: 2 }}>
       <Button variant="contained" disabled={disabled} onClick={handleClick}>
         {dialog.button}
       </Button>
@@ -53,7 +54,7 @@ const ReserveDialog = ({
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 

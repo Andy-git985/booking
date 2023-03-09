@@ -1,4 +1,7 @@
-import { Grid, Paper } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import date from '../services/date';
@@ -22,19 +25,25 @@ const TimeSlots = ({ timeSlots, reserveTime }) => {
   // reserving classes page
 
   return (
-    <>
-      <Grid container spacing={1}>
+    <Box>
+      <Typography variant="h6" align="center">
+        Times Available
+      </Typography>
+      <Grid container spacing={1} justifyContent="center">
         {timeSlots.map((slot) => (
           <Grid item key={slot.id}>
             <Item onClick={() => handleClick(slot.id)}>
-              {date.time(slot.time)} {slot.available.length}
-              {slot.available.length > 1 ? ' slots ' : ' slot '}
-              left
+              <Typography variant="body1">
+                {date.dateShort(slot.date)} {date.time(slot.time)}{' '}
+                {slot.available.length}
+                {slot.available.length > 1 ? ' slots ' : ' slot '}
+                left
+              </Typography>
             </Item>
           </Grid>
         ))}
       </Grid>
-    </>
+    </Box>
   );
 };
 export default TimeSlots;

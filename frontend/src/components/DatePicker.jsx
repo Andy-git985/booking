@@ -6,7 +6,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-const DatePicker = ({ date, handleDateChange }) => {
+const DatePicker = ({ date, handleDateChange, dateDisabled }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <MobileDatePicker
@@ -18,6 +18,7 @@ const DatePicker = ({ date, handleDateChange }) => {
           width: '100%',
           display: { xs: 'block', md: 'none' },
         }}
+        disabled={dateDisabled}
       />
       <DateCalendar
         value={date}
@@ -25,6 +26,7 @@ const DatePicker = ({ date, handleDateChange }) => {
         sx={{
           display: { xs: 'none', md: 'block' },
         }}
+        disabled={dateDisabled}
       />
     </LocalizationProvider>
   );

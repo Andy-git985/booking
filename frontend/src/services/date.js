@@ -9,6 +9,15 @@ const dateDash = (date) => dayjs(date).format('YYYY-MM-DD');
 
 const dateHyphen = (date) => dayjs(date).format('MM/DD/YYYY');
 
+const dateShort = (date) => dayjs(date).format('M/D');
+
 const time = (date) => dayjs(date).format('h:mma');
 
-export default { convertEST, currentDate, dateDash, dateHyphen, time };
+export default {
+  convertEST,
+  currentDate,
+  dateDash,
+  dateHyphen,
+  dateShort,
+  time,
+};
