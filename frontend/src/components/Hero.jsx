@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import main from '../assets/images/nathon-oski-EW_rqoSdDes-unsplash.jpg';
+import { theme } from '../styles/styles';
 
 const Hero = () => {
   return (
@@ -21,17 +22,17 @@ const Hero = () => {
       <Container maxWidth="sm" sx={{ py: 8 }}>
         <Typography
           component="h1"
-          variant="h2"
+          variant="h3"
           align="center"
-          color="text.primary"
+          color={theme.palette.secondary.light}
           gutterBottom
         >
-          Welcome to our barbershop!
+          Experience A Cut Above The Rest
         </Typography>
         <Typography
-          variant="h5"
+          variant="body2"
           align="center"
-          color="text.secondary"
+          color={theme.palette.secondary.light}
           paragraph
         >
           If you're looking for a top-quality haircut service in a welcoming and

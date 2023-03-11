@@ -36,12 +36,10 @@ const ReserveClass = () => {
   const appointment = useSelector(({ appointment }) => appointment);
   const { employees } = useSelector(({ user }) => user);
   const location = useLocation();
-  // console.log(employee);
   const [search, setSearch] = useState({
     employee: 'any',
     date: dateServices.currentDate(),
   });
-  const [testVar, setTestVar] = useState('');
   const [checked, setChecked] = useState(false);
   const [dateDisabled, setDateDisabled] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -50,18 +48,12 @@ const ReserveClass = () => {
   const [timeSlots, setTimeSlots] = useState('');
 
   useEffect(() => {
-    console.log('use effect runs');
     const newSearch = { ...search, employee: location.state?.employee };
     setSearch(newSearch);
   }, [location.state?.employee]);
 
   useEffect(() => {
-    // if (Array.isArray(schedule.data) && schedule.data.length !== 0) {
     if (schedule.data.length > 0) {
-      // const searchSlots = schedule?.data.filter(
-      //   (a) =>
-      //     date.dateDash(a.date) === date.dateDash(search.date) &&
-      //     a.available.length >= search.guest
       let searchSlots = schedule?.data;
       const { date, employee } = search;
       if (employee !== 'any' && dateDisabled !== true) {
@@ -86,15 +78,6 @@ const ReserveClass = () => {
           (d) => dateServices.dateDash(d.date) === dateServices.dateDash(date)
         );
       }
-      // if (employee !== 'any' && date)
-      // const searchSlots = schedule?.data.filter(
-      //   (d) =>
-      //     d.available.filter(
-      //       (availablePerson) => availablePerson.id === search.employee
-      //     ).length
-      // );
-      // const searchSlots = schedule?.data;
-
       setTimeSlots(searchSlots);
       setSelectedSlot('');
       setSelectedPerson('');

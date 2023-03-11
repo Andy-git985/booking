@@ -12,13 +12,7 @@ import { services } from '../data';
 const Services = () => {
   return (
     <Container sx={{ py: 8 }} maxWidth="lg">
-      <Typography
-        component="h3"
-        variant="h4"
-        align="center"
-        color="text.primary"
-        gutterBottom
-      >
+      <Typography component="h3" variant="h4" align="center" gutterBottom>
         Our Services
       </Typography>
       {services.map((service) => (

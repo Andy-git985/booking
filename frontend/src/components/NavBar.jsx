@@ -36,7 +36,10 @@ const DrawerMenu = () => {
     <Box onClick={() => setOpen(false)}>
       <List>
         {linksToRender.map((link) => (
-          <ListItem key={link.id}>
+          <ListItem
+            key={link.id}
+            sx={{ display: 'flex', justifyContent: 'center' }}
+          >
             <NavLink
               to={link.path}
               style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
@@ -49,6 +52,7 @@ const DrawerMenu = () => {
           <>
             <ListItem
               onClick={() => dispatch(logoutUser())}
+              alignItems="center"
               sx={{ cursor: 'pointer' }}
             >
               <ListItemText primary="Logout" />
@@ -95,27 +99,10 @@ const NavBar = () => {
               <Button variant="contained">Book now</Button>
             </Link>
           </Box>
-          {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {links.map((link) => {
-              return (
-                <NavLink
-                  to={link.path}
-                  style={({ isActive }) =>
-                    isActive ? activeStyle : inactiveStyle
-                  }
-                  key={link.id}
-                >
-                  <Typography variant="body" sx={{ mr: 2 }}>
-                    i {link.name}
-                  </Typography>
-                </NavLink>
-              );
-            })}
-          </Box> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link to="/*">
-              <Typography variant="h6">Home</Typography>
+              <Typography variant="h5">Cut Above</Typography>
             </Link>
           </Box>
           <Box sx={{ flexGrow: 1 }} />

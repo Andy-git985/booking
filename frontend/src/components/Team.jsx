@@ -14,13 +14,7 @@ const Team = () => {
   const user = useSelector(({ user }) => user);
   return (
     <Container sx={{ py: 8 }}>
-      <Typography
-        component="h3"
-        variant="h4"
-        align="center"
-        color="text.primary"
-        gutterBottom
-      >
+      <Typography component="h3" variant="h4" align="center" gutterBottom>
         Our Team
       </Typography>
 
@@ -66,7 +60,7 @@ const Team = () => {
                     <Link to="/reserve" state={{ employee: employee.id }}>
                       <Button
                         size="small"
-                        variant="outlined"
+                        variant="contained"
                       >{`Book with ${employee.firstName}`}</Button>
                     </Link>
                   </CardActions>
