@@ -1,7 +1,10 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -11,12 +14,14 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import { logoutUser } from '../features/userSlice';
 import { links } from '../data';
-import { Divider } from '@mui/material';
 import { useState } from 'react';
+import { theme } from '../styles/styles';
+import logoTop from '../assets/images/cover-logo-top.png';
 
 const activeStyle = {
   color: 'red',
@@ -33,7 +38,28 @@ const DrawerMenu = () => {
 
   const [open, setOpen] = useState(false);
   const getList = () => (
-    <Box onClick={() => setOpen(false)}>
+    <Box
+      onClick={() => setOpen(false)}
+      sx={{
+        height: '100vh',
+        height: '100dvh',
+        backgroundColor: theme.palette.primary.main,
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr auto',
+      }}
+    >
+      <IconButton
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          mt: 2,
+          mb: 2,
+          paddingRight: 2,
+        }}
+        onClick={() => setOpen(false)}
+      >
+        <CloseIcon sx={{ color: theme.palette.secondary.main }} />
+      </IconButton>
       <List>
         {linksToRender.map((link) => (
           <ListItem
@@ -44,7 +70,13 @@ const DrawerMenu = () => {
               to={link.path}
               style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
             >
-              <ListItemText primary={link.name} />
+              <ListItemText
+                primary={link.name}
+                primaryTypographyProps={{
+                  fontFamily: 'Corben',
+                  fontWeight: 700,
+                }}
+              />
             </NavLink>
           </ListItem>
         ))}
@@ -60,6 +92,20 @@ const DrawerMenu = () => {
           </>
         )}
       </List>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CardMedia
+          component="img"
+          sx={{
+            // aspectRatio: '16 / 9',
+            // width: '100px',
+            display: 'flex',
+            justifyContent: 'center',
+            width: 'clamp(200px, 60%, 300px)',
+          }}
+          image={logoTop}
+          alt="logo"
+        />
+      </Box>
     </Box>
   );
 
@@ -70,7 +116,11 @@ const DrawerMenu = () => {
         aria-label="open drawer"
         edge="start"
         onClick={() => setOpen(true)}
-        sx={{ mr: 2, display: { sm: 'none' } }}
+        sx={{
+          mr: 2,
+          display: { sm: 'none' },
+          color: theme.palette.secondary.dark,
+        }}
       >
         <MenuIcon />
       </IconButton>
@@ -91,21 +141,33 @@ const NavBar = () => {
 
   return (
     <Box sx={{ mb: 2 }}>
-      <AppBar component="nav" position="relative">
+      <AppBar
+        component="nav"
+        position="relative"
+        sx={{ backgroundColor: theme.palette.primary.main }}
+      >
         <Toolbar>
           <DrawerMenu />
+          <Box sx={{ flexGrow: 1, display: { xs: 'block', sm: 'none' } }} />
+
+          <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+            <Link to="/*">
+              <Typography variant="h5">Cut Above</Typography>
+            </Link>
+          </Box>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link to="/reserve">
               <Button variant="contained">Book now</Button>
             </Link>
           </Box>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
+
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
             <Link to="/*">
               <Typography variant="h5">Cut Above</Typography>
             </Link>
           </Box>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} />
           {userDetails ? (
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Link to="user/profile">
@@ -121,7 +183,9 @@ const NavBar = () => {
           ) : (
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Link to="user/register">
-                <Button>Signup</Button>
+                <Button sx={{ color: theme.palette.secondary.dark }}>
+                  Signup
+                </Button>
               </Link>
               <Link to="user/login">
                 <Button variant="contained">Login</Button>

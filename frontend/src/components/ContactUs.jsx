@@ -69,7 +69,7 @@ const ContactUs = () => {
               fullWidth
               sx={{ mt: 2, mb: 3 }}
             >
-              Register
+              Submit
             </Button>
           </Box>
         </Box>

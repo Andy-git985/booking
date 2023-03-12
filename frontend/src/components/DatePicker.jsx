@@ -5,6 +5,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { DateField } from '@mui/x-date-pickers/DateField';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { theme } from '../styles/styles';
 
 const DatePicker = ({ date, handleDateChange, dateDisabled }) => {
   return (

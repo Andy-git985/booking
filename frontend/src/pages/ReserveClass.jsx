@@ -29,6 +29,7 @@ import dateServices from '../services/date';
 import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
 import { FormControlLabel } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { theme } from '../styles/styles';
 
 const ReserveClass = () => {
   const dispatch = useDispatch();
@@ -48,8 +49,13 @@ const ReserveClass = () => {
   const [timeSlots, setTimeSlots] = useState('');
 
   useEffect(() => {
-    const newSearch = { ...search, employee: location.state?.employee };
-    setSearch(newSearch);
+    if (location.state?.employee) {
+      const newSearch = {
+        ...search,
+        employee: location.state?.employee,
+      };
+      setSearch(newSearch);
+    }
   }, [location.state?.employee]);
 
   useEffect(() => {
@@ -197,12 +203,13 @@ const ReserveClass = () => {
               }}
             >
               <FormControl sx={{ width: '100%' }}>
-                <InputLabel>Barber</InputLabel>
+                <InputLabel>Choose a barber</InputLabel>
                 <Select
                   label="Barber"
                   value={search.employee}
                   fullWidth
                   onChange={(event) => handleEmployeeChange(event.target.value)}
+                  sx={{ color: theme.palette.secondary.main }}
                 >
                   <MenuItem value="any">No preference</MenuItem>
                   {employees.map((employee) => {

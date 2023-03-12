@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <Box
       sx={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${main})`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)), url(${main})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         aspectRatio: '16 / 9',
@@ -33,6 +33,7 @@ const Hero = () => {
           variant="body2"
           align="center"
           color={theme.palette.secondary.light}
+          sx={{ fontWeight: { xs: 400, sm: 500 } }}
           paragraph
         >
           If you're looking for a top-quality haircut service in a welcoming and

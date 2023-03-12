@@ -45,11 +45,11 @@ export const theme = createTheme({
     },
     body1: {
       fontFamily: 'Nobile',
-      fontWeight: 500,
+      // fontWeight: 500,
     },
     body2: {
       fontFamily: 'Nobile',
-      fontWeight: 500,
+      // fontWeight: 500,
     },
     button: {
       fontFamily: 'Corben',
