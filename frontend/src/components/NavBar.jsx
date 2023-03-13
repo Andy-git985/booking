@@ -59,7 +59,7 @@ const DrawerMenu = () => {
         {linksToRender.map((link) => (
           <ListItem
             key={link.id}
-            sx={{ display: 'flex', justifyContent: 'center' }}
+            sx={{ display: 'grid', justifyContent: 'center' }}
           >
             <NavLink to={link.path}>
               <ListItemText
@@ -77,7 +77,7 @@ const DrawerMenu = () => {
             <ListItem
               onClick={() => dispatch(logoutUser())}
               sx={{
-                display: 'flex',
+                display: 'grid',
                 justifyContent: 'center',
                 cursor: 'pointer',
               }}
