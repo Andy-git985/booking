@@ -27,6 +27,7 @@ import TimeSlotDetail from '../components/TimeSlotDetail';
 import scheduleServices from '../services/schedule';
 import dateServices from '../services/date';
 import chair from '../assets/images/jay-huang-aZBQB-uYosc-unsplash.jpg';
+import pole from '../assets/images/tim-mossholder-q49oU8NeOHQ-unsplash.jpg';
 import { FormControlLabel } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { theme } from '../styles/styles';
@@ -190,7 +191,19 @@ const ReserveClass = () => {
         Schedule your appointment
       </Typography>
       <Grid container spacing={6}>
-        <Grid item md={6}>
+        <Grid item sm={12} sx={{ display: { sm: 'block', md: 'none' } }}>
+          <Card>
+            <CardMedia
+              component="img"
+              image={pole}
+              alt="barbershop pole"
+              sx={{
+                aspectRatio: '16 / 9',
+              }}
+            ></CardMedia>
+          </Card>
+        </Grid>
+        <Grid item sm={12} md={6}>
           <Container>
             <Box
               sx={{
@@ -202,7 +215,11 @@ const ReserveClass = () => {
                 mb: 3,
               }}
             >
-              <FormControl sx={{ width: '100%' }}>
+              <FormControl
+                sx={{
+                  width: '100%',
+                }}
+              >
                 <InputLabel>Choose a barber</InputLabel>
                 <Select
                   label="Barber"
@@ -259,7 +276,7 @@ const ReserveClass = () => {
             />
           </Container>
         </Grid>
-        <Grid item md={6}>
+        <Grid item md={6} sx={{ display: { sm: 'none', md: 'block' } }}>
           <Card>
             <CardMedia
               component="img"

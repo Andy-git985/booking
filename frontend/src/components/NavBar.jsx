@@ -22,12 +22,7 @@ import { links } from '../data';
 import { useState } from 'react';
 import { theme } from '../styles/styles';
 import logoTop from '../assets/images/cover-logo-top.png';
-
-const activeStyle = {
-  color: 'red',
-};
-
-const inactiveStyle = {};
+import { palette } from '@mui/system';
 
 const DrawerMenu = () => {
   const dispatch = useDispatch();
@@ -66,10 +61,7 @@ const DrawerMenu = () => {
             key={link.id}
             sx={{ display: 'flex', justifyContent: 'center' }}
           >
-            <NavLink
-              to={link.path}
-              style={({ isActive }) => (isActive ? activeStyle : inactiveStyle)}
-            >
+            <NavLink to={link.path}>
               <ListItemText
                 primary={link.name}
                 primaryTypographyProps={{
@@ -84,10 +76,19 @@ const DrawerMenu = () => {
           <>
             <ListItem
               onClick={() => dispatch(logoutUser())}
-              alignItems="center"
-              sx={{ cursor: 'pointer' }}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                cursor: 'pointer',
+              }}
             >
-              <ListItemText primary="Logout" />
+              <ListItemText
+                primary="Logout"
+                primaryTypographyProps={{
+                  fontFamily: 'Corben',
+                  fontWeight: 700,
+                }}
+              />
             </ListItem>
           </>
         )}
@@ -171,7 +172,10 @@ const NavBar = () => {
           {userDetails ? (
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <Link to="user/profile">
-                <IconButton edge="start" sx={{ mr: 1 }}>
+                <IconButton
+                  edge="start"
+                  sx={{ mr: 1, color: theme.palette.secondary.dark }}
+                >
                   <AccountCircleIcon fontSize="large" />
                 </IconButton>
               </Link>
