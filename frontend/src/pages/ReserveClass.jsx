@@ -182,8 +182,6 @@ const ReserveClass = () => {
     // notification reducer show successful message
   };
 
-  console.log('available', selectedSlot.available);
-
   return (
     <Container sx={{ py: 4 }}>
       <Typography

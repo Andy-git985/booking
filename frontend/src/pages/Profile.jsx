@@ -58,7 +58,6 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(({ appointment }) => appointment);
-  console.log(data);
   const { userDetails } = useSelector(({ user }) => user);
   const role = userDetails?.role;
 
@@ -112,7 +111,7 @@ const Profile = () => {
         >
           {`Welcome ${userDetails.firstName} ${userDetails.lastName}`}
         </Typography>
-        <Divider />k
+        <Divider />
         <Typography
           component="h3"
           variant="h4"
