@@ -5,16 +5,6 @@ const User = require('../models/User');
 const sendEmail = require('../utils/email');
 
 scheduleRouter.get('/', async (request, response) => {
-  // const schedule = await Schedule.find({})
-  //   .select('classes')
-  //   .populate('slots', 'email');
-  // const schedule = await Schedule.find({}).populate({
-  //   path: 'classes',
-  //   populate: {
-  //     path: 'slots',
-  //     model: 'User',
-  //   },
-  // });
   const schedule = await Schedule.find({}).populate(
     'available',
     'id email firstName image'
@@ -23,7 +13,6 @@ scheduleRouter.get('/', async (request, response) => {
 });
 
 scheduleRouter.post('/', async (request, response) => {
-  // const { date, classes } = request.body;
   const apptForDate = request.body;
   const employees = await User.find({ role: 'admin' });
   const apptToAdd = apptForDate.map(
@@ -52,7 +41,7 @@ scheduleRouter.put('/:id', async (request, response) => {
   await dateToUpdate.save();
   const updatedTime = await Schedule.findOne({
     _id: request.params.id,
-  }).populate('available', 'id email');
+  }).populate('available', 'id firstName image email');
 
   response
     .status(200)
@@ -60,9 +49,8 @@ scheduleRouter.put('/:id', async (request, response) => {
 });
 
 scheduleRouter.post('/confirmation', async (request, response) => {
-  const { receiver } = request.body;
-  const emailSent = await sendEmail(receiver);
-  console.log(emailSent);
+  const { receiver, employee, date, time } = request.body;
+  const emailSent = await sendEmail({ receiver, employee, date, time });
   response.status(200).json({ success: true, message: 'Email sent' });
 });
 

@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
-import dayjs, { Dayjs } from 'dayjs';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import Checkbox from '@mui/material/Checkbox';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import Grid from '@mui/material/Grid';
@@ -36,6 +34,7 @@ const ReserveClass = () => {
   const dispatch = useDispatch();
   const schedule = useSelector(({ schedule }) => schedule);
   const appointment = useSelector(({ appointment }) => appointment);
+  const { userDetails } = useSelector(({ user }) => user);
   const { employees } = useSelector(({ user }) => user);
   const location = useLocation();
   const [search, setSearch] = useState({
@@ -110,7 +109,6 @@ const ReserveClass = () => {
 
   const handleEmployeeChange = (employee) => {
     const newSearch = { ...search, employee };
-    console.log(newSearch);
     setSearch(newSearch);
   };
 
@@ -120,13 +118,13 @@ const ReserveClass = () => {
 
   const selectPerson = (obj) => {
     setDisabled(obj.disabled);
-    setSelectedPerson({ id: obj.id, email: obj.email });
+    setSelectedPerson({ id: obj.id, name: obj.name, email: obj.email });
   };
 
   const reserveDialog = {
     button: 'Reserve Now',
     title: 'Would you like to reserve this appointment?',
-    content: `With ${selectedPerson.email} on ${dateServices.dateHyphen(
+    content: `With ${selectedPerson.name} on ${dateServices.dateHyphen(
       selectedSlot.date
     )} on ${dateServices.time(selectedSlot.time)}?`,
   };
@@ -167,7 +165,10 @@ const ReserveClass = () => {
       }
       if (reserveEmployee.success) {
         const response = await scheduleServices.sendConfirmation({
-          receiver: '',
+          receiver: userDetails.email,
+          employee: selectedPerson.name,
+          date: dateServices.dateHyphen(selectedSlot.date),
+          time: dateServices.time(selectedSlot.time),
         });
         console.log('email response', response);
         setSelectedSlot('');
@@ -178,6 +179,8 @@ const ReserveClass = () => {
     }
     // notification reducer show successful message
   };
+
+  console.log('available', selectedSlot.available);
 
   return (
     <Container sx={{ py: 4 }}>
@@ -267,10 +270,6 @@ const ReserveClass = () => {
             )}
             <ReserveDialog
               disabled={disabled}
-              // handleReserve={handleReserve}
-              // date={search.date}
-              // person={selectedPerson}
-              // selectedSlot={selectedSlot}
               dialog={reserveDialog}
               handler={handleReserve}
             />

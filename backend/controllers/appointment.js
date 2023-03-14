@@ -45,10 +45,14 @@ appointmentRouter.delete('/:id', async (request, response) => {
   scheduleToUpdate.available.push(employee);
   await scheduleToUpdate.save();
   await Appointment.findByIdAndDelete(request.params.id);
+  const updatedSchedule = await Schedule.findOne({ time: time }).populate(
+    'available',
+    'id email firstName image'
+  );
   response.status(200).json({
     success: true,
     message: 'Appointment successfully cancelled',
-    data: { id: request.params.id },
+    data: { id: request.params.id, updatedSchedule },
   });
 });
 

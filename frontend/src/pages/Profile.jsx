@@ -20,6 +20,7 @@ import ReserveDialog from '../components/ReserveDialog';
 import andre from '../assets/images/andre-reis-_XD3D9pH83k-unsplash.jpg';
 import date from '../services/date';
 import { useNavigate } from 'react-router-dom';
+import { restoreAvailability } from '../features/scheduleSlice';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -38,7 +39,7 @@ const Person = ({ role, appt }) => {
     <>
       <Avatar alt="Remy Sharp" src={andre} sx={{ width: 56, height: 56 }} />
       {role === 'client' ? (
-        <Typography variant="body1">{appt.employee.email}</Typography>
+        <Typography variant="body1">{appt.employee.firstName}</Typography>
       ) : (
         <Typography>{appt.client.email}</Typography>
       )}
@@ -68,8 +69,16 @@ const Profile = () => {
     navigate('/reserve');
     // console.log('modify');
   };
-  const handleCancel = (id) => {
-    dispatch(cancelAppt(id));
+  const handleCancel = async (id) => {
+    try {
+      const cancelledAppt = await dispatch(cancelAppt(id)).unwrap();
+      if (cancelledAppt.success) {
+        const { updatedSchedule } = cancelledAppt.data;
+        dispatch(restoreAvailability(updatedSchedule));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const content = (appt) =>
@@ -88,7 +97,13 @@ const Profile = () => {
   return (
     <Container>
       <Box sx={{ width: '100%' }}>
-        <Typography component="h3" variant="h4" align="center" gutterBottom>
+        <Typography
+          component="h3"
+          variant="h4"
+          align="center"
+          gutterBottom
+          sx={{ mb: 3 }}
+        >
           {`Welcome ${userDetails.firstName} ${userDetails.lastName}`}
         </Typography>
         <Divider />
@@ -97,7 +112,7 @@ const Profile = () => {
           variant="h4"
           align="center"
           gutterBottom
-          sx={{ mt: 1 }}
+          sx={{ mt: 2, mb: 3 }}
         >
           Upcoming appointments
         </Typography>
@@ -106,30 +121,42 @@ const Profile = () => {
             data.map((appt) => {
               return (
                 <Item key={appt.id}>
-                  <Typography variant="body1">{appt.id}</Typography>
-                  <Typography variant="body1">
-                    {dateServices.dateHyphen(appt.date)}
-                  </Typography>
-                  <Typography variant="body1">
-                    {dateServices.time(appt.time)}
-                  </Typography>
-                  <Person role={role} appt={appt} />
-                  {/* <Button onClick={handleModify}>Modify</Button>
-                  <Button
-                    onClick={() =>
-                      handleCancel({ id: appt.id, time: appt.time })
-                    }
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 2,
+                      flexWrap: 'wrap',
+                    }}
                   >
-                    Cancel
-                  </Button> */}
-                  <ReserveDialog
-                    dialog={dialog('Modify', appt)}
-                    handler={() => handleModify(appt.id)}
-                  />
-                  <ReserveDialog
-                    dialog={dialog('Cancel', appt)}
-                    handler={() => handleCancel(appt.id)}
-                  />
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 2,
+                      }}
+                    >
+                      <Typography variant="body1">
+                        {dateServices.dateHyphen(appt.date)}
+                      </Typography>
+                      <Typography variant="body1">
+                        {dateServices.time(appt.time)}
+                      </Typography>
+                      <Person role={role} appt={appt} />
+                    </Box>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                      <ReserveDialog
+                        dialog={dialog('Modify', appt)}
+                        handler={() => handleModify(appt.id)}
+                      />
+                      <ReserveDialog
+                        dialog={dialog('Cancel', appt)}
+                        handler={() => handleCancel(appt.id)}
+                      />
+                    </Box>
+                  </Box>
                 </Item>
               );
             })

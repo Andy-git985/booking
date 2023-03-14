@@ -44,7 +44,6 @@ const ReserveDialog = ({
         disabled={disabled}
         onClick={handleClick}
         fullWidth
-        sx={{ mt: 4 }}
       >
         {dialog.button}
       </Button>

@@ -18,7 +18,6 @@ export const reserveAppt = createAsyncThunk(
       const newappointment = await appointmentServices.createNew(data);
       return newappointment;
     } catch (error) {
-      console.error(error);
       const errorMessage = error.response.data.error;
       return thunkAPI.rejectWithValue(errorMessage);
     }

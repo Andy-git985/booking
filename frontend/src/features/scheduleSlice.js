@@ -63,6 +63,12 @@ const scheduleSlice = createSlice({
     clearScheduleError(state, action) {
       state.error = null;
     },
+    restoreAvailability(state, action) {
+      const { id } = action.payload;
+      state.data = state.data.map((data) =>
+        data.id === id ? action.payload : data
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -117,6 +123,7 @@ const scheduleSlice = createSlice({
   },
 });
 
-export const { clearScheduleAlert, clearScheduleError } = scheduleSlice.actions;
+export const { clearScheduleAlert, clearScheduleError, restoreAvailability } =
+  scheduleSlice.actions;
 
 export default scheduleSlice.reducer;

@@ -19,8 +19,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const TimeSlotDetail = ({ available, selectPerson }) => {
-  const handleClick = (id, email) => {
-    selectPerson({ id, email, disabled: false });
+  const handleClick = (id, name, email) => {
+    selectPerson({ id, name, email, disabled: false });
   };
   return (
     <Container sx={{ mt: 2, mb: 2 }}>
@@ -31,7 +31,11 @@ const TimeSlotDetail = ({ available, selectPerson }) => {
         {available.map((person) => {
           return (
             <Box key={person.id}>
-              <Item onClick={(i) => handleClick(person.id, person.email)}>
+              <Item
+                onClick={(i) =>
+                  handleClick(person.id, person.firstName, person.email)
+                }
+              >
                 <Avatar
                   alt={person.firstName}
                   src={person.image}
