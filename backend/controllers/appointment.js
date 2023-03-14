@@ -8,7 +8,7 @@ const User = require('../models/User');
 appointmentRouter.get('/', async (request, response) => {
   const appointments = await Appointment.find({
     $or: [{ client: request.user }, { employee: request.user }],
-  }).populate('client employee');
+  }).populate('client employee', 'id email firstName image');
   response.status(200).json(appointments);
 });
 
@@ -23,10 +23,6 @@ appointmentRouter.post('/', async (request, response) => {
     employee: employeeToBook,
   });
   await newAppt.save();
-  // clientToBook.appointments.push(newAppt._id);
-  // employeeToBook.appointments.push(newAppt._id);
-  // await clientToBook.save();
-  // await employeeToBook.save();
   response.status(201).json({
     success: true,
     message: 'Appointment successfully reserved',

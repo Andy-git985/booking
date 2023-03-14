@@ -17,7 +17,6 @@ import {
   beginRescheduling,
 } from '../features/appointmentSlice';
 import ReserveDialog from '../components/ReserveDialog';
-import andre from '../assets/images/andre-reis-_XD3D9pH83k-unsplash.jpg';
 import date from '../services/date';
 import { useNavigate } from 'react-router-dom';
 import { restoreAvailability } from '../features/scheduleSlice';
@@ -37,9 +36,15 @@ const Item = styled(Paper)(({ theme }) => ({
 const Person = ({ role, appt }) => {
   return (
     <>
-      <Avatar alt="Remy Sharp" src={andre} sx={{ width: 56, height: 56 }} />
       {role === 'client' ? (
-        <Typography variant="body1">{appt.employee.firstName}</Typography>
+        <>
+          <Avatar
+            alt={`${appt.employee.firstName} avatar`}
+            src={appt.employee.image}
+            sx={{ width: 56, height: 56 }}
+          />
+          <Typography variant="body1">{appt.employee.firstName}</Typography>
+        </>
       ) : (
         <Typography>{appt.client.email}</Typography>
       )}
@@ -53,6 +58,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data } = useSelector(({ appointment }) => appointment);
+  console.log(data);
   const { userDetails } = useSelector(({ user }) => user);
   const role = userDetails?.role;
 
@@ -67,8 +73,8 @@ const Profile = () => {
   const handleModify = (id) => {
     dispatch(beginRescheduling(id));
     navigate('/reserve');
-    // console.log('modify');
   };
+
   const handleCancel = async (id) => {
     try {
       const cancelledAppt = await dispatch(cancelAppt(id)).unwrap();
@@ -106,7 +112,7 @@ const Profile = () => {
         >
           {`Welcome ${userDetails.firstName} ${userDetails.lastName}`}
         </Typography>
-        <Divider />
+        <Divider />k
         <Typography
           component="h3"
           variant="h4"

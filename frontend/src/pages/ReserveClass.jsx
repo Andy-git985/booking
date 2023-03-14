@@ -43,7 +43,7 @@ const ReserveClass = () => {
   });
   const [checked, setChecked] = useState(false);
   const [dateDisabled, setDateDisabled] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedPerson, setSelectedPerson] = useState('');
   const [timeSlots, setTimeSlots] = useState('');
@@ -95,11 +95,13 @@ const ReserveClass = () => {
   }
 
   const handleSwitchChange = () => {
+    setDisabled(true);
     setChecked(!checked);
     setDateDisabled(!dateDisabled);
   };
 
   const handleDateChange = (newDate) => {
+    setDisabled(true);
     const newSearch = {
       ...search,
       date: newDate,
